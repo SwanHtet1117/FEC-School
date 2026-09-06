@@ -20,34 +20,27 @@
                 </div>
             </div>
             <ul class="nav-links">
-                <li><a href="#" class="active">Home</a></li>
-                <li><a href="#">About Us</a></li>                
-                <li class="dropdown"><a href="#">Academics <i class="fas fa-chevron-down"></i></a>
+                <li><a href="/" class="{{ request()->is('/') ? 'active' : '' }}">Home</a></li>
+                <li><a href="/about" class="{{ request()->is('about*') ? 'active' : '' }}">About Us</a></li>
+                <li class="dropdown {{ request()->is('academics*') ? 'active' : '' }}"><a href="/academics">Academics <i class="fas fa-chevron-down"></i></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Academic Overview</a></li>
-                        <li><a href="#">Early Years</a></li>
-                        <li><a href="#">Primary School</a></li>
-                        <li><a href="#">Secondary School</a></li>
-                        <li><a href="#">GED/IGCSE</a></li>
+                        <li><a href="/academics" class="{{ request()->is('academics') ? 'active' : '' }}">Academic Overview</a></li>
+                        <li><a href="/academics/early-years" class="{{ request()->is('academics/early-years*') ? 'active' : '' }}">Early Years</a></li>
+                        <li><a href="/academics/primary" class="{{ request()->is('academics/primary*') ? 'active' : '' }}">Primary School</a></li>
+                        <li><a href="/academics/secondary" class="{{ request()->is('academics/secondary*') ? 'active' : '' }}">Secondary School</a></li>
+                        <li><a href="/academics/ged-igcse" class="{{ request()->is('academics/ged-igcse*') ? 'active' : '' }}">GED/IGCSE</a></li>
                     </ul>
                 </li>
-                <li class="dropdown"><a href="#">Admission <i class="fas fa-chevron-down"></i></a>
+                <li><a href="/admissions" class="{{ request()->is('admissions*') ? 'active' : '' }}">Admission</a></li>
+                <li><a href="/campus-life" class="{{ request()->is('campus-life*') ? 'active' : '' }}">Campus Life</a></li>
+                <li class="dropdown {{ request()->is('gallery/*') ? 'active' : '' }}"><a href="#">Gallery <i class="fas fa-chevron-down"></i></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Admission Overview</a></li>
-                        <li><a href="#">Admission Requirements</a></li>
-                        <li><a href="#">Scholarship</a></li>
-                        <li><a href="#">FAQ</a></li>
+                        <li><a href="/gallery/photo" class="{{ request()->is('gallery/photo*') ? 'active' : '' }}">Photo Gallery</a></li>
+                        <li><a href="/gallery/video" class="{{ request()->is('gallery/video*') ? 'active' : '' }}">Video Gallery</a></li>
                     </ul>
                 </li>
-                <li><a href="#">Campus Life</a></li>
-                <li class="dropdown"><a href="#">Gallery <i class="fas fa-chevron-down"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Photo Gallery</a></li>
-                        <li><a href="#">Video Gallery</a></li>
-                    </ul>
-                </li>
-                <li><a href="#">News & Events</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="/news-events" class="{{ request()->is('news-events*') ? 'active' : '' }}">News & Events</a></li>
+                <li><a href="/contact" class="{{ request()->is('contact*') ? 'active' : '' }}">Contact</a></li>
             </ul>
             <div class="auth-buttons">
                 <a href="#" class="btn-login">Login</a>

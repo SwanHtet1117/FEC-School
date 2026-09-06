@@ -3,11 +3,14 @@
             <div class="footer-col">
                 <h4>Useful Links</h4>
                 <ul class="footer-links">
-                    <li><a href="#">About Us</a></li>
+                    <li><a href="/about">About Us</a></li>
                     <li><a href="#">Admissions</a></li>
                     <li><a href="#">Academics</a></li>
-                    <li><a href="#">Campus Life</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="/campus-life">Campus Life</a></li>
+                    <li><a href="/news-events">News & Events</a></li>
+                    <li><a href="/gallery/photo">Photo Gallery</a></li>
+                    <li><a href="/gallery/video">Video Gallery</a></li>
+                    <li><a href="/contact">Contact</a></li>
                 </ul>
             </div>
             <div class="footer-col">
