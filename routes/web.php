@@ -57,4 +57,12 @@ Route::get('/admissions', function () {
 Route::get('/news-events/all-posts', function () {
     return view('main.all-posts');
 });
+
+Route::get('/login', function () {
+    return view('auth.login');
+});
+
+Route::get('/register', function () {
+    return view('auth.register');
+});
     

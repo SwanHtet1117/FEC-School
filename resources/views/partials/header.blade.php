@@ -16,7 +16,7 @@
                 <img src="{{ asset('image/logo_01.png') }}" alt="FEC Logo" class="logo">
                 <div class="logo-text">
                     <h1>FEC</h1>
-                    <span>FAMILY EDUCATION CENTER</span>
+                    <span>FAMILY EDUCATION CENTURY</span>
                 </div>
             </div>
             <ul class="nav-links">
@@ -43,7 +43,7 @@
                 <li><a href="/contact" class="{{ request()->is('contact*') ? 'active' : '' }}">Contact</a></li>
             </ul>
             <div class="auth-buttons">
-                <a href="#" class="btn-login">Login</a>
+                <a href="/login" class="btn-login">Login</a>
             </div>
         </nav>
     </header>
