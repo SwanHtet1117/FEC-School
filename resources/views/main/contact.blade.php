@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - FEC Private School</title>
-    <meta name="description" content="Contact FEC Private School - Family Education Center. Get in touch with us for admissions, inquiries, and more.">
-    <meta name="keywords" content="FEC Private School, Contact, Admissions, Inquiries">
+    <title>Contact Us - FEC International School</title>
+    <meta name="description" content="Contact FEC International School - Family Education Center. Get in touch with us for admissions, inquiries, and more.">
+    <meta name="keywords" content="FEC International School, Contact, Admissions, Inquiries">
     <link rel="icon" type="image/png" href="{{ asset('image/logo_01.png') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -17,10 +17,11 @@
 
     <section class="contact-hero fade-in-up">
         <h1>Contact Us</h1>
-        <p>Get in Touch with FEC Private School</p>
+        <p>Get in Touch with FEC International School</p>
     </section>
-
+    <!-- Contact Container -->
     <div class="contact-container">
+        <!-- Contact Information Card -->
         <div class="contact-info-card fade-in-left">
             <h2>Contact Information</h2>
             
@@ -30,7 +31,9 @@
                 </div>
                 <div class="contact-details">
                     <h4>Address</h4>
-                    <p>Naypyidaw, Myanmar</p>
+                    <p>No.(PS-001, PS-007, PS-008) </p>
+                    <p>The Conner of Chindwin Street & Hninsi(5) Street</p>
+                    <p>Mingalar Depa Ward, Pobbathiri Township, Naypyitaw, Myanmar</p>
                 </div>
             </div>
 
@@ -40,7 +43,9 @@
                 </div>
                 <div class="contact-details">
                     <h4>Phone</h4>
-                    <p><a href="tel:+959513350838">+95 (9) 51 335 0838</a></p>
+                    <p><a href="tel:+959400336885">+95 (9) 400336885</a></p>
+                    <p><a href="tel:+959400336882">+95 (9) 400336882</a></p>
+                    <p><a href="tel:+959400336882">+95 (9) 400336882 (Viber)</a></p>
                 </div>
             </div>
 
@@ -50,8 +55,8 @@
                 </div>
                 <div class="contact-details">
                     <h4>Email</h4>
-                    <p><a href="mailto:info@fecprivate-school.com">info@fecprivate-school.com</a></p>
-                    <p><a href="mailto:admissions@fecprivate-school.com">admissions@fecprivate-school.com</a></p>
+                    <p><a href="mailto:info@familyeducationcentury-fec.edu.mm">info@familyeducationcentury-fec.edu.mm</a></p>
+                    <p><a href="mailto:FEC@familyeducationcentury-fec.edu.mm">FEC@familyeducationcentury-fec.edu.mm</a></p>
                 </div>
             </div>
 
@@ -59,11 +64,11 @@
                 <h5><i class="fas fa-clock"></i> Office Hours</h5>
                 <div class="office-hours-item">
                     <span>Monday – Friday</span>
-                    <span>8:30 AM – 4:30 PM</span>
+                    <span>8:00 AM – 3:00 PM</span>
                 </div>
                 <div class="office-hours-item">
                     <span>Saturday – Sunday</span>
-                    <span>9:00 AM – 12:00 PM</span>
+                    <span>Closed</span>
                 </div>
             </div>
         </div>
@@ -112,12 +117,10 @@
     <!-- Map Section -->
     <section class="map-section fade-in-up">
         <div class="map-container">
-            <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3818.6604855773!2d96.12916731475173!3d19.7636999866424!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30c85456b7f3b2b7%3A0x6a6c6c6c6c6c6c6c!2sNaypyidaw%2C%20Myanmar!5e0!3m2!1sen!2sus!4v1234567890" 
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d35702.49544126126!2d96.16424893030558!3d19.849803913752414!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30c8b9f016c4abf1%3A0xf73b870f78bc0fcd!2sFEC%20Private%20School!5e0!3m2!1sen!2smm!4v1789284542874!5m2!1sen!2smm" 
                 allowfullscreen="" 
                 loading="lazy" 
-                referrerpolicy="no-referrer-when-downgrade">
-            </iframe>
+                referrerpolicy="strict-origin-when-cross-origin"></iframe>
         </div>
     </section>
     <!-- Careers Section -->

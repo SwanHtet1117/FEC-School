@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campus Life - FEC Private School</title>
-    <meta name="description" content="Explore campus life at FEC Private School - facilities, activities, and student community.">
-    <meta name="keywords" content="FEC Private School, Campus Life, Facilities, Student Activities">
+    <title>Campus Life - FEC International School</title>
+    <meta name="description" content="Explore campus life at FEC International School - facilities, activities, and student community.">
+    <meta name="keywords" content="FEC International School, Campus Life, Facilities, Student Activities">
     <link rel="icon" type="image/png" href="{{ asset('image/logo_01.png') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -22,7 +22,7 @@
 
     <div class="campus-container">
         <div class="campus-intro fade-in-up">
-            <h2>Welcome to FEC Private School</h2>
+            <h2>Welcome to FEC International School</h2>
             <p>Our campus is designed to inspire learning, foster creativity, and build community. With modern facilities, green spaces, and a supportive environment, students can explore their passions and develop lifelong friendships.</p>
         </div>
 

@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Primary School Program - FEC Private School</title>
-    <meta name="description" content="Learn about the Primary School program at FEC Private School - Family Education Center for ages 6-11.">
-    <meta name="keywords" content="FEC Private School, Primary School, Elementary Education, Grades 1-5">
+    <title>Primary School Program - FEC International School</title>
+    <meta name="description" content="Learn about the Primary School program at FEC International School - Family Education Center for ages 6-11.">
+    <meta name="keywords" content="FEC International School, Primary School, Elementary Education, Grades 1-5">
     <link rel="icon" type="image/png" href="{{ asset('image/logo_01.png') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">

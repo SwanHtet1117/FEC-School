@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - FEC Private School</title>
-    <meta name="description" content="Learn about FEC Private School - Family Education Center, our vision, mission, and commitment to quality education.">
-    <meta name="keywords" content="FEC Private School, About Us, Vision, Mission, International School">
+    <title>About Us - FEC International School</title>
+    <meta name="description" content="Learn about FEC International School - Family Education Center, our vision, mission, and commitment to quality education.">
+    <meta name="keywords" content="FEC International School, About Us, Vision, Mission, International School">
     <link rel="icon" type="image/png" href="{{ asset('image/logo_01.png') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -18,11 +18,11 @@
     <section class="content-section">
         <div class="section-container">
             <div class="page-header fade-in-up">
-                <h1 class="page-title">About FEC Private School</h1>
+                <h1 class="page-title">About FEC International School</h1>
                 <p class="page-subtitle">Nurturing Excellence in Education</p>
             </div>
             <div class="about-intro fade-in-up">
-                <p>FEC Private School is a premier international institution dedicated to nurturing young minds for a brighter future. With modernized learning spaces and Smart Learning Systems, we provide the best possible educational environment for every student. With a maximum capacity of only 15 students per class, all classrooms and resource rooms are designed as modernized learning spaces to provide the best possible educational environment.</p>
+                <p>FEC International School is a premier international institution dedicated to nurturing young minds for a brighter future. With modernized learning spaces and Smart Learning Systems, we provide the best possible educational environment for every student. With a maximum capacity of only 15 students per class, all classrooms and resource rooms are designed as modernized learning spaces to provide the best possible educational environment.</p>
                 <p>Our curriculum blends academic excellence with character development and global awareness, preparing students to become responsible global citizens in an increasingly interconnected world.</p>
             </div>
         </div>
@@ -37,7 +37,7 @@
                         <i class="fas fa-eye"></i>
                     </div>
                     <h3>Our Vision</h3>
-                    <p>Our vision is to be a leading example of great education, helping every student to reach their full potential and make a positive difference in the world. Through creative teaching, strong values, and personal support, FEC Private School aims to build a community of learners who are honest, value diversity, and make meaningful contributions to society.</p>
+                    <p>Our vision is to be a leading example of great education, helping every student to reach their full potential and make a positive difference in the world. Through creative teaching, strong values, and personal support, FEC International School aims to build a community of learners who are honest, value diversity, and make meaningful contributions to society.</p>
                 </div>
                 <div class="vision-mission-box fade-in-right">
                     <div class="vm-icon">
@@ -58,12 +58,12 @@
                     <div class="message-icon">
                         <i class="fas fa-quote-left"></i>
                     </div>
-                    <p>Welcome to FEC Private School. Our mission is to provide an engaging and supportive learning environment where every student can thrive academically and personally. We are committed to developing curious, compassionate and capable learners who are prepared for global citizenship.</p>
+                    <p>Welcome to FEC International School. Our mission is to provide an engaging and supportive learning environment where every student can thrive academically and personally. We are committed to developing curious, compassionate and capable learners who are prepared for global citizenship.</p>
                     <p>Our dedicated team of educators works tirelessly to ensure that each student receives personalized attention and guidance. We believe in the potential of every child and strive to create an inclusive community where diversity is celebrated and excellence is pursued.</p>
                 </div>
                 <div class="message-author">
                     <h4>Principal</h4>
-                    <strong>FEC Private School Administration</strong>
+                    <strong>FEC International School Administration</strong>
                 </div>
             </div>
         </div>

@@ -1,9 +1,9 @@
 <header class="site-header">
         <div class="top-bar">
             <div class="top-bar-left">
-                <span>FEC Private School | International School</span>
-                <span class="contact-info"><i class="fas fa-phone"></i> +95 (9) 51 335 0838</span>
-                <span class="contact-info"><i class="fas fa-envelope"></i> info@fecprivate-school.com</span>
+                <span>FEC | International School</span>
+                <span class="contact-info"><i class="fas fa-phone"></i> +95 (9) 400336885</span>
+                <span class="contact-info"><i class="fas fa-envelope"></i> info@familyeducationcentury-fec.edu.mm</span>
             </div>
             <div class="social-icons">
                 <a href="#"><i class="fab fa-facebook-f"></i></a>

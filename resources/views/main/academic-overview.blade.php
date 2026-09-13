@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Academic Overview - FEC Private School</title>
-    <meta name="description" content="Learn about the academic programs and curriculum at FEC Private School - Family Education Center.">
-    <meta name="keywords" content="FEC Private School, Academic Overview, Curriculum, Programs">
+    <title>Academic Overview - FEC International School</title>
+    <meta name="description" content="Learn about the academic programs and curriculum at FEC International School - Family Education Center.">
+    <meta name="keywords" content="FEC International School, Academic Overview, Curriculum, Programs">
     <link rel="icon" type="image/png" href="{{ asset('image/logo_01.png') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -22,7 +22,7 @@
                 <p class="page-subtitle">Excellence in Education</p>
             </div>
             <div class="about-intro fade-in-up">
-                <p>FEC Private School offers a comprehensive academic program designed to nurture intellectual curiosity, critical thinking, and personal growth. Our curriculum combines rigorous academic standards with innovative teaching methods to prepare students for success in an ever-changing world.</p>
+                <p>FEC International School offers a comprehensive academic program designed to nurture intellectual curiosity, critical thinking, and personal growth. Our curriculum combines rigorous academic standards with innovative teaching methods to prepare students for success in an ever-changing world.</p>
             </div>
         </div>
     </section>

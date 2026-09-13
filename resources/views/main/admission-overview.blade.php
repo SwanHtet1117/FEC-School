@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admission Overview - FEC Private School</title>
-    <meta name="description" content="Learn about the admission process at FEC Private School - Family Education Center.">
-    <meta name="keywords" content="FEC Private School, Admission, Enrollment, Application Process">
+    <title>Admission Overview - FEC International School</title>
+    <meta name="description" content="Learn about the admission process at FEC International School - Family Education Center.">
+    <meta name="keywords" content="FEC International School, Admission, Enrollment, Application Process">
     <link rel="icon" type="image/png" href="{{ asset('image/logo_01.png') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -22,14 +22,14 @@
                 <p class="page-subtitle">Join Our Learning Community</p>
             </div>
             <div class="about-intro fade-in-up">
-                <p>Welcome to FEC Private School! We are delighted that you are considering our school for your child's education. Our admission process is designed to be straightforward and transparent, ensuring that families can make informed decisions about their educational journey with us.</p>
+                <p>Welcome to FEC International School! We are delighted that you are considering our school for your child's education. Our admission process is designed to be straightforward and transparent, ensuring that families can make informed decisions about their educational journey with us.</p>
             </div>
         </div>
     </section>
 
     <section class="content-section light-bg">
         <div class="section-container">
-            <h2 class="section-title fade-in-up">Why Choose FEC Private School</h2>
+            <h2 class="section-title fade-in-up">Why Choose FEC International School</h2>
             <div class="programs-grid fade-in-up">
                 <div class="program-item">
                     <div class="program-icon">

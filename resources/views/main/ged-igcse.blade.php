@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GED/IGCSE Program - FEC Private School</title>
-    <meta name="description" content="Learn about the GED and IGCSE programs at FEC Private School - Family Education Center for international certification.">
-    <meta name="keywords" content="FEC Private School, GED, IGCSE, International Certification, University Preparation">
+    <title>GED/IGCSE Program - FEC International School</title>
+    <meta name="description" content="Learn about the GED and IGCSE programs at FEC International School - Family Education Center for international certification.">
+    <meta name="keywords" content="FEC International School, GED, IGCSE, International Certification, University Preparation">
     <link rel="icon" type="image/png" href="{{ asset('image/logo_01.png') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">

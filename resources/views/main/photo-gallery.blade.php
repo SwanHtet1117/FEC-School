@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photo Gallery - FEC Private School</title>
-    <meta name="description" content="Browse through our photo gallery showcasing school events, activities, and campus life at FEC Private School.">
-    <meta name="keywords" content="FEC Private School, Photo Gallery, School Events, Campus Life">
+    <title>Photo Gallery - FEC International School</title>
+    <meta name="description" content="Browse through our photo gallery showcasing school events, activities, and campus life at FEC International School.">
+    <meta name="keywords" content="FEC International School, Photo Gallery, School Events, Campus Life">
     <link rel="icon" type="image/png" href="{{ asset('image/logo_01.png') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -58,10 +58,10 @@
         <div class="section-container">
             <div class="page-header fade-in-up">
                 <h1 class="page-title">Photo Gallery</h1>
-                <p class="page-subtitle">Capturing Moments at FEC Private School</p>
+                <p class="page-subtitle">Capturing Moments at FEC International School</p>
             </div>
             <div class="gallery-intro fade-in-up">
-                <p>Welcome to our photo gallery, where we showcase the vibrant life and memorable moments at FEC Private School. From academic achievements to cultural celebrations, sports events to community activities, explore the rich experiences that define our school community.</p>
+                <p>Welcome to our photo gallery, where we showcase the vibrant life and memorable moments at FEC International School. From academic achievements to cultural celebrations, sports events to community activities, explore the rich experiences that define our school community.</p>
             </div>
         </div>
     </section>

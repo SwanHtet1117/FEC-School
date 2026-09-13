@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - FEC Private School</title>
-    <meta name="description" content="Login to FEC Private School portal.">
-    <meta name="keywords" content="FEC Private School, Login, Portal">
+    <title>Login - FEC International School</title>
+    <meta name="description" content="Login to FEC International School portal.">
+    <meta name="keywords" content="FEC International School, Login, Portal">
     <link rel="icon" type="image/png" href="{{ asset('image/logo_01.png') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -17,7 +17,7 @@
 
     <section class="auth-hero fade-in-up">
         <h1>Login</h1>
-        <p>Access your FEC Private School portal</p>
+        <p>Access your FEC International School portal</p>
     </section>
 
     <div class="auth-container fade-in-up">

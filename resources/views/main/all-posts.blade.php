@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Posts - FEC Private School</title>
-    <meta name="description" content="Browse all news, events, and announcements from FEC Private School.">
-    <meta name="keywords" content="FEC Private School, News, Events, Announcements, All Posts">
+    <title>All Posts - FEC International School</title>
+    <meta name="description" content="Browse all news, events, and announcements from FEC International School.">
+    <meta name="keywords" content="FEC International School, News, Events, Announcements, All Posts">
     <link rel="icon" type="image/png" href="{{ asset('image/logo_01.png') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -17,7 +17,7 @@
 
     <section class="news-events-hero fade-in-up">
         <h1>All Posts</h1>
-        <p>Browse all news, events, and announcements from FEC Private School</p>
+        <p>Browse all news, events, and announcements from FEC International School</p>
     </section>
 
     <div class="news-events-container">
@@ -52,7 +52,7 @@
                             <i class="fas fa-calendar"></i> April 10, 2026
                         </div>
                         <h3 class="news-card-title">Launch of Advanced STEM Program</h3>
-                        <p class="news-card-excerpt">FEC Private School introduces cutting-edge STEM curriculum to prepare students for future technological challenges.</p>
+                        <p class="news-card-excerpt">FEC International School introduces cutting-edge STEM curriculum to prepare students for future technological challenges.</p>
                         <a href="#" class="news-card-link">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>

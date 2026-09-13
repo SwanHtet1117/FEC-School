@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FEC Private School - Family Education Center</title>
-    <meta name="description" content="FEC Private School - Family Education Center">
-    <meta name="keywords" content="FEC Private School, Family Education Center, International School, Myanmar School">
+    <title>FEC International School - Family Education Center</title>
+    <meta name="description" content="FEC International School - Family Education Center">
+    <meta name="keywords" content="FEC International School, Family Education Center, International School, Myanmar School">
     <link rel="icon" type="image/png" href="{{ asset('image/logo_01.png') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -18,7 +18,7 @@
     <section class="hero-section" style="background-image: url('{{ asset('image/fec_building.jpg') }}');">
         <div class="hero-overlay">
             <div class="hero-content">
-                <h2 class="hero-title">FEC PRIVATE SCHOOL</h2>
+                <h2 class="hero-title">FEC INTERNATIONAL SCHOOL</h2>
                 <p class="hero-subtitle">NURTURING YOUNG MINDS FOR A BRIGHTER CENTURY</p>
                 <a href="#" class="btn-apply hero-button">APPLY NOW <i class="fas fa-arrow-right"></i></a>
             </div>
@@ -30,7 +30,7 @@
             <div class="about-layout">
                 <div class="about-content fade-in-left">
                     <h2 class="section-title">About Our School</h2>
-                    <p class="section-text">FEC Private School is a premier international institution dedicated to nurturing young minds for a brighter future. With modernized learning spaces and Smart Learning Systems, we provide the best possible educational environment for every student. With a maximum capacity of only 15 students per class, all classrooms and resource rooms are designed as modernized learning spaces to provide the best possible educational environment.</p>
+                    <p class="section-text">FEC International School is a premier international institution dedicated to nurturing young minds for a brighter future. With modernized learning spaces and Smart Learning Systems, we provide the best possible educational environment for every student. With a maximum capacity of only 15 students per class, all classrooms and resource rooms are designed as modernized learning spaces to provide the best possible educational environment.</p>
                     <a href="/about" class="section-link">Read More <i class="fas fa-arrow-right"></i></a>
                 </div>
                 <div class="about-image fade-in-right">

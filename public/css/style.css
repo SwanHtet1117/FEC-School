@@ -2425,7 +2425,7 @@ body {
 
 .contact-container {
     max-width: 1240px;
-    margin: -20px auto 60px;
+    margin: -20px auto 30px;
     display: grid;
     grid-template-columns: 1fr 1.5fr;
     gap: 40px;
@@ -2435,9 +2435,15 @@ body {
 .contact-info-card {
     background: var(--card-bg);
     border-radius: var(--radius-lg);
-    padding: 40px;
+    padding: 30px;
     box-shadow: var(--shadow-hover);
     border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.contact-info-card h2 {
+    color: var(--primary-dark);
+    margin-top: -10px;
+    margin-bottom: 20px;
 }
 
 .contact-info-item {
@@ -2502,6 +2508,7 @@ body {
     font-size: 28px;
     font-weight: 800;
     color: var(--primary-dark);
+    margin-top: -20px;
     margin-bottom: 30px;
 }
 
@@ -2812,7 +2819,7 @@ body {
     box-shadow: 0 8px 25px rgba(29, 78, 216, 0.4);
 }
 
-/* --- Auth Page Styles --- */
+/* --- Auth Pages Login & Register Styles --- */
 .auth-hero {
     background: linear-gradient(135deg, var(--primary-dark), var(--fec-logo-blue));
     padding: 80px 8% 60px;
@@ -2836,14 +2843,14 @@ body {
 
 .auth-container {
     max-width: 50%;
-    margin: -20px auto 60px;
+    margin: -20px auto 40px;
     padding: 0 8%;
 }
 
 .auth-card {
     background: var(--card-bg);
     border-radius: var(--radius-lg);
-    padding: 40px;
+    padding: 20px;
     box-shadow: var(--shadow-hover);
     border: 1px solid rgba(226, 232, 240, 0.8);
 }

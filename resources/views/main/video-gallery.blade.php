@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Gallery - FEC Private School</title>
-    <meta name="description" content="Browse through our video gallery showcasing school events, activities, and campus life at FEC Private School.">
-    <meta name="keywords" content="FEC Private School, Video Gallery, School Events, Campus Life">
+    <title>Video Gallery - FEC International School</title>
+    <meta name="description" content="Browse through our video gallery showcasing school events, activities, and campus life at FEC International School.">
+    <meta name="keywords" content="FEC International School, Video Gallery, School Events, Campus Life">
     <link rel="icon" type="image/png" href="{{ asset('image/logo_01.png') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -61,7 +61,7 @@
                 <p class="page-subtitle">Watch Our Stories Unfold</p>
             </div>
             <div class="gallery-intro fade-in-up">
-                <p>Welcome to our video gallery, where we bring the vibrant life and memorable moments at FEC Private School to motion. From academic achievements to cultural celebrations, sports events to community activities, watch the rich experiences that define our school community come alive.</p>
+                <p>Welcome to our video gallery, where we bring the vibrant life and memorable moments at FEC International School to motion. From academic achievements to cultural celebrations, sports events to community activities, watch the rich experiences that define our school community come alive.</p>
             </div>
         </div>
     </section>
