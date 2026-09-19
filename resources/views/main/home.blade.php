@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FEC International School - Family Education Center</title>
+    <title>FEC International School - Family Education Century</title>
     <meta name="description" content="FEC International School - Family Education Center">
     <meta name="keywords" content="FEC International School, Family Education Center, International School, Myanmar School">
     <link rel="icon" type="image/png" href="{{ asset('image/logo_01.png') }}">
