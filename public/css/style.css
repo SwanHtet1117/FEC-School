@@ -57,6 +57,8 @@ body {
     padding: 8px 6%;
     font-size: 13px;
     font-weight: 500;
+    max-width: 1440px;
+    margin: 0 auto;
 }
 
 .top-bar-left {
@@ -98,31 +100,50 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 6%;
+    padding: 10px 2%;
     box-shadow: 0px 1px 1px 1px #b8babbda;
+    position: relative;
+    max-width: 1440px;
+    margin: 0 auto;
 }
 
 .logo-container {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 6px;
+    flex: 0 0 auto;
 }
 
 .logo {
-    height: 48px;
+    height: 50px;
     width: auto;
+}
+
+.mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 8px;
+    background: transparent;
+    border: none;
+    z-index: 1001;
+    position: absolute;
+    right: 3%;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .logo-text h1 {
     color: var(--fec-logo-blue);
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 800;
     letter-spacing: 0.5px;
     line-height: 1;
 }
 
 .logo-text span {
-    font-size: 10px;
+    font-size: 9px;
     color: var(--accent-red);
     font-weight: 700;
     letter-spacing: 1px;
@@ -131,7 +152,7 @@ body {
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 22px;
+    gap: 20px;
     align-items: center;
 }
 
@@ -163,9 +184,9 @@ body {
 .nav-links a.active {
     color: var(--primary-blue);
     background: rgba(29, 78, 216, 0.08);
-    padding: 8px 14px;
+    padding: 8px 12px;
     border-radius: 20px;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .nav-links a.active::after {
@@ -179,11 +200,11 @@ body {
 .btn-login {
     background: var(--fec-logo-blue);
     color: #FFFFFF;
-    padding: 10px 20px;
+    padding: 8px 14px;
     border-radius: 50px;
     font-weight: 600;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 13px;
     box-shadow: 0 4px 12px rgba(29, 78, 216, 0.25);
     transition: var(--transition);
 }
@@ -206,7 +227,7 @@ body {
 }
 
 .dropdown > a i {
-    font-size: 10px;
+    font-size: 8px;
     transition: var(--transition);
 }
 
@@ -418,11 +439,13 @@ body {
 /* --- About Page Header --- */
 .page-header {
     text-align: center;
-    margin-top: 100px;
+    margin-top: 140px;
     margin-bottom: 40px;
-    padding: 40px 0;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    padding: 80px 8% 60px;
     background: linear-gradient(135deg, var(--primary-dark), var(--fec-logo-blue));
-    border-radius: var(--radius-lg);
+    border-radius: 0;
     color: #FFFFFF;
 }
 
@@ -823,7 +846,7 @@ body {
     gap: 30px;
 }
 
-.program-item, .why-card, .news-item, .testimonial-card {
+.why-card, .news-item, .testimonial-card {
     background: var(--card-bg);
     border-radius: var(--radius-md);
     overflow: hidden;
@@ -832,35 +855,498 @@ body {
     transition: var(--transition);
 }
 
-.program-item:hover, .why-card:hover, .news-item:hover, .testimonial-card:hover {
+.why-card:hover, .news-item:hover, .testimonial-card:hover {
     transform: translateY(-8px);
     box-shadow: var(--shadow-hover);
     border-color: rgba(29, 78, 216, 0.3);
 }
 
-.program-img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
+/* Polaroid-style Program Cards (Home Page) */
+.program-item-home {
+    background: #FFFFFF;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(226, 232, 240, 0.6);
+    transition: var(--transition);
 }
 
-.program-item h3, .why-card h3, .news-item h3 {
+.program-item-home:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    border-color: rgba(29, 78, 216, 0.3);
+}
+
+.program-img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    display: block;
+}
+
+.why-card h3, .news-item h3 {
     font-size: 18px;
     color: var(--primary-dark);
     font-weight: 700;
     margin-bottom: -10px;
 }
 
-.program-item p, .why-card p, .news-item p {
+.why-card p, .news-item p {
     font-size: 14px;
     color: var(--text-muted);
 }
 
-.program-item h3, .program-item p {
-    padding: 10px 15px 10px;
+/* Polaroid Program Card Text Styling (Home Page) */
+.program-item-home h3 {
+    font-size: 18px;
+    color: var(--primary-dark);
+    font-weight: 700;
+    margin-bottom: 8px;
+    padding: 20px 20px 0;
 }
-.program-item p {
-    padding-bottom: 15px;
+
+.program-item-home p {
+    font-size: 14px;
+    color: var(--text-muted);
+    padding: 0 20px 20px;
+    line-height: 1.5;
+}
+
+/* --- Academic Overview Page Styles --- */
+.program-icon {
+    background: linear-gradient(135deg, var(--primary-blue), var(--fec-logo-blue));
+    color: white;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 24px;
+    margin: 0 auto 15px;
+}
+
+.program-item {
+    text-align: center;
+    padding: 0px;
+}
+
+/* Curriculum Highlights */
+.curriculum-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.curriculum-item {
+    background: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: 30px;
+    border-left: 4px solid var(--accent-gold);
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition);
+}
+
+.curriculum-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.curriculum-number {
+    font-size: 48px;
+    font-weight: 900;
+    color: rgba(29, 78, 216, 0.1);
+    margin-bottom: 15px;
+}
+
+.curriculum-item h3 {
+    font-size: 20px;
+    color: var(--primary-dark);
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.curriculum-item p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* Teaching Methodology */
+.methodology-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+}
+
+.methodology-card {
+    background: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: 30px;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition);
+    border: 1px solid rgba(226, 232, 240, 0.909);
+}
+
+.methodology-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.methodology-icon {
+    background: linear-gradient(135deg, var(--accent-gold), #FFA500);
+    color: white;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 28px;
+    margin: 0 auto 20px;
+}
+
+.methodology-card h3 {
+    font-size: 20px;
+    color: var(--primary-dark);
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.methodology-card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* Assessment & Evaluation */
+.assessment-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.assessment-item {
+    background: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: 30px;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition);
+    border: 1px solid rgba(226, 232, 240, 0.909);
+}
+
+.assessment-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.assessment-icon {
+    background: linear-gradient(135deg, var(--primary-blue), var(--fec-logo-blue));
+    color: white;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 24px;
+    margin: 0 auto 20px;
+}
+
+.assessment-item h3 {
+    font-size: 18px;
+    color: var(--primary-dark);
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.assessment-item p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* Academic Support */
+.support-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+}
+
+.support-card {
+    background: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: 30px;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition);
+    border: 1px solid rgba(226, 232, 240, 0.909);
+}
+
+.support-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.support-card i {
+    background: rgba(29, 78, 216, 0.1);
+    color: var(--primary-blue);
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 24px;
+    margin: 0 auto 20px;
+}
+
+.support-card h3 {
+    font-size: 18px;
+    color: var(--primary-dark);
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.support-card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* Academic Tables */
+.academic-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card-bg);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+    margin-top: 30px;
+}
+
+.academic-table thead {
+    background: linear-gradient(135deg, var(--primary-dark), var(--fec-logo-blue));
+    color: white;
+}
+
+.academic-table th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.academic-table td {
+    padding: 15px;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.909);
+    font-size: 14px;
+    color: var(--text-main);
+}
+
+.academic-table tbody tr:hover {
+    background: rgba(29, 78, 216, 0.05);
+}
+
+.academic-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.section-text {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 16px;
+    max-width: 800px;
+    margin: 0 auto 30px;
+    line-height: 1.6;
+}
+
+/* Grade Colors */
+.grade-a {
+    background: #10B981;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-weight: 700;
+}
+
+.grade-b {
+    background: #3B82F6;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-weight: 700;
+}
+
+.grade-c {
+    background: #F59E0B;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-weight: 700;
+}
+
+.grade-d {
+    background: #EF4444;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-weight: 700;
+}
+
+.grade-f {
+    background: #7C2D12;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-weight: 700;
+}
+
+/* --- Daily Schedule Section --- */
+.schedule-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.schedule-item {
+    display: flex;
+    gap: 20px;
+    background: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: 25px;
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition);
+    border: 1px solid rgba(226, 232, 240, 0.909);
+}
+
+.schedule-item:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+}
+
+.schedule-time {
+    flex-shrink: 0;
+    min-width: 140px;
+    padding: 12px 15px;
+    background: linear-gradient(135deg, var(--primary-blue), var(--fec-logo-blue));
+    color: white;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.schedule-activity {
+    flex: 1;
+}
+
+.schedule-activity h3 {
+    font-size: 18px;
+    color: var(--primary-dark);
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.schedule-activity p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* --- Event Calendar Section --- */
+.event-calendar {
+    background: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: 30px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(226, 232, 240, 0.909);
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.calendar-title {
+    font-size: 24px;
+    color: var(--primary-dark);
+    font-weight: 700;
+}
+
+.calendar-nav {
+    display: flex;
+    gap: 10px;
+}
+
+.calendar-nav button {
+    padding: 10px 20px;
+    background: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 14px;
+    transition: var(--transition);
+}
+
+.calendar-nav button:hover {
+    background: var(--fec-logo-blue);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+}
+
+.calendar-day-header {
+    text-align: center;
+    font-weight: 700;
+    color: var(--primary-dark);
+    padding: 10px;
+    font-size: 14px;
+}
+
+.calendar-day {
+    min-height: 80px;
+    background: var(--bg-light);
+    border-radius: var(--radius-sm);
+    padding: 8px;
+    position: relative;
+    border: 1px solid rgba(226, 232, 240, 0.5);
+}
+
+.calendar-day-number {
+    font-weight: 600;
+    color: var(--primary-dark);
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.calendar-event {
+    background: linear-gradient(135deg, var(--primary-blue), var(--fec-logo-blue));
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    margin-top: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.calendar-event.announcement {
+    background: linear-gradient(135deg, var(--accent-gold), #FFA500);
 }
 
 /* --- Why Choose Us Modern Cards --- */
@@ -1162,6 +1648,7 @@ body {
 }
 
 /* Staggered animations for grid items */
+.program-item-home:nth-child(1).fade-in-up.visible,
 .program-item:nth-child(1).fade-in-up.visible,
 .why-card:nth-child(1).fade-in-up.visible,
 .news-item:nth-child(1).fade-in-up.visible,
@@ -1169,6 +1656,7 @@ body {
     transition-delay: 0.1s;
 }
 
+.program-item-home:nth-child(2).fade-in-up.visible,
 .program-item:nth-child(2).fade-in-up.visible,
 .why-card:nth-child(2).fade-in-up.visible,
 .news-item:nth-child(2).fade-in-up.visible,
@@ -1176,6 +1664,7 @@ body {
     transition-delay: 0.2s;
 }
 
+.program-item-home:nth-child(3).fade-in-up.visible,
 .program-item:nth-child(3).fade-in-up.visible,
 .why-card:nth-child(3).fade-in-up.visible,
 .news-item:nth-child(3).fade-in-up.visible,
@@ -1183,6 +1672,7 @@ body {
     transition-delay: 0.3s;
 }
 
+.program-item-home:nth-child(4).fade-in-up.visible,
 .program-item:nth-child(4).fade-in-up.visible,
 .why-card:nth-child(4).fade-in-up.visible,
 .news-item:nth-child(4).fade-in-up.visible,
@@ -1396,8 +1886,9 @@ body {
 }
 
 .calendar-nav button {
-    background: var(--bg-main);
-    border: 1px solid rgba(226, 232, 240, 0.8);
+    background: var(--primary-blue);
+    color: white;
+    border: none;
     padding: 8px 16px;
     border-radius: 8px;
     cursor: pointer;
@@ -1406,9 +1897,8 @@ body {
 }
 
 .calendar-nav button:hover {
-    background: var(--primary-blue);
-    color: #FFFFFF;
-    border-color: var(--primary-blue);
+    background: var(--fec-logo-blue);
+    color: white;
 }
 
 .calendar-grid {
@@ -2043,7 +2533,8 @@ body {
     color: #FFFFFF;
 }
 
-.program-item:hover .program-icon {
+/* Program icon hover effect (Academic Overview page only) */
+.program-item:not(.program-item-home):hover .program-icon {
     transform: scale(1.1);
 }
 
@@ -2819,6 +3310,139 @@ body {
     box-shadow: 0 8px 25px rgba(29, 78, 216, 0.4);
 }
 
+/* --- Mobile Menu Toggle --- */
+.mobile-menu-toggle span {
+    width: 25px;
+    height: 3px;
+    background: var(--primary-dark);
+    border-radius: 3px;
+    transition: var(--transition);
+}
+
+.mobile-menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.mobile-menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* --- Mobile Navigation Panel --- */
+.mobile-nav-panel {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 300px;
+    height: 100vh;
+    background: #FFFFFF;
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 80px 25px 30px;
+    transition: right 0.3s ease;
+    overflow-y: auto;
+}
+
+.mobile-nav-panel.active {
+    display: block;
+    right: 0;
+}
+
+.mobile-nav-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.mobile-nav-overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+.mobile-nav-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.mobile-nav-links li {
+    width: 100%;
+}
+
+.mobile-nav-links a {
+    display: block;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: var(--text-main);
+    font-weight: 600;
+    font-size: 15px;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+}
+
+.mobile-nav-links a:hover,
+.mobile-nav-links a.active {
+    background: rgba(29, 78, 216, 0.08);
+    color: var(--primary-blue);
+}
+
+.mobile-dropdown-menu {
+    display: none;
+    padding-left: 20px;
+    background: #F8FAFC;
+    border-radius: var(--radius-sm);
+    margin-top: 5px;
+}
+
+.mobile-dropdown-menu.active {
+    display: block;
+}
+
+.mobile-dropdown-menu a {
+    padding: 12px 20px;
+    font-size: 14px;
+    border-bottom: none;
+}
+
+.mobile-dropdown-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.mobile-dropdown-toggle i {
+    transition: transform 0.3s ease;
+}
+
+.mobile-dropdown-toggle.active i {
+    transform: rotate(180deg);
+}
+
+.mobile-auth-buttons {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(226, 232, 240, 0.5);
+}
+
+.mobile-auth-buttons .btn-login {
+    width: 100%;
+    justify-content: center;
+}
+
 /* --- Auth Pages Login & Register Styles --- */
 .auth-hero {
     background: linear-gradient(135deg, var(--primary-dark), var(--fec-logo-blue));
@@ -3065,7 +3689,35 @@ body {
 
 /* --- Responsive Adaptations --- */
 @media (max-width: 1024px) {
+    .mobile-menu-toggle {
+        display: flex;
+    }
+    .nav-links {
+        display: none;
+    }
+    .auth-buttons {
+        display: none;
+    }
+    .main-nav {
+        padding: 8px 3%;
+    }
+    .logo-container {
+        gap: 8px;
+    }
+    .logo {
+        height: 40px;
+    }
+    .logo-text h1 {
+        font-size: 18px;
+    }
+    .logo-text span {
+        font-size: 8px;
+    }
     .programs-grid, .why-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .programs-grid-3,
+    .programs-grid-5 {
         grid-template-columns: repeat(2, 1fr);
     }
     .careers-grid {
@@ -3082,6 +3734,159 @@ body {
     .values-container {
         grid-template-columns: repeat(2, 1fr);
     }
+
+    /* Academic Overview Sections */
+    .curriculum-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+    .curriculum-item {
+        padding: 25px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    .curriculum-number {
+        font-size: 32px;
+        margin-bottom: 0;
+        font-weight: 900;
+        color: white;
+    }
+    .methodology-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+    .assessment-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+    .support-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+    .academic-table {
+        font-size: 13px;
+    }
+    .academic-table th,
+    .academic-table td {
+        padding: 12px 10px;
+    }
+
+    /* Daily Schedule Section */
+    .schedule-container {
+        gap: 18px;
+    }
+    .schedule-item {
+        padding: 22px;
+        gap: 18px;
+    }
+    .schedule-time {
+        min-width: 120px;
+        font-size: 13px;
+    }
+    .schedule-activity h3 {
+        font-size: 17px;
+    }
+    .schedule-activity p {
+        font-size: 13px;
+    }
+
+    /* Hero Sections */
+    .hero-section {
+        margin-top: 120px;
+    }
+    .news-events-hero {
+        margin-top: 120px;
+    }
+    .campus-hero {
+        margin-top: 120px;
+    }
+    .contact-hero {
+        margin-top: 120px;
+    }
+    .auth-hero {
+        margin-top: 120px;
+    }
+    .page-header {
+        margin-top: 140px;
+    }
+
+    /* Event Calendar Section */
+    .event-calendar {
+        padding: 20px;
+    }
+    .calendar-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    .calendar-title {
+        font-size: 20px;
+    }
+    .calendar-nav {
+        width: 100%;
+        justify-content: space-between;
+    }
+    .calendar-nav button {
+        padding: 8px 15px;
+        font-size: 13px;
+        background: var(--primary-blue);
+        color: white;
+        border: none;
+        border-radius: var(--radius-sm);
+    }
+    .calendar-grid {
+        gap: 8px;
+    }
+    .calendar-day-header {
+        font-size: 12px;
+        padding: 8px 4px;
+    }
+    .calendar-day {
+        min-height: 60px;
+        padding: 6px;
+    }
+    .calendar-day-number {
+        font-size: 12px;
+    }
+    .calendar-event {
+        font-size: 10px;
+        padding: 3px 6px;
+    }
+
+    /* Program Cards - Home Page Polaroid Style */
+    .program-item-home h3 {
+        font-size: 16px;
+        padding: 15px 15px 0;
+    }
+    .program-item-home p {
+        font-size: 13px;
+        padding: 0 15px 15px;
+    }
+}
+
+@media (max-width: 780px) {
+    .top-bar {
+        padding: 6px 4%;
+        font-size: 12px;
+    }
+    .top-bar-left {
+        gap: 12px;
+    }
+    .top-bar-left span {
+        font-size: 11px;
+    }
+    .top-bar-left .contact-info {
+        font-size: 11px;
+    }
+    .social-icons {
+        gap: 10px;
+    }
+    .social-icons a {
+        width: 26px;
+        height: 26px;
+        font-size: 11px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -3090,9 +3895,27 @@ body {
         gap: 15px;
         text-align: center;
     }
+    .top-bar {
+        padding: 8px 4%;
+        font-size: 11px;
+    }
     .top-bar-left {
         flex-direction: column;
         gap: 6px;
+    }
+    .top-bar-left span {
+        font-size: 10px;
+    }
+    .top-bar-left .contact-info {
+        font-size: 10px;
+    }
+    .social-icons {
+        gap: 8px;
+    }
+    .social-icons a {
+        width: 24px;
+        height: 24px;
+        font-size: 10px;
     }
     .nav-links {
         flex-wrap: wrap;
@@ -3104,6 +3927,179 @@ body {
     }
     .programs-grid, .why-grid {
         grid-template-columns: 1fr;
+    }
+    .programs-grid-3,
+    .programs-grid-5 {
+        grid-template-columns: 1fr;
+    }
+
+    /* Academic Overview Sections */
+    .curriculum-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+    .curriculum-item {
+        padding: 25px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    .curriculum-number {
+        font-size: 28px;
+        margin-bottom: 0;
+        font-weight: 900;
+        color: white;
+    }
+
+    /* Daily Schedule Section */
+    .schedule-container {
+        gap: 18px;
+    }
+    .schedule-item {
+        padding: 22px;
+        gap: 18px;
+    }
+    .schedule-time {
+        min-width: 120px;
+        font-size: 13px;
+    }
+    .schedule-activity h3 {
+        font-size: 17px;
+    }
+    .schedule-activity p {
+        font-size: 13px;
+    }
+
+    /* Hero Sections */
+    .hero-section {
+        margin-top: 120px;
+    }
+    .news-events-hero {
+        margin-top: 120px;
+    }
+    .campus-hero {
+        margin-top: 120px;
+    }
+    .contact-hero {
+        margin-top: 120px;
+    }
+    .auth-hero {
+        margin-top: 120px;
+    }
+    .page-header {
+        margin-top: 140px;
+    }
+
+    /* Event Calendar Section */
+    .event-calendar {
+        padding: 15px;
+    }
+    .calendar-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .calendar-title {
+        font-size: 18px;
+    }
+    .calendar-nav {
+        width: 100%;
+        justify-content: space-between;
+    }
+    .calendar-nav button {
+        padding: 6px 12px;
+        font-size: 12px;
+        background: var(--primary-blue);
+        color: white;
+        border: none;
+        border-radius: var(--radius-sm);
+    }
+    .calendar-grid {
+        gap: 6px;
+    }
+    .calendar-day-header {
+        font-size: 11px;
+        padding: 6px 2px;
+    }
+    .calendar-day {
+        min-height: 50px;
+        padding: 5px;
+    }
+    .calendar-day-number {
+        font-size: 11px;
+    }
+    .calendar-event {
+        font-size: 9px;
+        padding: 2px 5px;
+    }
+
+    /* Program Cards - Home Page Polaroid Style */
+    .program-item-home h3 {
+        font-size: 15px;
+        padding: 12px 12px 0;
+    }
+    .program-item-home p {
+        font-size: 12px;
+        padding: 0 12px 12px;
+    }
+
+    .methodology-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+    .methodology-card {
+        padding: 25px;
+    }
+
+    .assessment-container {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+    .assessment-item {
+        padding: 25px;
+    }
+
+    .support-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+    .support-card {
+        padding: 25px;
+    }
+
+    /* Academic Tables */
+    .academic-table {
+        font-size: 13px;
+    }
+    .academic-table th,
+    .academic-table td {
+        padding: 12px 10px;
+    }
+    .section-text {
+        font-size: 15px;
+        padding: 0 4%;
+    }
+
+    /* Daily Schedule Section */
+    .schedule-container {
+        gap: 15px;
+    }
+    .schedule-item {
+        flex-direction: column;
+        padding: 20px;
+        gap: 15px;
+    }
+    .schedule-time {
+        min-width: auto;
+        width: 100%;
+        padding: 10px;
+        font-size: 13px;
+    }
+    .schedule-activity h3 {
+        font-size: 16px;
+    }
+    .schedule-activity p {
+        font-size: 13px;
     }
     .hero-content h2 {
         font-size: 36px;
@@ -3158,4 +4154,708 @@ body {
     .gallery-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+    .auth-container {
+        width: 100%;
+        max-width: 560px;
+        padding: 0 20px;
+    }
+    .auth-card {
+        padding: 30px 25px;
+    }
+    .auth-hero h1 {
+        font-size: 32px;
+    }
+    .auth-hero p {
+        font-size: 14px;
+    }
+    .social-login {
+        grid-template-columns: 1fr;
+    }
 }
+
+@media (max-width: 600px) {
+    /* Header & Navigation */
+    .top-bar-left {
+        font-size: 12px;
+    }
+    .top-bar-left span {
+        display: block;
+        margin-bottom: 4px;
+    }
+    .main-nav {
+        padding: 10px;
+    }
+    .nav-links {
+        gap: 8px;
+    }
+    .nav-links a {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+    .auth-buttons {
+        margin-top: 10px;
+    }
+
+    /* Hero Sections */
+    .hero-section {
+        padding: 60px 5% 40px;
+        height: 350px;
+        background-size: cover;
+        background-position: center center;
+        margin-top: 120px;
+    }
+    .hero-overlay {
+        padding: 0 5%;
+    }
+    .hero-content {
+        max-width: 100%;
+    }
+    .hero-content h2 {
+        font-size: 28px;
+        line-height: 1.3;
+    }
+    .hero-content p {
+        font-size: 14px;
+    }
+    .hero-button {
+        padding: 12px 24px;
+        font-size: 14px;
+    }
+    .auth-hero {
+        padding: 60px 5% 40px;
+        margin-top: 120px;
+    }
+    .auth-hero h1 {
+        font-size: 28px;
+    }
+    .contact-hero {
+        padding: 60px 5% 40px;
+        margin-top: 120px;
+    }
+    .contact-hero h1 {
+        font-size: 28px;
+    }
+    .news-events-hero {
+        padding: 60px 5% 40px;
+        margin-top: 120px;
+    }
+    .news-events-hero h1 {
+        font-size: 28px;
+    }
+    .campus-hero {
+        padding: 60px 5% 40px;
+        margin-top: 120px;
+    }
+    .campus-hero h1 {
+        font-size: 28px;
+    }
+
+    /* Page Headers */
+    .page-title {
+        font-size: 28px;
+    }
+    .page-subtitle {
+        font-size: 14px;
+    }
+
+    /* Section Containers */
+    .section-container {
+        padding: 0 6%;
+    }
+
+    /* Grids */
+    .programs-grid-5 {
+        grid-template-columns: 1fr;
+    }
+    .programs-grid-3,
+    .programs-grid,
+    .why-grid {
+        grid-template-columns: 1fr;
+    }
+    .careers-grid {
+        grid-template-columns: 1fr;
+    }
+    .facilities-grid {
+        grid-template-columns: 1fr;
+    }
+    .values-container {
+        grid-template-columns: 1fr;
+    }
+
+    /* Academic Overview Sections */
+    .curriculum-container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 0 2%;
+    }
+    .curriculum-item {
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .curriculum-number {
+        font-size: 24px;
+        margin-bottom: 0;
+        font-weight: 900;
+        color: white;
+    }
+    .curriculum-item h3 {
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+    .curriculum-item p {
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .methodology-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .methodology-card {
+        padding: 20px;
+    }
+    .methodology-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+    .methodology-card h3 {
+        font-size: 16px;
+    }
+    .methodology-card p {
+        font-size: 13px;
+    }
+
+    .assessment-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .assessment-item {
+        padding: 20px;
+    }
+    .assessment-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+    .assessment-item h3 {
+        font-size: 16px;
+    }
+    .assessment-item p {
+        font-size: 13px;
+    }
+
+    .support-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .support-card {
+        padding: 20px;
+    }
+    .support-card i {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+    .support-card h3 {
+        font-size: 16px;
+    }
+    .support-card p {
+        font-size: 13px;
+    }
+
+    /* Academic Tables */
+    .academic-table {
+        font-size: 12px;
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .academic-table thead,
+    .academic-table tbody,
+    .academic-table th,
+    .academic-table td,
+    .academic-table tr {
+        display: block;
+    }
+    .academic-table thead {
+        display: none;
+    }
+    .academic-table tbody tr {
+        margin-bottom: 15px;
+        border: 1px solid rgba(226, 232, 240, 0.909);
+        border-radius: var(--radius-md);
+        padding: 15px;
+        background: var(--card-bg);
+    }
+    .academic-table td {
+        border: none;
+        padding: 8px 0;
+        position: relative;
+        padding-left: 50%;
+        text-align: left;
+    }
+    .academic-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: 600;
+        color: var(--primary-dark);
+    }
+    .academic-table td:last-child {
+        border-bottom: none;
+    }
+    .section-text {
+        font-size: 14px;
+        padding: 0 5%;
+    }
+
+    /* Event Calendar Section */
+    .event-calendar {
+        padding: 10px;
+    }
+    .calendar-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .calendar-title {
+        font-size: 16px;
+    }
+    .calendar-nav {
+        width: 100%;
+        justify-content: space-between;
+    }
+    .calendar-nav button {
+        padding: 5px 10px;
+        font-size: 11px;
+        background: var(--primary-blue);
+        color: white;
+        border: none;
+        border-radius: var(--radius-sm);
+    }
+    .calendar-grid {
+        gap: 2px;
+    }
+    .calendar-day-header {
+        font-size: 9px;
+        padding: 3px 1px;
+    }
+    .calendar-day {
+        min-height: 35px;
+        padding: 2px;
+    }
+    .calendar-day-number {
+        font-size: 9px;
+    }
+    .calendar-event {
+        font-size: 7px;
+        padding: 1px 3px;
+        line-height: 1.2;
+    }
+
+    /* Program Cards - Home Page Polaroid Style */
+    .program-item-home h3 {
+        font-size: 14px;
+        padding: 10px 10px 0;
+    }
+    .program-item-home p {
+        font-size: 11px;
+        padding: 0 10px 10px;
+    }
+
+    /* Grade badges */
+    .grade-a, .grade-b, .grade-c, .grade-d, .grade-f {
+        padding: 2px 8px;
+        font-size: 12px;
+    }
+
+    /* Daily Schedule Section */
+    .schedule-container {
+        gap: 12px;
+        padding: 0 2%;
+    }
+    .schedule-item {
+        padding: 15px;
+        gap: 12px;
+    }
+    .schedule-time {
+        padding: 8px;
+        font-size: 12px;
+    }
+    .schedule-activity h3 {
+        font-size: 15px;
+        margin-bottom: 6px;
+    }
+    .schedule-activity p {
+        font-size: 12px;
+        line-height: 1.4;
+    }
+
+    /* Cards */
+    .program-item,
+    .program-item-home,
+    .career-card,
+    .news-card {
+        padding: 25px;
+    }
+
+    /* Buttons */
+    .btn-apply,
+    .btn-apply-admission {
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+    .btn-apply-admission {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Forms */
+    .contact-container {
+        grid-template-columns: 1fr;
+    }
+    .contact-info-card,
+    .contact-form-card {
+        padding: 25px;
+    }
+
+    /* News & Events */
+    .news-tabs {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .news-tab {
+        padding: 10px 15px;
+        font-size: 13px;
+    }
+    .calendar-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    /* Footer */
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    .footer-col {
+        text-align: left;
+    }
+    .footer-bottom {
+        padding: 8px;
+    }
+    .footer-bottom p {
+        font-size: 12px;
+    }
+
+    /* About Page */
+    .about-layout {
+        grid-template-columns: 1fr;
+    }
+    .about-image {
+        order: -1;
+    }
+
+    /* Campus Life */
+    .campus-locations {
+        grid-template-columns: 1fr;
+    }
+
+    /* Tables */
+    table {
+        font-size: 13px;
+    }
+    th, td {
+        padding: 10px 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Header & Navigation */
+    .site-header {
+        padding: 10px 0;
+    }
+    .top-bar {
+        padding: 15px;
+    }
+    .nav-links {
+        flex-direction: column;
+        width: 100%;
+        gap: 5px;
+    }
+    .nav-links li {
+        width: 100%;
+    }
+    .nav-links a {
+        padding: 12px 15px;
+        width: 100%;
+        text-align: center;
+    }
+    .dropdown-menu {
+        position: static;
+        display: none;
+        width: 100%;
+        background: #F8FAFC;
+        padding: 10px;
+    }
+    .dropdown:hover .dropdown-menu {
+        display: block;
+    }
+    .auth-buttons {
+        width: 100%;
+        text-align: center;
+        margin-top: 15px;
+    }
+    .btn-login {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Hero Sections */
+    .hero-section {
+        padding: 100px 5% 60px;
+        margin-top: 120px;
+    }
+    .hero-content h2 {
+        font-size: 28px;
+        line-height: 1.3;
+    }
+    .hero-content p {
+        font-size: 14px;
+    }
+    .hero-button {
+        padding: 12px 24px;
+        font-size: 14px;
+    }
+    .auth-hero {
+        padding: 60px 5% 40px;
+        margin-top: 120px;
+    }
+    .auth-hero h1 {
+        font-size: 28px;
+    }
+    .contact-hero {
+        padding: 60px 5% 40px;
+        margin-top: 120px;
+    }
+    .contact-hero h1 {
+        font-size: 28px;
+    }
+    .news-events-hero {
+        padding: 60px 5% 40px;
+        margin-top: 120px;
+    }
+    .news-events-hero h1 {
+        font-size: 28px;
+    }
+    .campus-hero {
+        padding: 60px 5% 40px;
+        margin-top: 120px;
+    }
+    .campus-hero h1 {
+        font-size: 28px;
+    }
+
+    /* Page Headers */
+    .page-header {
+        padding: 60px 5% 40px;
+        margin-top: 120px;
+    }
+    .page-title {
+        font-size: 24px;
+    }
+    .page-subtitle {
+        font-size: 13px;
+    }
+
+    /* Section Containers */
+    .section-container {
+        padding: 0 5%;
+    }
+    .content-section {
+        padding: 40px 0;
+    }
+
+    /* Grids */
+    .programs-grid,
+    .programs-grid-3,
+    .programs-grid-5,
+    .why-grid,
+    .careers-grid,
+    .news-grid,
+    .testimonials-grid,
+    .vision-mission-container,
+    .accreditation-container,
+    .policies-container,
+    .values-container,
+    .campus-locations,
+    .facilities-grid,
+    .student-life-grid,
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Cards */
+    .program-item,
+    .program-item-home,
+    .program-item-3,
+    .career-card,
+    .news-card,
+    .policy-item,
+    .value-item,
+    .accreditation-item,
+    .campus-location-card,
+    .facility-card,
+    .student-life-card,
+    .gallery-item {
+        padding: 20px;
+    }
+    .program-icon,
+    .career-icon,
+    .policy-icon,
+    .value-icon,
+    .accred-icon {
+        width: 45px;
+        height: 45px;
+    }
+    .program-icon i,
+    .career-icon i,
+    .policy-icon i,
+    .value-icon i,
+    .accred-icon i {
+        font-size: 18px;
+    }
+
+    /* Forms */
+    .contact-container {
+        grid-template-columns: 1fr;
+        margin-top: 0;
+    }
+    .contact-info-card,
+    .contact-form-card {
+        padding: 20px;
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        padding: 12px 14px;
+        font-size: 14px;
+    }
+    .input-with-icon input {
+        padding: 12px 14px 12px 42px;
+    }
+    .btn-submit {
+        padding: 14px 28px;
+        font-size: 14px;
+    }
+
+    /* Auth Forms */
+    .auth-card {
+        padding: 25px 20px;
+    }
+    .auth-header h2 {
+        font-size: 22px;
+    }
+    .btn-auth-submit {
+        padding: 14px 24px;
+        font-size: 14px;
+    }
+
+    /* News & Events */
+    .news-tabs {
+        flex-direction: column;
+    }
+    .news-tab {
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+    .calendar-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .calendar-day {
+        padding: 10px;
+        font-size: 12px;
+    }
+
+    /* Program Cards - Home Page Polaroid Style */
+    .program-item-home h3 {
+        font-size: 13px;
+        padding: 8px 8px 0;
+    }
+    .program-item-home p {
+        font-size: 10px;
+        padding: 0 8px 8px;
+    }
+
+    /* Footer */
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    .footer-col {
+        text-align: center;
+    }
+    .footer-bottom {
+        padding: 15px;
+    }
+    .footer-bottom p {
+        font-size: 12px;
+    }
+
+    /* Buttons */
+    .btn-view-all {
+        padding: 10px 24px;
+        font-size: 14px;
+    }
+    .pagination-btn {
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+
+    /* Tables */
+    table {
+        font-size: 12px;
+    }
+    th, td {
+        padding: 8px 6px;
+    }
+
+    /* About Page */
+    .about-layout {
+        grid-template-columns: 1fr;
+    }
+    .about-image {
+        order: -1;
+    }
+    .message-container {
+        padding: 20px;
+    }
+    .vision-mission-box {
+        padding: 20px;
+    }
+
+    /* Campus Life */
+    .campus-location-content {
+        padding: 20px;
+    }
+    .campus-location-content h3 {
+        font-size: 18px;
+    }
+
+    /* Contact */
+    .contact-info-item {
+        padding: 15px;
+    }
+    .contact-info-item h4 {
+        font-size: 16px;
+    }
+    .contact-info-item p {
+        font-size: 13px;
+    }
+}
+

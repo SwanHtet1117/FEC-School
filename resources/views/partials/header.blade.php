@@ -19,6 +19,11 @@
                     <span>FAMILY EDUCATION CENTURY</span>
                 </div>
             </div>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <ul class="nav-links">
                 <li><a href="/" class="{{ request()->is('/') ? 'active' : '' }}">Home</a></li>
                 <li><a href="/about" class="{{ request()->is('about*') ? 'active' : '' }}">About Us</a></li>
@@ -40,10 +45,82 @@
                     </ul>
                 </li>
                 <li><a href="/news-events" class="{{ request()->is('news-events*') ? 'active' : '' }}">News & Events</a></li>
-                <li><a href="/contact" class="{{ request()->is('contact*') ? 'active' : '' }}">Contact</a></li>
+                <li><a href="/contact" class="{{ request()->is('contact*') ? 'active' : '' }}">Contact Us</a></li>
             </ul>
             <div class="auth-buttons">
                 <a href="/login" class="btn-login">Login</a>
             </div>
         </nav>
     </header>
+
+    <!-- Mobile Navigation Panel -->
+    <div class="mobile-nav-overlay" onclick="toggleMobileMenu()"></div>
+    <div class="mobile-nav-panel">
+        <ul class="mobile-nav-links">
+            <li><a href="/" onclick="toggleMobileMenu()" class="{{ request()->is('/') ? 'active' : '' }}">Home</a></li>
+            <li><a href="/about" onclick="toggleMobileMenu()" class="{{ request()->is('about*') ? 'active' : '' }}">About Us</a></li>
+            <li>
+                <a href="#" class="mobile-dropdown-toggle {{ request()->is('academics*') ? 'active' : '' }}" onclick="toggleMobileDropdown(this)">
+                    Academics <i class="fas fa-chevron-down"></i>
+                </a>
+                <div class="mobile-dropdown-menu {{ request()->is('academics*') ? 'active' : '' }}">
+                    <a href="/academics" onclick="toggleMobileMenu()" class="{{ request()->is('academics') ? 'active' : '' }}">Academic Overview</a>
+                    <a href="/academics/early-years" onclick="toggleMobileMenu()" class="{{ request()->is('academics/early-years*') ? 'active' : '' }}">Early Years</a>
+                    <a href="/academics/primary" onclick="toggleMobileMenu()" class="{{ request()->is('academics/primary*') ? 'active' : '' }}">Primary School</a>
+                    <a href="/academics/secondary" onclick="toggleMobileMenu()" class="{{ request()->is('academics/secondary*') ? 'active' : '' }}">Secondary School</a>
+                    <a href="/academics/ged-igcse" onclick="toggleMobileMenu()" class="{{ request()->is('academics/ged-igcse*') ? 'active' : '' }}">GED/IGCSE</a>
+                </div>
+            </li>
+            <li><a href="/admissions" onclick="toggleMobileMenu()" class="{{ request()->is('admissions*') ? 'active' : '' }}">Admission</a></li>
+            <li><a href="/campus-life" onclick="toggleMobileMenu()" class="{{ request()->is('campus-life*') ? 'active' : '' }}">Campus Life</a></li>
+            <li>
+                <a href="#" class="mobile-dropdown-toggle {{ request()->is('gallery/*') ? 'active' : '' }}" onclick="toggleMobileDropdown(this)">
+                    Gallery <i class="fas fa-chevron-down"></i>
+                </a>
+                <div class="mobile-dropdown-menu {{ request()->is('gallery/*') ? 'active' : '' }}">
+                    <a href="/gallery/photo" onclick="toggleMobileMenu()" class="{{ request()->is('gallery/photo*') ? 'active' : '' }}">Photo Gallery</a>
+                    <a href="/gallery/video" onclick="toggleMobileMenu()" class="{{ request()->is('gallery/video*') ? 'active' : '' }}">Video Gallery</a>
+                </div>
+            </li>
+            <li><a href="/news-events" onclick="toggleMobileMenu()" class="{{ request()->is('news-events*') ? 'active' : '' }}">News & Events</a></li>
+            <li><a href="/contact" onclick="toggleMobileMenu()" class="{{ request()->is('contact*') ? 'active' : '' }}">Contact</a></li>
+        </ul>
+        <div class="mobile-auth-buttons">
+            <a href="/login" onclick="toggleMobileMenu()" class="btn-login">Login</a>
+        </div>
+    </div>
+
+    <script>
+        let lastScroll = 0;
+        
+        window.addEventListener('scroll', function() {
+            const topBar = document.querySelector('.top-bar');
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 50) {
+                topBar.style.display = 'none';
+            } else {
+                topBar.style.display = 'flex';
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        function toggleMobileMenu() {
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            const panel = document.querySelector('.mobile-nav-panel');
+            const overlay = document.querySelector('.mobile-nav-overlay');
+            
+            toggle.classList.toggle('active');
+            panel.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = panel.classList.contains('active') ? 'hidden' : 'auto';
+        }
+
+        function toggleMobileDropdown(element) {
+            event.preventDefault();
+            element.classList.toggle('active');
+            const dropdown = element.nextElementSibling;
+            dropdown.classList.toggle('active');
+        }
+    </script>

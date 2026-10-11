@@ -210,46 +210,46 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Weekly Tests</td>
-                        <td>Every Week</td>
-                        <td>30-45 minutes</td>
-                        <td>10%</td>
-                        <td>Continuous assessment of weekly topics</td>
+                        <td data-label="Exam Type">Weekly Tests</td>
+                        <td data-label="Frequency">Every Week</td>
+                        <td data-label="Duration">30-45 minutes</td>
+                        <td data-label="Weightage">10%</td>
+                        <td data-label="Purpose">Continuous assessment of weekly topics</td>
                     </tr>
                     <tr>
-                        <td>Monthly Assessments</td>
-                        <td>Once per Month</td>
-                        <td>1-2 hours</td>
-                        <td>15%</td>
-                        <td>Monthly progress tracking</td>
+                        <td data-label="Exam Type">Monthly Assessments</td>
+                        <td data-label="Frequency">Once per Month</td>
+                        <td data-label="Duration">1-2 hours</td>
+                        <td data-label="Weightage">15%</td>
+                        <td data-label="Purpose">Monthly progress tracking</td>
                     </tr>
                     <tr>
-                        <td>Mid-Term Exams</td>
-                        <td>Twice per Year</td>
-                        <td>2-3 hours per subject</td>
-                        <td>25%</td>
-                        <td>Semester evaluation</td>
+                        <td data-label="Exam Type">Mid-Term Exams</td>
+                        <td data-label="Frequency">Twice per Year</td>
+                        <td data-label="Duration">2-3 hours per subject</td>
+                        <td data-label="Weightage">25%</td>
+                        <td data-label="Purpose">Semester evaluation</td>
                     </tr>
                     <tr>
-                        <td>Final Exams</td>
-                        <td>End of Academic Year</td>
-                        <td>2-3 hours per subject</td>
-                        <td>35%</td>
-                        <td>Comprehensive year-end assessment</td>
+                        <td data-label="Exam Type">Final Exams</td>
+                        <td data-label="Frequency">End of Academic Year</td>
+                        <td data-label="Duration">2-3 hours per subject</td>
+                        <td data-label="Weightage">35%</td>
+                        <td data-label="Purpose">Comprehensive year-end assessment</td>
                     </tr>
                     <tr>
-                        <td>Project Work</td>
-                        <td>Ongoing</td>
-                        <td>Varies</td>
-                        <td>10%</td>
-                        <td>Practical application and research skills</td>
+                        <td data-label="Exam Type">Project Work</td>
+                        <td data-label="Frequency">Ongoing</td>
+                        <td data-label="Duration">Varies</td>
+                        <td data-label="Weightage">10%</td>
+                        <td data-label="Purpose">Practical application and research skills</td>
                     </tr>
                     <tr>
-                        <td>Class Participation</td>
-                        <td>Ongoing</td>
-                        <td>N/A</td>
-                        <td>5%</td>
-                        <td>Engagement and contribution in class</td>
+                        <td data-label="Exam Type">Class Participation</td>
+                        <td data-label="Frequency">Ongoing</td>
+                        <td data-label="Duration">N/A</td>
+                        <td data-label="Weightage">5%</td>
+                        <td data-label="Purpose">Engagement and contribution in class</td>
                     </tr>
                 </tbody>
             </table>
@@ -272,67 +272,67 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><span class="grade-a">A</span></td>
-                        <td>90% - 100%</td>
-                        <td>4.0</td>
-                        <td>Excellent</td>
-                        <td>Outstanding performance with exceptional understanding</td>
+                        <td data-label="Grade"><span class="grade-a">A</span></td>
+                        <td data-label="Percentage Range">90% - 100%</td>
+                        <td data-label="GPA">4.0</td>
+                        <td data-label="Description">Excellent</td>
+                        <td data-label="Performance Level">Outstanding performance with exceptional understanding</td>
                     </tr>
                     <tr>
-                        <td><span class="grade-a">A-</span></td>
-                        <td>85% - 89%</td>
-                        <td>3.7</td>
-                        <td>Very Good</td>
-                        <td>Excellent performance with minor areas for improvement</td>
+                        <td data-label="Grade"><span class="grade-a">A-</span></td>
+                        <td data-label="Percentage Range">85% - 89%</td>
+                        <td data-label="GPA">3.7</td>
+                        <td data-label="Description">Very Good</td>
+                        <td data-label="Performance Level">Excellent performance with minor areas for improvement</td>
                     </tr>
                     <tr>
-                        <td><span class="grade-b">B+</span></td>
-                        <td>80% - 84%</td>
-                        <td>3.3</td>
-                        <td>Good</td>
-                        <td>Strong performance with good understanding</td>
+                        <td data-label="Grade"><span class="grade-b">B+</span></td>
+                        <td data-label="Percentage Range">80% - 84%</td>
+                        <td data-label="GPA">3.3</td>
+                        <td data-label="Description">Good</td>
+                        <td data-label="Performance Level">Strong performance with good understanding</td>
                     </tr>
                     <tr>
-                        <td><span class="grade-b">B</span></td>
-                        <td>75% - 79%</td>
-                        <td>3.0</td>
-                        <td>Good</td>
-                        <td>Satisfactory performance with adequate understanding</td>
+                        <td data-label="Grade"><span class="grade-b">B</span></td>
+                        <td data-label="Percentage Range">75% - 79%</td>
+                        <td data-label="GPA">3.0</td>
+                        <td data-label="Description">Good</td>
+                        <td data-label="Performance Level">Satisfactory performance with adequate understanding</td>
                     </tr>
                     <tr>
-                        <td><span class="grade-b">B-</span></td>
-                        <td>70% - 74%</td>
-                        <td>2.7</td>
-                        <td>Satisfactory</td>
-                        <td>Adequate performance meeting basic requirements</td>
+                        <td data-label="Grade"><span class="grade-b">B-</span></td>
+                        <td data-label="Percentage Range">70% - 74%</td>
+                        <td data-label="GPA">2.7</td>
+                        <td data-label="Description">Satisfactory</td>
+                        <td data-label="Performance Level">Adequate performance meeting basic requirements</td>
                     </tr>
                     <tr>
-                        <td><span class="grade-c">C+</span></td>
-                        <td>65% - 69%</td>
-                        <td>2.3</td>
-                        <td>Satisfactory</td>
-                        <td>Fair performance with some understanding gaps</td>
+                        <td data-label="Grade"><span class="grade-c">C+</span></td>
+                        <td data-label="Percentage Range">65% - 69%</td>
+                        <td data-label="GPA">2.3</td>
+                        <td data-label="Description">Satisfactory</td>
+                        <td data-label="Performance Level">Fair performance with some understanding gaps</td>
                     </tr>
                     <tr>
-                        <td><span class="grade-c">C</span></td>
-                        <td>60% - 64%</td>
-                        <td>2.0</td>
-                        <td>Average</td>
-                        <td>Basic understanding meeting minimum standards</td>
+                        <td data-label="Grade"><span class="grade-c">C</span></td>
+                        <td data-label="Percentage Range">60% - 64%</td>
+                        <td data-label="GPA">2.0</td>
+                        <td data-label="Description">Average</td>
+                        <td data-label="Performance Level">Basic understanding meeting minimum standards</td>
                     </tr>
                     <tr>
-                        <td><span class="grade-d">D</span></td>
-                        <td>50% - 59%</td>
-                        <td>1.0</td>
-                        <td>Below Average</td>
-                        <td>Minimal understanding, improvement needed</td>
+                        <td data-label="Grade"><span class="grade-d">D</span></td>
+                        <td data-label="Percentage Range">50% - 59%</td>
+                        <td data-label="GPA">1.0</td>
+                        <td data-label="Description">Below Average</td>
+                        <td data-label="Performance Level">Minimal understanding, improvement needed</td>
                     </tr>
                     <tr>
-                        <td><span class="grade-f">F</span></td>
-                        <td>Below 50%</td>
-                        <td>0.0</td>
-                        <td>Fail</td>
-                        <td>Insufficient understanding, retake required</td>
+                        <td data-label="Grade"><span class="grade-f">F</span></td>
+                        <td data-label="Percentage Range">Below 50%</td>
+                        <td data-label="GPA">0.0</td>
+                        <td data-label="Description">Fail</td>
+                        <td data-label="Performance Level">Insufficient understanding, retake required</td>
                     </tr>
                 </tbody>
             </table>

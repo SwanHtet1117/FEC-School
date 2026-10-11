@@ -45,22 +45,22 @@
             <h2 class="section-title fade-in-up">Academic Programs</h2>
             <p class="section-subtitle fade-in-up">Structured learning pathways for every stage</p>
             <div class="programs-grid">
-                <div class="program-item fade-in-up">
+                <div class="program-item program-item-home fade-in-up">
                     <img src="{{ asset('image/fec_wallpaper.jpg') }}" alt="Early Years" class="program-img">
                     <h3>Early Years</h3>
                     <p>Foundation learning for young minds and personal development</p>
                 </div>
-                <div class="program-item fade-in-up">
+                <div class="program-item program-item-home fade-in-up">
                     <img src="{{ asset('image/fec_building.jpg') }}" alt="Primary School" class="program-img">
                     <h3>Primary School</h3>
                     <p>Core academic and personal development</p>
                 </div>
-                <div class="program-item fade-in-up">
+                <div class="program-item program-item-home fade-in-up">
                     <img src="{{ asset('image/fec_wallpaper.jpg') }}" alt="Secondary School" class="program-img">
                     <h3>Secondary School</h3>
                     <p>International curriculum for higher education</p>
                 </div>
-                <div class="program-item fade-in-up">
+                <div class="program-item program-item-home fade-in-up">
                     <img src="{{ asset('image/fec_building.jpg') }}" alt="IGCSE/GED" class="program-img">
                     <h3>IGCSE/GED</h3>
                     <p>Advanced secondary qualifications and pathways</p>
