@@ -17,9 +17,9 @@
 
     <section class="content-section">
         <div class="section-container">
-            <div class="page-header fade-in-up">
+            <div class="page-header about-hero fade-in-up" style="background-image: linear-gradient(rgba(15, 19, 42, 0.15), rgba(15, 19, 42, 0.15)), url('{{ asset('image/fec_building_02.jpg') }}'); background-size: cover; background-position: center;">
                 <h1 class="page-title">About FEC International School</h1>
-                <p class="page-subtitle">Nurturing Excellence in Education</p>
+                <p class="page-subtitle" style="color: #FFFFFF;">Nurturing Excellence in Education</p>
             </div>
             <div class="about-intro fade-in-up">
                 <p>FEC International School is a premier international institution dedicated to nurturing young minds for a brighter future. With modernized learning spaces and Smart Learning Systems, we provide the best possible educational environment for every student. With a maximum capacity of only 15 students per class, all classrooms and resource rooms are designed as modernized learning spaces to provide the best possible educational environment.</p>
@@ -54,6 +54,7 @@
         <div class="section-container">
             <h2 class="section-title fade-in-up">Principal's Message</h2>
             <div class="message-container fade-in-up">
+                <img class="principal-message-image" src="{{ asset('image/all_student_activity_02.jpg') }}" alt="Students participating in a school activity">
                 <div class="message-content">
                     <div class="message-icon">
                         <i class="fas fa-quote-left"></i>

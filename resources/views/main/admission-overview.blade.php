@@ -15,12 +15,10 @@
     
     @include('partials.header')
 
-    <section class="content-section">
+    <section class="content-section admission-overview-intro">
         <div class="section-container">
-            <div class="page-header fade-in-up">
-                <h1 class="page-title">Admission Overview</h1>
-                <p class="page-subtitle">Join Our Learning Community</p>
-            </div>
+            <h1 class="section-title fade-in-up">Admission Overview</h1>
+            <h3 class="page-subtitle section-subtitle fade-in-up">Join Our Learning Community</h3>
             <div class="about-intro fade-in-up">
                 <p>Welcome to FEC International School! We are delighted that you are considering our school for your child's education. Our admission process is designed to be straightforward and transparent, ensuring that families can make informed decisions about their educational journey with us.</p>
             </div>
@@ -63,7 +61,7 @@
         </div>
     </section>
 
-    <section class="content-section">
+    <section class="content-section admission-overview-intro">
         <div class="section-container">
             <h2 class="section-title fade-in-up">Admission Process</h2>
             <div class="curriculum-container fade-in-up">
@@ -217,14 +215,14 @@
                         <i class="fas fa-phone"></i>
                     </div>
                     <h3>Phone</h3>
-                    <p>+95 (9) 51 335 0838</p>
+                    <p>+95 (9) 400336885</p>
                 </div>
                 <div class="assessment-item">
                     <div class="assessment-icon">
                         <i class="fas fa-envelope"></i>
                     </div>
                     <h3>Email</h3>
-                    <p>admissions@fecprivate-school.com</p>
+                    <p>kzhlaing@familyeducationcentury-fec.edu.mm</p>
                 </div>
                 <div class="assessment-item">
                     <div class="assessment-icon">
@@ -243,32 +241,32 @@
             <div class="curriculum-container fade-in-up">
                 <div class="curriculum-item">
                     <div class="curriculum-number">Q1</div>
-                    <h3>What is the age requirement for admission?</h3>
+                    <h4>What is the age requirement for admission?</h4>
                     <p>Early Years: 3-5 years, Primary: 6-11 years, Secondary: 12-16 years. Age requirements may vary based on previous education.</p>
                 </div>
                 <div class="curriculum-item">
                     <div class="curriculum-number">Q2</div>
-                    <h3>Is there an entrance examination?</h3>
+                    <h4>Is there an entrance examination?</h4>
                     <p>Yes, age-appropriate assessments are conducted to determine proper placement and identify learning needs.</p>
                 </div>
                 <div class="curriculum-item">
                     <div class="curriculum-number">Q3</div>
-                    <h3>When does the academic year begin?</h3>
+                    <h4>When does the academic year begin?</h4>
                     <p>Our academic year typically begins in June and runs through March, with breaks scheduled for holidays.</p>
                 </div>
                 <div class="curriculum-item">
                     <div class="curriculum-number">Q4</div>
-                    <h3>Do you accept international students?</h3>
+                    <h4>Do you accept international students?</h4>
                     <p>Yes, we welcome international students and provide support for their transition to our school community.</p>
                 </div>
                 <div class="curriculum-item">
                     <div class="curriculum-number">Q5</div>
-                    <h3>What is the student-teacher ratio?</h3>
+                    <h4>What is the student-teacher ratio?</h4>
                     <p>We maintain small class sizes with a student-teacher ratio of approximately 15:1 to ensure personalized attention.</p>
                 </div>
                 <div class="curriculum-item">
                     <div class="curriculum-number">Q6</div>
-                    <h3>Is transportation available?</h3>
+                    <h4>Is transportation available?</h4>
                     <p>Yes, we provide school bus services covering major areas. Contact admissions for route information.</p>
                 </div>
             </div>

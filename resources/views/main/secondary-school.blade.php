@@ -17,9 +17,9 @@
 
     <section class="content-section">
         <div class="section-container">
-            <div class="page-header fade-in-up">
+            <div class="page-header program-page-hero fade-in-up" style="background-image: linear-gradient(rgba(15, 19, 42, 0.2), rgba(15, 19, 42, 0.2)), url('{{ asset('image/secondary_student_activity_01.jpg') }}'); background-size: cover; background-position: center;">
                 <h1 class="page-title">Secondary School Program</h1>
-                <p class="page-subtitle">Preparing for Future Success</p>
+                <p class="page-subtitle" style="color: #FFFFFF;">Preparing for Future Success</p>
             </div>
             <div class="about-intro fade-in-up">
                 <p>Our Secondary School Program provides a rigorous and comprehensive education for students aged 12-16 years (Grades 6-10). We focus on academic excellence, critical thinking, leadership development, and preparation for higher education. Our curriculum is designed to challenge students while providing the support they need to succeed.</p>
@@ -30,7 +30,7 @@
     <section class="content-section light-bg">
         <div class="section-container">
             <h2 class="section-title fade-in-up">Grade Levels</h2>
-            <div class="programs-grid fade-in-up">
+            <div class="programs-grid grade-levels-grid fade-in-up">
                 <div class="program-item">
                     <div class="program-icon">
                         <i class="fas fa-atom"></i>

@@ -15,12 +15,10 @@
     
     @include('partials.header')
 
-    <section class="content-section">
+    <section class="content-section academic-overview-intro">
         <div class="section-container">
-            <div class="page-header fade-in-up">
-                <h1 class="page-title">Academic Overview</h1>
-                <p class="page-subtitle">Excellence in Education</p>
-            </div>
+            <h1 class="section-title fade-in-up">Academic Overview</h1>
+            <h3 class="page-subtitle section-subtitle fade-in-up">Excellence in Education</h3>
             <div class="about-intro fade-in-up">
                 <p>FEC International School offers a comprehensive academic program designed to nurture intellectual curiosity, critical thinking, and personal growth. Our curriculum combines rigorous academic standards with innovative teaching methods to prepare students for success in an ever-changing world.</p>
             </div>

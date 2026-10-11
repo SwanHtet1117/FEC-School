@@ -17,9 +17,9 @@
 
     <section class="content-section">
         <div class="section-container">
-            <div class="page-header fade-in-up">
+            <div class="page-header program-page-hero fade-in-up" style="background-image: linear-gradient(rgba(15, 19, 42, 0.25), rgba(15, 19, 42, 0.25)), url('{{ asset('image/early_student_activity_05.jpg') }}'); background-size: cover; background-position: center;">
                 <h1 class="page-title">Early Years Program</h1>
-                <p class="page-subtitle">Building Foundations for Lifelong Learning</p>
+                <p class="page-subtitle" style="color: #FFFFFF;">Building Foundations for Lifelong Learning</p>
             </div>
             <div class="about-intro fade-in-up">
                 <p>Our Early Years Program provides a nurturing and stimulating environment for children aged 3-5 years. Through play-based learning and developmentally appropriate activities, we foster curiosity, creativity, and social-emotional growth while building strong foundations for future academic success.</p>
@@ -32,6 +32,7 @@
             <h2 class="section-title fade-in-up">Program Overview</h2>
             <div class="programs-grid-3 fade-in-up">
                 <div class="program-item">
+                    <img class="program-img" src="{{ asset('image/early_student_activity_01.jpg') }}" alt="Nursery students taking part in an activity">
                     <div class="program-icon">
                         <i class="fas fa-baby"></i>
                     </div>
@@ -39,6 +40,7 @@
                     <p>Introduction to structured learning through play, sensory activities, and social interaction. Focus on language development, motor skills, and emotional security.</p>
                 </div>
                 <div class="program-item">
+                    <img class="program-img" src="{{ asset('image/early_student_activity_02.jpg') }}" alt="Pre-K students taking part in an activity">
                     <div class="program-icon">
                         <i class="fas fa-child"></i>
                     </div>
@@ -46,6 +48,7 @@
                     <p>Building foundational skills in literacy, numeracy, and creative expression. Emphasis on independence, problem-solving, and collaborative play.</p>
                 </div>
                 <div class="program-item">
+                    <img class="program-img" src="{{ asset('image/early_student_activity_03.jpg') }}" alt="Kindergarten students taking part in an activity">
                     <div class="program-icon">
                         <i class="fas fa-book-open"></i>
                     </div>

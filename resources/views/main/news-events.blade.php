@@ -40,7 +40,7 @@
             <h2 class="news-section-title fade-in-up">Latest News</h2>
             <div class="news-grid">
                 <div class="news-card fade-in-up">
-                    <img src="{{ asset('image/fec_building.jpg') }}" alt="Student Achievement" class="news-card-image">
+                    <img src="{{ asset('image/primary_student_activity_01.jpg') }}" alt="Primary students working on academic activities" class="news-card-image">
                     <span class="news-card-badge">News</span>
                     <div class="news-card-content">
                         <div class="news-card-date">
@@ -53,7 +53,7 @@
                 </div>
 
                 <div class="news-card fade-in-up">
-                    <img src="{{ asset('image/fec_wallpaper.jpg') }}" alt="New Program" class="news-card-image">
+                    <img src="{{ asset('image/secondary_student_activity_01.jpg') }}" alt="Secondary students learning in their classroom" class="news-card-image">
                     <span class="news-card-badge">News</span>
                     <div class="news-card-content">
                         <div class="news-card-date">
@@ -66,7 +66,7 @@
                 </div>
 
                 <div class="news-card fade-in-up">
-                    <img src="{{ asset('image/fec_building.jpg') }}" alt="Achievement" class="news-card-image">
+                    <img src="{{ asset('image/early_student_activity_07.jpg') }}" alt="Teacher supporting a student in class" class="news-card-image">
                     <span class="news-card-badge">News</span>
                     <div class="news-card-content">
                         <div class="news-card-date">
@@ -88,7 +88,7 @@
             <h2 class="news-section-title fade-in-up">Upcoming Events</h2>
             <div class="news-grid">
                 <div class="news-card fade-in-up">
-                    <img src="{{ asset('image/fec_wallpaper.jpg') }}" alt="Open Day" class="news-card-image">
+                    <img src="{{ asset('image/fec_building_02.jpg') }}" alt="FEC International School campus for Open Day" class="news-card-image">
                     <span class="news-card-badge">Event</span>
                     <div class="news-card-content">
                         <div class="news-card-date">
@@ -104,7 +104,7 @@
                 </div>
 
                 <div class="news-card fade-in-up">
-                    <img src="{{ asset('image/fec_building.jpg') }}" alt="Sports Day" class="news-card-image">
+                    <img src="{{ asset('image/all_student_activity_01.jpg') }}" alt="Students gathered on the school sports ground" class="news-card-image">
                     <span class="news-card-badge">Event</span>
                     <div class="news-card-content">
                         <div class="news-card-date">
@@ -120,7 +120,7 @@
                 </div>
 
                 <div class="news-card fade-in-up">
-                    <img src="{{ asset('image/fec_wallpaper.jpg') }}" alt="Workshop" class="news-card-image">
+                    <img src="{{ asset('image/early_student_activity_04.jpg') }}" alt="Teacher leading a classroom activity" class="news-card-image">
                     <span class="news-card-badge">Event</span>
                     <div class="news-card-content">
                         <div class="news-card-date">

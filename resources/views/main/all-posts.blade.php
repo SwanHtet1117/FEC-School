@@ -32,7 +32,7 @@
         <div class="news-section">
             <div class="news-grid">
                 <div class="news-card fade-in-up">
-                    <img src="{{ asset('image/fec_building.jpg') }}" alt="Student Achievement" class="news-card-image">
+                    <img src="{{ asset('image/primary_student_activity_01.jpg') }}" alt="Primary students working on academic activities" class="news-card-image">
                     <span class="news-card-badge">News</span>
                     <div class="news-card-content">
                         <div class="news-card-date">
@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="news-card fade-in-up">
-                    <img src="{{ asset('image/fec_wallpaper.jpg') }}" alt="New Program" class="news-card-image">
+                    <img src="{{ asset('image/secondary_student_activity_01.jpg') }}" alt="Secondary students learning in their classroom" class="news-card-image">
                     <span class="news-card-badge">News</span>
                     <div class="news-card-content">
                         <div class="news-card-date">
@@ -58,7 +58,7 @@
                 </div>
 
                 <div class="news-card fade-in-up">
-                    <img src="{{ asset('image/fec_building.jpg') }}" alt="Achievement" class="news-card-image">
+                    <img src="{{ asset('image/early_student_activity_07.jpg') }}" alt="Teacher supporting a student in class" class="news-card-image">
                     <span class="news-card-badge">News</span>
                     <div class="news-card-content">
                         <div class="news-card-date">
@@ -71,7 +71,7 @@
                 </div>
 
                 <div class="news-card fade-in-up">
-                    <img src="{{ asset('image/fec_wallpaper.jpg') }}" alt="Open Day" class="news-card-image">
+                    <img src="{{ asset('image/fec_building_02.jpg') }}" alt="FEC International School campus for Open Day" class="news-card-image">
                     <span class="news-card-badge">Event</span>
                     <div class="news-card-content">
                         <div class="news-card-date">
@@ -87,7 +87,7 @@
                 </div>
 
                 <div class="news-card fade-in-up">
-                    <img src="{{ asset('image/fec_building.jpg') }}" alt="Sports Day" class="news-card-image">
+                    <img src="{{ asset('image/all_student_activity_01.jpg') }}" alt="Students gathered outdoors at a school event" class="news-card-image">
                     <span class="news-card-badge">Event</span>
                     <div class="news-card-content">
                         <div class="news-card-date">
@@ -103,7 +103,7 @@
                 </div>
 
                 <div class="news-card fade-in-up">
-                    <img src="{{ asset('image/fec_wallpaper.jpg') }}" alt="Workshop" class="news-card-image">
+                    <img src="{{ asset('image/early_student_activity_04.jpg') }}" alt="Teacher leading a classroom activity" class="news-card-image">
                     <span class="news-card-badge">Event</span>
                     <div class="news-card-content">
                         <div class="news-card-date">
@@ -119,6 +119,7 @@
                 </div>
 
                 <div class="news-card fade-in-up">
+                    <img src="{{ asset('image/fec_building_01.jpg') }}" alt="FEC school campus during the holiday period" class="news-card-image">
                     <div class="news-card-content">
                         <div class="news-card-date">
                             <i class="fas fa-calendar"></i> April 20, 2026
@@ -132,6 +133,7 @@
                 </div>
 
                 <div class="news-card fade-in-up">
+                    <img src="{{ asset('image/all_student_activity_02.jpg') }}" alt="FEC students wearing their school uniforms" class="news-card-image">
                     <div class="news-card-content">
                         <div class="news-card-date">
                             <i class="fas fa-calendar"></i> April 18, 2026
@@ -145,6 +147,7 @@
                 </div>
 
                 <div class="news-card fade-in-up">
+                    <img src="{{ asset('image/fec_building.jpg') }}" alt="FEC campus served by the school transport routes" class="news-card-image">
                     <div class="news-card-content">
                         <div class="news-card-date">
                             <i class="fas fa-calendar"></i> April 15, 2026
@@ -158,7 +161,7 @@
                 </div>
 
                 <div class="news-card fade-in-up">
-                    <img src="{{ asset('image/fec_building.jpg') }}" alt="Cultural Event" class="news-card-image">
+                    <img src="{{ asset('image/early_student_activity_05.jpg') }}" alt="Students celebrating together at a classroom event" class="news-card-image">
                     <span class="news-card-badge">Event</span>
                     <div class="news-card-content">
                         <div class="news-card-date">
@@ -174,7 +177,7 @@
                 </div>
 
                 <div class="news-card fade-in-up">
-                    <img src="{{ asset('image/fec_wallpaper.jpg') }}" alt="Graduation" class="news-card-image">
+                    <img src="{{ asset('image/ged_student_activity_01.jpg') }}" alt="GED students participating in a school activity" class="news-card-image">
                     <span class="news-card-badge">News</span>
                     <div class="news-card-content">
                         <div class="news-card-date">
@@ -187,6 +190,7 @@
                 </div>
 
                 <div class="news-card fade-in-up">
+                    <img src="{{ asset('image/primary_student_activity_01.jpg') }}" alt="Students studying in a classroom" class="news-card-image">
                     <div class="news-card-content">
                         <div class="news-card-date">
                             <i class="fas fa-calendar"></i> April 12, 2026

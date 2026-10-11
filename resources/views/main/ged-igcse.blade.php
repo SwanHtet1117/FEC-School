@@ -17,9 +17,9 @@
 
     <section class="content-section">
         <div class="section-container">
-            <div class="page-header fade-in-up">
+            <div class="page-header program-page-hero fade-in-up" style="background-image: linear-gradient(rgba(15, 19, 42, 0.2), rgba(15, 19, 42, 0.2)), url('{{ asset('image/ged_student_activity_01.jpg') }}'); background-size: cover; background-position: center;">
                 <h1 class="page-title">GED/IGCSE Program</h1>
-                <p class="page-subtitle">International Certification for Global Opportunities</p>
+                <p class="page-subtitle" style="color: #FFFFFF;">International Certification for Global Opportunities</p>
             </div>
             <div class="about-intro fade-in-up">
                 <p>Our GED and IGCSE programs provide internationally recognized qualifications that open doors to universities and colleges worldwide. These comprehensive programs prepare students for academic excellence and global citizenship through rigorous coursework and examination preparation.</p>

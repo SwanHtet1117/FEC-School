@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+p<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,103 +12,139 @@
     <script src="{{ asset('js/animations.js') }}" defer></script>
     <style>
         .gallery-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 9999;
-            justify-content: center;
-            align-items: center;
-        }
-        .gallery-modal.active {
-            display: flex;
-        }
-        .gallery-modal-content {
-            max-width: 90%;
-            max-height: 90%;
-            position: relative;
-        }
-        .gallery-modal-content img {
-            max-width: 100%;
-            max-height: 90vh;
-            border-radius: var(--radius-md);
-        }
-        .gallery-modal-close {
-            position: absolute;
-            top: -40px;
-            right: 0;
-            color: #FFFFFF;
-            font-size: 32px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        .gallery-modal-close:hover {
-            color: var(--accent-gold);
-        }
-    </style>
-</head>
-<body>
-    
-    @include('partials.header')
+                    display: none;
+                    position: fixed;
+                    inset: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.9);
+                    z-index: 9999;
+                    justify-content: center;
+                    align-items: center;
+                }
+                .gallery-modal.active {
+                    display: flex;
+                }
+                .gallery-modal-content {
+                    position: relative;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    width: 90vw;
+                    max-height: calc(100vh - 32px);
+                    padding-top: 48px;
+                    box-sizing: border-box;
+                }
+                .gallery-modal-content img {
+                    display: block;
+                    width: auto;
+                    max-width: 100%;
+                    max-height: calc(100vh - 180px);
+                    border-radius: var(--radius-md);
+                    object-fit: contain;
+                }
+                .gallery-modal-caption {
+                    flex: 0 0 auto;
+                    max-width: 100%;
+                    margin: 12px 0 0;
+                    color: #FFFFFF;
+                    font-size: 18px;
+                    font-weight: 700;
+                    text-align: center;
+                    overflow-wrap: anywhere;
+                }
+                .gallery-placeholder.has-photo {
+                    padding: 0;
+                    border: 0;
+                    background: #0f132a;
+                }
+                .gallery-photo {
+                    position: absolute;
+                    inset: 0;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+                .gallery-placeholder.has-photo .gallery-item-info,
+                .gallery-placeholder.has-photo .gallery-zoom-btn {
+                    z-index: 1;
+                }
+                .gallery-modal-close {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    z-index: 1;
+                    display: grid;
+                    width: 40px;
+                    height: 40px;
+                    place-items: center;
+                    border-radius: 50%;
+                    background: rgba(0, 0, 0, 0.72);
+                    color: #FFFFFF;
+                    font-size: 32px;
+                    line-height: 1;
+                    cursor: pointer;
+                    transition: var(--transition);
+                }
+                .gallery-modal-close:hover {
+                    color: var(--accent-gold);
+                }
+            </style>
+    </head>
+    <body>
+        @include('partials.header')
 
-    <section class="content-section">
-        <div class="section-container">
-            <div class="page-header fade-in-up">
-                <h1 class="page-title">Photo Gallery</h1>
-                <p class="page-subtitle">Capturing Moments at FEC International School</p>
-            </div>
-            <div class="gallery-intro fade-in-up">
-                <p>Welcome to our photo gallery, where we showcase the vibrant life and memorable moments at FEC International School. From academic achievements to cultural celebrations, sports events to community activities, explore the rich experiences that define our school community.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="content-section light-bg">
-        <div class="section-container">
-            <h2 class="section-title fade-in-up">School Events</h2>
-            <div class="gallery-grid fade-in-up">
-                <div class="gallery-item">
-                    <div class="gallery-placeholder" onclick="openModal(this)" data-title="Annual Sports Day 2024" data-views="1,234">
-                        <i class="fas fa-image"></i>
-                        <span>Event Photo 1</span>
-                        <div class="gallery-item-info">
-                            <span class="gallery-item-title">Annual Sports Day 2024</span>
-                            <span class="gallery-item-views"><i class="fas fa-eye"></i> 1,234</span>
-                        </div>
-                        <div class="gallery-zoom-btn"><i class="fas fa-search-plus"></i></div>
+            <section class="content-section">
+                <div class="section-container">
+                    <div class="page-header fade-in-up">
+                        <h1 class="page-title">Photo Gallery</h1>
+                        <p class="page-subtitle">Capturing Moments at FEC International School</p>
+                    </div>
+                    <div class="gallery-intro fade-in-up">
+                        <p>Welcome to our photo gallery, where we showcase the vibrant life and memorable moments at FEC International School. From academic achievements to cultural celebrations, sports events to community activities, explore the rich experiences that define our school community.</p>
                     </div>
                 </div>
+            </section>
+
+            <section class="content-section light-bg">
+                <div class="section-container">
+                    <h2 class="section-title fade-in-up">School Events</h2>
+                    <div class="gallery-grid fade-in-up">
+                        <div class="gallery-item">
+                            <div class="gallery-placeholder has-photo" onclick="openModal(this)" data-title="School Gathering" data-views="1,234">
+                                <img class="gallery-photo" src="{{ asset('image/all_student_activity_01.jpg') }}" alt="Students gathered outdoors at school">
+                                <div class="gallery-item-info">
+                                    <span class="gallery-item-title">School Gathering</span>
+                                    <span class="gallery-item-views"><i class="fas fa-eye"></i> 1,234</span>
+                                </div>
+                                <div class="gallery-zoom-btn"><i class="fas fa-search-plus"></i></div>
+                            </div>
+                        </div>
                 <div class="gallery-item">
-                    <div class="gallery-placeholder" onclick="openModal(this)" data-title="Science Fair Exhibition" data-views="987">
-                        <i class="fas fa-image"></i>
-                        <span>Event Photo 2</span>
+                    <div class="gallery-placeholder has-photo" onclick="openModal(this)" data-title="Student Project Showcase" data-views="987">
+                        <img class="gallery-photo" src="{{ asset('image/early_student_activity_01.jpg') }}" alt="Early Years students presenting a classroom project">
                         <div class="gallery-item-info">
-                            <span class="gallery-item-title">Science Fair Exhibition</span>
+                            <span class="gallery-item-title">Student Project Showcase</span>
                             <span class="gallery-item-views"><i class="fas fa-eye"></i> 987</span>
                         </div>
                         <div class="gallery-zoom-btn"><i class="fas fa-search-plus"></i></div>
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <div class="gallery-placeholder" onclick="openModal(this)" data-title="Cultural Festival" data-views="2,156">
-                        <i class="fas fa-image"></i>
-                        <span>Event Photo 3</span>
+                    <div class="gallery-placeholder has-photo" onclick="openModal(this)" data-title="Student Activity" data-views="2,156">
+                        <img class="gallery-photo" src="{{ asset('image/all_student_activity_02.jpg') }}" alt="Students taking part in a classroom activity">
                         <div class="gallery-item-info">
-                            <span class="gallery-item-title">Cultural Festival</span>
+                            <span class="gallery-item-title">Student Activity</span>
                             <span class="gallery-item-views"><i class="fas fa-eye"></i> 2,156</span>
                         </div>
                         <div class="gallery-zoom-btn"><i class="fas fa-search-plus"></i></div>
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <div class="gallery-placeholder" onclick="openModal(this)" data-title="Graduation Ceremony" data-views="3,421">
-                        <i class="fas fa-image"></i>
-                        <span>Event Photo 4</span>
+                    <div class="gallery-placeholder has-photo" onclick="openModal(this)" data-title="School Assembly" data-views="3,421">
+                        <img class="gallery-photo" src="{{ asset('image/secondary_student_activity_02.jpg') }}" alt="Secondary students gathered for a school event">
                         <div class="gallery-item-info">
-                            <span class="gallery-item-title">Graduation Ceremony</span>
+                            <span class="gallery-item-title">School Assembly</span>
                             <span class="gallery-item-views"><i class="fas fa-eye"></i> 3,421</span>
                         </div>
                         <div class="gallery-zoom-btn"><i class="fas fa-search-plus"></i></div>
@@ -123,44 +159,40 @@
             <h2 class="section-title fade-in-up">Campus Life</h2>
             <div class="gallery-grid fade-in-up">
                 <div class="gallery-item">
-                    <div class="gallery-placeholder" onclick="openModal(this)" data-title="Modern Library" data-views="856">
-                        <i class="fas fa-image"></i>
-                        <span>Campus Photo 1</span>
+                    <div class="gallery-placeholder has-photo" onclick="openModal(this)" data-title="FEC School Building" data-views="856">
+                        <img class="gallery-photo" src="{{ asset('image/fec_building_01.jpg') }}" alt="Exterior view of the FEC school building">
                         <div class="gallery-item-info">
-                            <span class="gallery-item-title">Modern Library</span>
+                            <span class="gallery-item-title">FEC School Building</span>
                             <span class="gallery-item-views"><i class="fas fa-eye"></i> 856</span>
                         </div>
                         <div class="gallery-zoom-btn"><i class="fas fa-search-plus"></i></div>
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <div class="gallery-placeholder" onclick="openModal(this)" data-title="Science Laboratory" data-views="743">
-                        <i class="fas fa-image"></i>
-                        <span>Campus Photo 2</span>
+                    <div class="gallery-placeholder has-photo" onclick="openModal(this)" data-title="Campus Grounds" data-views="743">
+                        <img class="gallery-photo" src="{{ asset('image/fec_building_02.jpg') }}" alt="FEC campus grounds and school building">
                         <div class="gallery-item-info">
-                            <span class="gallery-item-title">Science Laboratory</span>
+                            <span class="gallery-item-title">Campus Grounds</span>
                             <span class="gallery-item-views"><i class="fas fa-eye"></i> 743</span>
                         </div>
                         <div class="gallery-zoom-btn"><i class="fas fa-search-plus"></i></div>
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <div class="gallery-placeholder" onclick="openModal(this)" data-title="Sports Complex" data-views="1,102">
-                        <i class="fas fa-image"></i>
-                        <span>Campus Photo 3</span>
+                    <div class="gallery-placeholder has-photo" onclick="openModal(this)" data-title="School Campus" data-views="1,102">
+                        <img class="gallery-photo" src="{{ asset('image/fec_building.jpg') }}" alt="FEC International School campus">
                         <div class="gallery-item-info">
-                            <span class="gallery-item-title">Sports Complex</span>
+                            <span class="gallery-item-title">School Campus</span>
                             <span class="gallery-item-views"><i class="fas fa-eye"></i> 1,102</span>
                         </div>
                         <div class="gallery-zoom-btn"><i class="fas fa-search-plus"></i></div>
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <div class="gallery-placeholder" onclick="openModal(this)" data-title="Art Studio" data-views="634">
-                        <i class="fas fa-image"></i>
-                        <span>Campus Photo 4</span>
+                    <div class="gallery-placeholder has-photo" onclick="openModal(this)" data-title="FEC Campus Overview" data-views="634">
+                        <img class="gallery-photo" src="{{ asset('image/fec_wallpaper.jpg') }}" alt="Illustrated overview of the FEC campus and school community">
                         <div class="gallery-item-info">
-                            <span class="gallery-item-title">Art Studio</span>
+                            <span class="gallery-item-title">FEC Campus Overview</span>
                             <span class="gallery-item-views"><i class="fas fa-eye"></i> 634</span>
                         </div>
                         <div class="gallery-zoom-btn"><i class="fas fa-search-plus"></i></div>
@@ -175,9 +207,8 @@
             <h2 class="section-title fade-in-up">Academic Activities</h2>
             <div class="gallery-grid fade-in-up">
                 <div class="gallery-item">
-                    <div class="gallery-placeholder" onclick="openModal(this)" data-title="Classroom Learning" data-views="1,567">
-                        <i class="fas fa-image"></i>
-                        <span>Academic Photo 1</span>
+                    <div class="gallery-placeholder has-photo" onclick="openModal(this)" data-title="Classroom Learning" data-views="1,567">
+                        <img class="gallery-photo" src="{{ asset('image/secondary_student_activity_01.jpg') }}" alt="Secondary students working in their classroom">
                         <div class="gallery-item-info">
                             <span class="gallery-item-title">Classroom Learning</span>
                             <span class="gallery-item-views"><i class="fas fa-eye"></i> 1,567</span>
@@ -186,9 +217,8 @@
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <div class="gallery-placeholder" onclick="openModal(this)" data-title="Group Study Session" data-views="923">
-                        <i class="fas fa-image"></i>
-                        <span>Academic Photo 2</span>
+                    <div class="gallery-placeholder has-photo" onclick="openModal(this)" data-title="Group Study Session" data-views="923">
+                        <img class="gallery-photo" src="{{ asset('image/primary_student_activity_01.jpg') }}" alt="Primary students studying together in class">
                         <div class="gallery-item-info">
                             <span class="gallery-item-title">Group Study Session</span>
                             <span class="gallery-item-views"><i class="fas fa-eye"></i> 923</span>
@@ -197,22 +227,20 @@
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <div class="gallery-placeholder" onclick="openModal(this)" data-title="Computer Lab" data-views="1,089">
-                        <i class="fas fa-image"></i>
-                        <span>Academic Photo 3</span>
+                    <div class="gallery-placeholder has-photo" onclick="openModal(this)" data-title="Early Years Classroom" data-views="1,089">
+                        <img class="gallery-photo" src="{{ asset('image/early_student_activity_04.jpg') }}" alt="Early Years students learning with their teacher">
                         <div class="gallery-item-info">
-                            <span class="gallery-item-title">Computer Lab</span>
+                            <span class="gallery-item-title">Early Years Classroom</span>
                             <span class="gallery-item-views"><i class="fas fa-eye"></i> 1,089</span>
                         </div>
                         <div class="gallery-zoom-btn"><i class="fas fa-search-plus"></i></div>
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <div class="gallery-placeholder" onclick="openModal(this)" data-title="Music Class" data-views="756">
-                        <i class="fas fa-image"></i>
-                        <span>Academic Photo 4</span>
+                    <div class="gallery-placeholder has-photo" onclick="openModal(this)" data-title="GED Student Activity" data-views="756">
+                        <img class="gallery-photo" src="{{ asset('image/ged_student_activity_01.jpg') }}" alt="GED students participating in a school activity">
                         <div class="gallery-item-info">
-                            <span class="gallery-item-title">Music Class</span>
+                            <span class="gallery-item-title">GED Student Activity</span>
                             <span class="gallery-item-views"><i class="fas fa-eye"></i> 756</span>
                         </div>
                         <div class="gallery-zoom-btn"><i class="fas fa-search-plus"></i></div>
@@ -228,10 +256,8 @@
     <div class="gallery-modal" id="galleryModal" onclick="closeModal(event)">
         <div class="gallery-modal-content">
             <span class="gallery-modal-close" onclick="closeModal(event)">&times;</span>
-            <div class="gallery-placeholder" style="height: 70vh; border: none; background: transparent;">
-                <i class="fas fa-image" style="font-size: 80px;"></i>
-                <span id="modalTitle" style="font-size: 24px; font-weight: 700;"></span>
-            </div>
+            <img id="modalImage" src="" alt="">
+            <p class="gallery-modal-caption" id="modalTitle"></p>
         </div>
     </div>
 
@@ -239,6 +265,11 @@
         function openModal(element) {
             const modal = document.getElementById('galleryModal');
             const title = element.getAttribute('data-title');
+            const image = element.querySelector('.gallery-photo');
+            const modalImage = document.getElementById('modalImage');
+
+            modalImage.src = image.src;
+            modalImage.alt = image.alt;
             document.getElementById('modalTitle').textContent = title;
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';

@@ -15,7 +15,7 @@
                 <h4>Contact Information</h4>
                 <p><i class="fas fa-phone"></i> +95 (9) 400336885, +95 (9) 400336882</p>
                 <p><i class="fas fa-phone"></i> +95 (9) 400336882 (Viber)</p>
-                <p><i class="fas fa-envelope"></i> info@familyeducationcentury-fec.edu.mm</p>
+                <p><i class="fas fa-envelope"></i> kzhlaing@familyeducationcentury-fec.edu.mm</p>
                 <p><i class="fas fa-map-marker-alt"></i> No.(PS-001, PS-007, PS-008) </p>
                 <p> The Conner of Chindwin Street & Hninsi(5) Street</p>
                 <p> Mingalar Depa Ward, Pobbathiri Township, Naypyitaw, Myanmar</p>

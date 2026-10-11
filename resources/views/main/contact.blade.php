@@ -55,8 +55,8 @@
                 </div>
                 <div class="contact-details">
                     <h4>Email</h4>
-                    <p><a href="mailto:info@familyeducationcentury-fec.edu.mm">info@familyeducationcentury-fec.edu.mm</a></p>
-                    <p><a href="mailto:FEC@familyeducationcentury-fec.edu.mm">FEC@familyeducationcentury-fec.edu.mm</a></p>
+                    <p><a href="mailto:kzhlaing@familyeducationcentury-fec.edu.mm">kzhlaing@familyeducationcentury-fec.edu.mm</a></p>
+                    <p><a href="mailto:swnaing@familyeducationcentury-fec.edu.mm">swnaing@familyeducationcentury-fec.edu.mm</a></p>
                 </div>
             </div>
 

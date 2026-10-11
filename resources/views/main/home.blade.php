@@ -15,7 +15,7 @@
     
     @include('partials.header')
 
-    <section class="hero-section" style="background-image: url('{{ asset('image/fec_building.jpg') }}');">
+    <section class="hero-section" data-slides="{{ asset('image/fec_building.jpg') }}|{{ asset('image/all_student_activity_02.jpg') }}|{{ asset('image/fec_building_02.jpg') }}">
         <div class="hero-overlay">
             <div class="hero-content">
                 <h2 class="hero-title">FEC INTERNATIONAL SCHOOL</h2>
@@ -46,22 +46,22 @@
             <p class="section-subtitle fade-in-up">Structured learning pathways for every stage</p>
             <div class="programs-grid">
                 <div class="program-item program-item-home fade-in-up">
-                    <img src="{{ asset('image/fec_wallpaper.jpg') }}" alt="Early Years" class="program-img">
+                    <img src="{{ asset('image/early_student_activity_01.jpg') }}" alt="Early Years students celebrating together" class="program-img">
                     <h3>Early Years</h3>
                     <p>Foundation learning for young minds and personal development</p>
                 </div>
                 <div class="program-item program-item-home fade-in-up">
-                    <img src="{{ asset('image/fec_building.jpg') }}" alt="Primary School" class="program-img">
+                    <img src="{{ asset('image/primary_student_activity_01.jpg') }}" alt="Primary students working in their classroom" class="program-img">
                     <h3>Primary School</h3>
                     <p>Core academic and personal development</p>
                 </div>
                 <div class="program-item program-item-home fade-in-up">
-                    <img src="{{ asset('image/fec_wallpaper.jpg') }}" alt="Secondary School" class="program-img">
+                    <img src="{{ asset('image/secondary_student_activity_01.jpg') }}" alt="Secondary students attending a school assembly" class="program-img">
                     <h3>Secondary School</h3>
                     <p>International curriculum for higher education</p>
                 </div>
                 <div class="program-item program-item-home fade-in-up">
-                    <img src="{{ asset('image/fec_building.jpg') }}" alt="IGCSE/GED" class="program-img">
+                    <img src="{{ asset('image/ged_student_activity_01.jpg') }}" alt="GED students participating in a school event" class="program-img">
                     <h3>IGCSE/GED</h3>
                     <p>Advanced secondary qualifications and pathways</p>
                 </div>

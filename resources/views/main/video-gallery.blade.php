@@ -32,9 +32,31 @@
             position: relative;
         }
         .video-modal-content iframe {
-            max-width: 100%;
-            max-height: 90vh;
+            width: min(90vw, 420px, calc(80vh * 9 / 16));
+            height: min(80vh, 746px);
+            aspect-ratio: 9 / 16;
             border-radius: var(--radius-md);
+            border: 0;
+            background: #000000;
+        }
+        .video-placeholder.has-video {
+            border: 0;
+            background: #0f132a;
+        }
+        .video-thumbnail {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .video-placeholder.has-video > .fa-play-circle,
+        .video-placeholder.has-video > span:first-of-type {
+            display: none;
+        }
+        .video-placeholder.has-video .video-item-info,
+        .video-placeholder.has-video .video-play-btn {
+            z-index: 1;
         }
         .video-modal-close {
             position: absolute;
@@ -71,14 +93,13 @@
             <h2 class="section-title fade-in-up">School Events</h2>
             <div class="gallery-grid fade-in-up">
                 <div class="gallery-item">
-                    <div class="video-placeholder" onclick="openVideoModal(this)" data-title="Annual Sports Day 2024" data-views="5,678" data-duration="12:34">
-                        <i class="fas fa-play-circle"></i>
-                        <span>Event Video 1</span>
+                    <div class="video-placeholder has-video" onclick="openVideoModal(this)" data-video-id="s9xq0rOPltg" data-title="FEC School Student Activity" data-views="5,678" data-duration="Short">
+                        <img class="video-thumbnail" src="https://i.ytimg.com/vi/s9xq0rOPltg/hqdefault.jpg" alt="FEC School Student Activity video thumbnail">
                         <div class="video-item-info">
-                            <span class="video-item-title">Annual Sports Day 2024</span>
+                            <span class="video-item-title">FEC School Student Activity</span>
                             <div class="video-item-meta">
                                 <span class="video-item-views"><i class="fas fa-eye"></i> 5,678</span>
-                                <span class="video-item-duration"><i class="fas fa-clock"></i> 12:34</span>
+                                <span class="video-item-duration"><i class="fas fa-video"></i> Short</span>
                             </div>
                         </div>
                         <div class="video-play-btn"><i class="fas fa-play"></i></div>
@@ -135,14 +156,13 @@
             <h2 class="section-title fade-in-up">Campus Life</h2>
             <div class="gallery-grid fade-in-up">
                 <div class="gallery-item">
-                    <div class="video-placeholder" onclick="openVideoModal(this)" data-title="Campus Tour" data-views="3,456" data-duration="10:15">
-                        <i class="fas fa-play-circle"></i>
-                        <span>Campus Video 1</span>
+                    <div class="video-placeholder has-video" onclick="openVideoModal(this)" data-video-id="s9xq0rOPltg" data-title="FEC School Student Activity" data-views="3,456" data-duration="Short">
+                        <img class="video-thumbnail" src="https://i.ytimg.com/vi/s9xq0rOPltg/hqdefault.jpg" alt="FEC School Student Activity video thumbnail">
                         <div class="video-item-info">
-                            <span class="video-item-title">Campus Tour</span>
+                            <span class="video-item-title">FEC School Student Activity</span>
                             <div class="video-item-meta">
                                 <span class="video-item-views"><i class="fas fa-eye"></i> 3,456</span>
-                                <span class="video-item-duration"><i class="fas fa-clock"></i> 10:15</span>
+                                <span class="video-item-duration"><i class="fas fa-video"></i> Short</span>
                             </div>
                         </div>
                         <div class="video-play-btn"><i class="fas fa-play"></i></div>
@@ -199,14 +219,13 @@
             <h2 class="section-title fade-in-up">Academic Activities</h2>
             <div class="gallery-grid fade-in-up">
                 <div class="gallery-item">
-                    <div class="video-placeholder" onclick="openVideoModal(this)" data-title="Classroom Sessions" data-views="6,234" data-duration="14:25">
-                        <i class="fas fa-play-circle"></i>
-                        <span>Academic Video 1</span>
+                    <div class="video-placeholder has-video" onclick="openVideoModal(this)" data-video-id="s9xq0rOPltg" data-title="FEC School Student Activity" data-views="6,234" data-duration="Short">
+                        <img class="video-thumbnail" src="https://i.ytimg.com/vi/s9xq0rOPltg/hqdefault.jpg" alt="FEC School Student Activity video thumbnail">
                         <div class="video-item-info">
-                            <span class="video-item-title">Classroom Sessions</span>
+                            <span class="video-item-title">FEC School Student Activity</span>
                             <div class="video-item-meta">
                                 <span class="video-item-views"><i class="fas fa-eye"></i> 6,234</span>
-                                <span class="video-item-duration"><i class="fas fa-clock"></i> 14:25</span>
+                                <span class="video-item-duration"><i class="fas fa-video"></i> Short</span>
                             </div>
                         </div>
                         <div class="video-play-btn"><i class="fas fa-play"></i></div>
@@ -264,18 +283,16 @@
     <div class="video-modal" id="videoModal" onclick="closeVideoModal(event)">
         <div class="video-modal-content">
             <span class="video-modal-close" onclick="closeVideoModal(event)">&times;</span>
-            <div class="video-placeholder" style="height: 70vh; border: none; background: transparent;">
-                <i class="fas fa-play-circle" style="font-size: 80px;"></i>
-                <span id="videoModalTitle" style="font-size: 24px; font-weight: 700;"></span>
-            </div>
+            <iframe id="videoModalFrame" title="FEC School Student Activity" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
     </div>
 
     <script>
         function openVideoModal(element) {
             const modal = document.getElementById('videoModal');
-            const title = element.getAttribute('data-title');
-            document.getElementById('videoModalTitle').textContent = title;
+            const videoId = element.getAttribute('data-video-id');
+            const frame = document.getElementById('videoModalFrame');
+            frame.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&playsinline=1&rel=0`;
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
@@ -284,6 +301,7 @@
             if (event.target.classList.contains('video-modal') || event.target.classList.contains('video-modal-close')) {
                 const modal = document.getElementById('videoModal');
                 modal.classList.remove('active');
+                document.getElementById('videoModalFrame').src = '';
                 document.body.style.overflow = 'auto';
             }
         }
@@ -292,6 +310,7 @@
             if (event.key === 'Escape') {
                 const modal = document.getElementById('videoModal');
                 modal.classList.remove('active');
+                document.getElementById('videoModalFrame').src = '';
                 document.body.style.overflow = 'auto';
             }
         });

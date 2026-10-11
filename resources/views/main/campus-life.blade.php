@@ -127,21 +127,21 @@
             <h2 class="fade-in-up">Student Life & Activities</h2>
             <div class="student-life-grid">
                 <div class="student-life-card fade-in-up">
-                    <img src="{{ asset('image/fec_building.jpg') }}" alt="Sports Activities" class="student-life-image">
+                    <img src="{{ asset('image/secondary_student_activity_02.jpg') }}" alt="Students gathered for a school activity" class="student-life-image">
                     <div class="student-life-content">
                         <h4>Sports & Athletics</h4>
                         <p>Competitive sports teams, intramural leagues, and fitness programs to keep students active and healthy.</p>
                     </div>
                 </div>
                 <div class="student-life-card fade-in-up">
-                    <img src="{{ asset('image/fec_wallpaper.jpg') }}" alt="Clubs" class="student-life-image">
+                    <img src="{{ asset('image/all_student_activity_02.jpg') }}" alt="Students learning and working together in class" class="student-life-image">
                     <div class="student-life-content">
                         <h4>Clubs & Societies</h4>
                         <p>Diverse student-led clubs including robotics, debate, environmental, and cultural organizations.</p>
                     </div>
                 </div>
                 <div class="student-life-card fade-in-up">
-                    <img src="{{ asset('image/fec_building.jpg') }}" alt="Community Service" class="student-life-image">
+                    <img src="{{ asset('image/early_student_activity_01.jpg') }}" alt="Early Years students sharing a classroom project" class="student-life-image">
                     <div class="student-life-content">
                         <h4>Community Service</h4>
                         <p>Volunteer opportunities and service learning projects that develop empathy and citizenship.</p>
@@ -155,49 +155,49 @@
             <h2 class="fade-in-up">Campus Gallery</h2>
             <div class="gallery-grid">
                 <div class="gallery-item fade-in-up">
-                    <img src="{{ asset('image/fec_building.jpg') }}" alt="Campus View 1">
+                    <img src="{{ asset('image/fec_building_01.jpg') }}" alt="Exterior view of the FEC school campus">
                     <div class="gallery-overlay">
                         <i class="fas fa-search-plus"></i>
                     </div>
                 </div>
                 <div class="gallery-item fade-in-up">
-                    <img src="{{ asset('image/fec_wallpaper.jpg') }}" alt="Campus View 2">
+                    <img src="{{ asset('image/fec_building_02.jpg') }}" alt="FEC school building and grounds">
                     <div class="gallery-overlay">
                         <i class="fas fa-search-plus"></i>
                     </div>
                 </div>
                 <div class="gallery-item fade-in-up">
-                    <img src="{{ asset('image/fec_building.jpg') }}" alt="Campus View 3">
+                    <img src="{{ asset('image/all_student_activity_01.jpg') }}" alt="Students gathered outdoors for a school activity">
                     <div class="gallery-overlay">
                         <i class="fas fa-search-plus"></i>
                     </div>
                 </div>
                 <div class="gallery-item fade-in-up">
-                    <img src="{{ asset('image/fec_wallpaper.jpg') }}" alt="Campus View 4">
+                    <img src="{{ asset('image/primary_student_activity_01.jpg') }}" alt="Primary students taking part in a classroom activity">
                     <div class="gallery-overlay">
                         <i class="fas fa-search-plus"></i>
                     </div>
                 </div>
                 <div class="gallery-item fade-in-up">
-                    <img src="{{ asset('image/fec_building.jpg') }}" alt="Campus View 5">
+                    <img src="{{ asset('image/secondary_student_activity_01.jpg') }}" alt="Secondary students studying in class">
                     <div class="gallery-overlay">
                         <i class="fas fa-search-plus"></i>
                     </div>
                 </div>
                 <div class="gallery-item fade-in-up">
-                    <img src="{{ asset('image/fec_wallpaper.jpg') }}" alt="Campus View 6">
+                    <img src="{{ asset('image/early_student_activity_04.jpg') }}" alt="Early Years students learning with their teacher">
                     <div class="gallery-overlay">
                         <i class="fas fa-search-plus"></i>
                     </div>
                 </div>
                 <div class="gallery-item fade-in-up">
-                    <img src="{{ asset('image/fec_building.jpg') }}" alt="Campus View 7">
+                    <img src="{{ asset('image/secondary_student_activity_02.jpg') }}" alt="Secondary students at a school gathering">
                     <div class="gallery-overlay">
                         <i class="fas fa-search-plus"></i>
                     </div>
                 </div>
                 <div class="gallery-item fade-in-up">
-                    <img src="{{ asset('image/fec_wallpaper.jpg') }}" alt="Campus View 8">
+                    <img src="{{ asset('image/ged_student_activity_01.jpg') }}" alt="GED students participating in a school activity">
                     <div class="gallery-overlay">
                         <i class="fas fa-search-plus"></i>
                     </div>
@@ -206,6 +206,57 @@
         </div>
     </div>
 
+    <dialog class="campus-gallery-modal" id="campusGalleryModal" aria-label="Campus photo viewer">
+        <button class="campus-gallery-modal-close" type="button" aria-label="Close photo viewer">&times;</button>
+        <img src="" alt="">
+        <p class="campus-gallery-modal-caption"></p>
+    </dialog>
+
     @include('partials.footer')
+    <script>
+        const campusGallery = document.querySelector('.gallery-section');
+        const campusGalleryModal = document.getElementById('campusGalleryModal');
+        const campusGalleryModalImage = campusGalleryModal.querySelector('img');
+        const campusGalleryModalCaption = campusGalleryModal.querySelector('.campus-gallery-modal-caption');
+
+        campusGallery.querySelectorAll('.gallery-item').forEach((item) => {
+            const image = item.querySelector('img');
+            item.setAttribute('role', 'button');
+            item.setAttribute('tabindex', '0');
+            item.setAttribute('aria-label', `Enlarge photo: ${image.alt}`);
+        });
+
+        function openCampusGalleryImage(item) {
+            const image = item.querySelector('img');
+            campusGalleryModalImage.src = image.src;
+            campusGalleryModalImage.alt = image.alt;
+            campusGalleryModalCaption.textContent = image.alt;
+            campusGalleryModal.showModal();
+        }
+
+        campusGallery.addEventListener('click', (event) => {
+            const item = event.target.closest('.gallery-item');
+            if (item) {
+                openCampusGalleryImage(item);
+            }
+        });
+
+        campusGallery.addEventListener('keydown', (event) => {
+            if ((event.key === 'Enter' || event.key === ' ') && event.target.matches('.gallery-item')) {
+                event.preventDefault();
+                openCampusGalleryImage(event.target);
+            }
+        });
+
+        campusGalleryModal.querySelector('.campus-gallery-modal-close').addEventListener('click', () => {
+            campusGalleryModal.close();
+        });
+
+        campusGalleryModal.addEventListener('click', (event) => {
+            if (event.target === campusGalleryModal) {
+                campusGalleryModal.close();
+            }
+        });
+    </script>
 </body>
 </html>
