@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
 
 Route::get('/', function () {
     return view('main.home');
@@ -57,6 +58,8 @@ Route::get('/admissions', function () {
 Route::get('/news-events/all-posts', function () {
     return view('main.all-posts');
 });
+
+Route::get('/news-events/posts/{slug}', [PostController::class, 'show'])->name('news-events.posts.show');
 
 Route::get('/login', function () {
     return view('auth.login');

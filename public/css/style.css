@@ -1919,6 +1919,142 @@ body {
     color: var(--primary-dark);
 }
 
+.post-detail-page {
+    margin-top: 60px;
+    padding: 48px 8% 80px;
+    background: #F8FAFC;
+}
+
+.post-detail-container {
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+.post-back-link,
+.post-back-bottom {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--primary-blue);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.post-back-link {
+    margin-bottom: 24px;
+}
+
+.post-detail {
+    overflow: hidden;
+    background: #FFFFFF;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-soft);
+}
+
+.post-detail-heading {
+    padding: 40px 48px 28px;
+}
+
+.post-detail-category {
+    display: inline-block;
+    margin-bottom: 14px;
+    padding: 6px 12px;
+    border-radius: 3px;
+    background: var(--accent-gold);
+    color: var(--primary-dark);
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.post-detail-heading h1 {
+    margin: 0 0 18px;
+    color: var(--primary-dark);
+    font-size: 36px;
+    line-height: 1.2;
+}
+
+.post-detail-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.post-detail-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.post-detail-meta i {
+    color: var(--primary-blue);
+}
+
+.post-detail-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 8;
+    object-fit: cover;
+}
+
+.post-detail-copy {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 36px 32px 24px;
+    color: var(--text-main);
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.post-detail-copy p {
+    margin: 0 0 18px;
+}
+
+.post-detail-copy .post-detail-lead {
+    color: var(--primary-dark);
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+.post-back-bottom {
+    margin: 0 32px 36px;
+}
+
+@media (max-width: 600px) {
+    .post-detail-page {
+        margin-top: 120px;
+        padding: 32px 5% 56px;
+    }
+
+    .post-detail-heading {
+        padding: 28px 24px 22px;
+    }
+
+    .post-detail-heading h1 {
+        font-size: 28px;
+    }
+
+    .post-detail-image {
+        aspect-ratio: 4 / 3;
+    }
+
+    .post-detail-copy {
+        padding: 28px 24px 16px;
+        font-size: 15px;
+    }
+
+    .post-detail-copy .post-detail-lead {
+        font-size: 17px;
+    }
+
+    .post-back-bottom {
+        margin: 0 24px 28px;
+    }
+}
+
 /* Event Calendar Styles */
 .event-calendar {
     background: var(--card-bg);

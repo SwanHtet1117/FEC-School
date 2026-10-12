@@ -40,7 +40,7 @@
                         </div>
                         <h3 class="news-card-title">FEC Students Win National Science Competition</h3>
                         <p class="news-card-excerpt">Our students achieved remarkable success in the National Science Fair, bringing home multiple awards for their innovative projects.</p>
-                        <a href="#" class="news-card-link">Read More <i class="fas fa-arrow-right"></i></a>
+                        <a href="{{ route('news-events.posts.show', 'fec-students-win-national-science-competition') }}" class="news-card-link">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
 
@@ -53,7 +53,7 @@
                         </div>
                         <h3 class="news-card-title">Launch of Advanced STEM Program</h3>
                         <p class="news-card-excerpt">FEC International School introduces cutting-edge STEM curriculum to prepare students for future technological challenges.</p>
-                        <a href="#" class="news-card-link">Read More <i class="fas fa-arrow-right"></i></a>
+                        <a href="{{ route('news-events.posts.show', 'launch-of-advanced-stem-program') }}" class="news-card-link">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
 
@@ -66,7 +66,7 @@
                         </div>
                         <h3 class="news-card-title">Teacher Recognition Award</h3>
                         <p class="news-card-excerpt">Our dedicated faculty member receives excellence in teaching award from the Ministry of Education.</p>
-                        <a href="#" class="news-card-link">Read More <i class="fas fa-arrow-right"></i></a>
+                        <a href="{{ route('news-events.posts.show', 'teacher-recognition-award') }}" class="news-card-link">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
 
@@ -82,7 +82,7 @@
                         <div class="news-card-location">
                             <i class="fas fa-map-marker-alt"></i> FEC Campus, Naypyidaw
                         </div>
-                        <a href="#" class="news-card-link">Register Now <i class="fas fa-arrow-right"></i></a>
+                        <a href="{{ route('news-events.posts.show', 'school-open-day') }}" class="news-card-link">Register Now <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
 
@@ -98,7 +98,7 @@
                         <div class="news-card-location">
                             <i class="fas fa-map-marker-alt"></i> School Sports Ground
                         </div>
-                        <a href="#" class="news-card-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                        <a href="{{ route('news-events.posts.show', 'annual-sports-day') }}" class="news-card-link">Learn More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
 
@@ -114,7 +114,7 @@
                         <div class="news-card-location">
                             <i class="fas fa-map-marker-alt"></i> Conference Hall
                         </div>
-                        <a href="#" class="news-card-link">Register <i class="fas fa-arrow-right"></i></a>
+                        <a href="{{ route('news-events.posts.show', 'parent-teacher-workshop') }}" class="news-card-link">Register <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
 
@@ -129,6 +129,7 @@
                         <div class="news-card-location">
                             <i class="fas fa-user"></i> Administration
                         </div>
+                        <a href="{{ route('news-events.posts.show', 'school-holiday-notice') }}" class="news-card-link">View Notice <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
 
@@ -143,6 +144,7 @@
                         <div class="news-card-location">
                             <i class="fas fa-user"></i> Administration
                         </div>
+                        <a href="{{ route('news-events.posts.show', 'new-uniform-policy') }}" class="news-card-link">View Policy <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
 
@@ -157,6 +159,7 @@
                         <div class="news-card-location">
                             <i class="fas fa-user"></i> Transport Department
                         </div>
+                        <a href="{{ route('news-events.posts.show', 'transportation-schedule-update') }}" class="news-card-link">View Update <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
 
@@ -172,7 +175,7 @@
                         <div class="news-card-location">
                             <i class="fas fa-map-marker-alt"></i> School Auditorium
                         </div>
-                        <a href="#" class="news-card-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                        <a href="{{ route('news-events.posts.show', 'cultural-festival') }}" class="news-card-link">Learn More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
 
@@ -185,7 +188,7 @@
                         </div>
                         <h3 class="news-card-title">Graduation Ceremony 2026</h3>
                         <p class="news-card-excerpt">Celebrating the achievements of our graduating class as they embark on their next educational journey.</p>
-                        <a href="#" class="news-card-link">Read More <i class="fas fa-arrow-right"></i></a>
+                        <a href="{{ route('news-events.posts.show', 'graduation-ceremony-2026') }}" class="news-card-link">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
 
@@ -200,6 +203,7 @@
                         <div class="news-card-location">
                             <i class="fas fa-user"></i> Library Department
                         </div>
+                        <a href="{{ route('news-events.posts.show', 'library-hours-extended') }}" class="news-card-link">View Notice <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
