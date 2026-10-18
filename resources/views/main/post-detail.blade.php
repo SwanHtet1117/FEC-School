@@ -16,7 +16,7 @@
     <main class="post-detail-page">
         <div class="post-detail-container">
             <a href="{{ url('/news-events/all-posts') }}" class="post-back-link">
-                <i class="fas fa-arrow-left" aria-hidden="true"></i> All posts
+                <i class="fas fa-arrow-left" aria-hidden="true"></i> All Posts
             </a>
 
             <article class="post-detail fade-in-up">
@@ -41,7 +41,7 @@
                 </div>
 
                 <a href="{{ url('/news-events/all-posts') }}" class="post-back-bottom">
-                    <i class="fas fa-arrow-left" aria-hidden="true"></i> Browse all posts
+                    <i class="fas fa-arrow-left" aria-hidden="true"></i> Browse All Posts
                 </a>
             </article>
         </div>

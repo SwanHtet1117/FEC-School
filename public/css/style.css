@@ -527,18 +527,19 @@ body {
 }
 
 .vm-icon {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     background: linear-gradient(135deg, var(--primary-blue), var(--fec-logo-blue));
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
     margin-bottom: 20px;
 }
 
 .vm-icon i {
-    font-size: 24px;
+    font-size: 20px;
     color: #FFFFFF;
 }
 
@@ -816,6 +817,62 @@ body {
 
 .admission-overview-intro {
     padding-top: 140px;
+}
+
+.early-years-intro {
+    padding-top: 0;
+}
+
+.early-years-intro .program-page-hero {
+    margin-top: 114px;
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.primary-school-intro {
+    padding-top: 0;
+}
+
+.primary-school-intro .program-page-hero {
+    margin-top: 114px;
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.secondary-school-intro {
+    padding-top: 0;
+}
+
+.secondary-school-intro .program-page-hero {
+    margin-top: 114px;
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.ged-igcse-intro {
+    padding-top: 0;
+}
+
+.ged-igcse-intro .program-page-hero {
+    margin-top: 114px;
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.about-page-intro {
+    padding-top: 0;
+}
+
+.about-page-intro .about-hero {
+    margin-top: 114px;
 }
 
 .content-section.light-bg {
@@ -1744,10 +1801,10 @@ body {
 /* --- News & Events Page Styles --- */
 .news-events-hero {
     background: linear-gradient(135deg, var(--primary-dark), var(--fec-logo-blue));
-    padding: 80px 8% 60px;
+    padding: 140px 8% 60px;
     text-align: center;
     color: #FFFFFF;
-    margin-top: 60px;
+    margin-top: 0;
 }
 
 .news-events-hero h1 {
@@ -1920,7 +1977,7 @@ body {
 }
 
 .post-detail-page {
-    margin-top: 60px;
+    margin-top: 114px;
     padding: 48px 8% 80px;
     background: #F8FAFC;
 }
@@ -2890,6 +2947,33 @@ body {
     font-size: 24px;
     color: var(--primary-blue);
     transition: var(--transition);
+}
+
+.elective-subjects-section .methodology-icon {
+    width: 50px;
+    height: 50px;
+}
+
+.elective-subjects-section .methodology-icon i {
+    font-size: 20px;
+}
+
+.igcse-subjects-section .methodology-icon {
+    width: 50px;
+    height: 50px;
+}
+
+.igcse-subjects-section .methodology-icon i {
+    font-size: 20px;
+}
+
+.required-documents-section .methodology-icon {
+    width: 50px;
+    height: 50px;
+}
+
+.required-documents-section .methodology-icon i {
+    font-size: 20px;
 }
 
 .methodology-card:hover .methodology-icon i {
@@ -4056,7 +4140,8 @@ body {
         margin-top: 120px;
     }
     .news-events-hero {
-        margin-top: 120px;
+        margin-top: 0;
+        padding-top: 200px;
     }
     .campus-hero {
         margin-top: 120px;
@@ -4156,6 +4241,25 @@ body {
     .content-section.admission-overview-intro {
         padding-top: 200px;
     }
+    .early-years-intro .program-page-hero {
+        margin-top: 140px;
+        min-height: 480px;
+    }
+    .primary-school-intro .program-page-hero {
+        margin-top: 140px;
+        min-height: 480px;
+    }
+    .secondary-school-intro .program-page-hero {
+        margin-top: 140px;
+        min-height: 480px;
+    }
+    .ged-igcse-intro .program-page-hero {
+        margin-top: 140px;
+        min-height: 480px;
+    }
+    .about-page-intro .about-hero {
+        margin-top: 140px;
+    }
     .main-nav, .top-bar {
         flex-direction: column;
         gap: 15px;
@@ -4247,7 +4351,8 @@ body {
         margin-top: 120px;
     }
     .news-events-hero {
-        margin-top: 120px;
+        margin-top: 0;
+        padding-top: 200px;
     }
     .campus-hero {
         margin-top: 120px;
@@ -4508,8 +4613,8 @@ body {
         font-size: 28px;
     }
     .news-events-hero {
-        padding: 60px 5% 40px;
-        margin-top: 120px;
+        padding: 180px 5% 40px;
+        margin-top: 0;
     }
     .news-events-hero h1 {
         font-size: 28px;
@@ -4925,8 +5030,8 @@ body {
         font-size: 28px;
     }
     .news-events-hero {
-        padding: 60px 5% 40px;
-        margin-top: 120px;
+        padding: 180px 5% 40px;
+        margin-top: 0;
     }
     .news-events-hero h1 {
         font-size: 28px;
@@ -4955,6 +5060,25 @@ body {
     }
     .content-section.academic-overview-intro {
         padding-top: 160px;
+    }
+    .early-years-intro .program-page-hero {
+        margin-top: 120px;
+        min-height: 420px;
+    }
+    .primary-school-intro .program-page-hero {
+        margin-top: 120px;
+        min-height: 420px;
+    }
+    .secondary-school-intro .program-page-hero {
+        margin-top: 120px;
+        min-height: 420px;
+    }
+    .ged-igcse-intro .program-page-hero {
+        margin-top: 120px;
+        min-height: 420px;
+    }
+    .about-page-intro .about-hero {
+        margin-top: 120px;
     }
     .program-page-hero {
         min-height: 480px;
@@ -5018,6 +5142,7 @@ body {
     .program-icon,
     .career-icon,
     .policy-icon,
+    .vm-icon,
     .value-icon,
     .accred-icon {
         width: 45px;
@@ -5026,6 +5151,7 @@ body {
     .program-icon i,
     .career-icon i,
     .policy-icon i,
+    .vm-icon i,
     .value-icon i,
     .accred-icon i {
         font-size: 18px;
@@ -5158,4 +5284,3 @@ body {
         font-size: 13px;
     }
 }
-

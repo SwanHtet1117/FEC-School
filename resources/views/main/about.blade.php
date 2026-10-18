@@ -15,7 +15,7 @@
     
     @include('partials.header')
 
-    <section class="content-section">
+    <section class="content-section about-page-intro">
         <div class="section-container">
             <div class="page-header about-hero fade-in-up" style="background-image: linear-gradient(rgba(15, 19, 42, 0.15), rgba(15, 19, 42, 0.15)), url('{{ asset('image/fec_building_02.jpg') }}'); background-size: cover; background-position: center;">
                 <h1 class="page-title">About FEC International School</h1>

@@ -15,7 +15,7 @@
     
     @include('partials.header')
 
-    <section class="content-section">
+    <section class="content-section secondary-school-intro">
         <div class="section-container">
             <div class="page-header program-page-hero fade-in-up" style="background-image: linear-gradient(rgba(15, 19, 42, 0.2), rgba(15, 19, 42, 0.2)), url('{{ asset('image/secondary_student_activity_01.jpg') }}'); background-size: cover; background-position: center;">
                 <h1 class="page-title">Secondary School Program</h1>
@@ -76,39 +76,39 @@
             <div class="curriculum-container fade-in-up">
                 <div class="curriculum-item">
                     <div class="curriculum-number">01</div>
-                    <h3>English Language & Literature</h3>
+                    <h4>English Language & Literature</h4>
                     <p>Advanced reading comprehension, literary analysis, academic writing, grammar, and oral communication skills.</p>
                 </div>
                 <div class="curriculum-item">
                     <div class="curriculum-number">02</div>
-                    <h3>Mathematics</h3>
+                    <h4>Mathematics</h4>
                     <p>Algebra, geometry, trigonometry, calculus introduction, statistics, and advanced problem-solving techniques.</p>
                 </div>
                 <div class="curriculum-item">
                     <div class="curriculum-number">03</div>
-                    <h3>Sciences</h3>
+                    <h4>Sciences</h4>
                     <p>Physics, Chemistry, and Biology with laboratory work, scientific inquiry, and practical applications.</p>
                 </div>
                 <div class="curriculum-item">
                     <div class="curriculum-number">04</div>
-                    <h3>Social Studies</h3>
+                    <h4>Social Studies</h4>
                     <p>History, geography, economics, civics, and global studies to develop informed global citizens.</p>
                 </div>
                 <div class="curriculum-item">
                     <div class="curriculum-number">05</div>
-                    <h3>Myanmar Language</h3>
+                    <h4>Myanmar Language</h4>
                     <p>Advanced Myanmar literature, composition, and cultural studies to preserve national heritage.</p>
                 </div>
                 <div class="curriculum-item">
                     <div class="curriculum-number">06</div>
-                    <h3>Second Language</h3>
+                    <h4>Second Language</h4>
                     <p>Proficiency in Chinese or other languages with focus on communication and cultural understanding.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="content-section light-bg">
+    <section class="content-section light-bg elective-subjects-section">
         <div class="section-container">
             <h2 class="section-title fade-in-up">Elective Subjects</h2>
             <div class="methodology-grid fade-in-up">

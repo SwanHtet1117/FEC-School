@@ -15,7 +15,7 @@
     
     @include('partials.header')
 
-    <section class="content-section">
+    <section class="content-section primary-school-intro">
         <div class="section-container">
             <div class="page-header program-page-hero fade-in-up" style="background-image: linear-gradient(rgba(15, 19, 42, 0.2), rgba(15, 19, 42, 0.2)), url('{{ asset('image/primary_student_activity_01.jpg') }}'); background-size: cover; background-position: center;">
                 <h1 class="page-title">Primary School Program</h1>

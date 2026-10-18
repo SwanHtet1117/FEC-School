@@ -13,9 +13,9 @@
 </head>
 <body>
     
-    @include('partials.header')
-
-    <section class="content-section">
+    @include('partials.header')       
+    
+    <section class="content-section early-years-intro">
         <div class="section-container">
             <div class="page-header program-page-hero fade-in-up" style="background-image: linear-gradient(rgba(15, 19, 42, 0.25), rgba(15, 19, 42, 0.25)), url('{{ asset('image/early_student_activity_05.jpg') }}'); background-size: cover; background-position: center;">
                 <h1 class="page-title">Early Years Program</h1>

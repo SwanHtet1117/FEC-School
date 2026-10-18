@@ -76,17 +76,19 @@
     
     @include('partials.header')
 
-    <section class="content-section">
-        <div class="section-container">
-            <div class="page-header fade-in-up">
-                <h1 class="page-title">Video Gallery</h1>
-                <p class="page-subtitle">Watch Our Stories Unfold</p>
+        <section class="news-events-hero fade-in-up">
+            <h1 class="page-title">Video Gallery</h1>
+            <p class="page-subtitle">Watch Our Stories Unfold</p>
+        </section>
+
+        <section class="content-section">
+            <div class="section-container">                    
+                <div class="gallery-intro fade-in-up">
+                    <p>Welcome to our video gallery, where we bring the vibrant life and memorable moments at FEC International School to motion. From academic achievements to cultural celebrations, sports events to community activities, watch the rich experiences that define our school community come alive.</p>
+                </div>
             </div>
-            <div class="gallery-intro fade-in-up">
-                <p>Welcome to our video gallery, where we bring the vibrant life and memorable moments at FEC International School to motion. From academic achievements to cultural celebrations, sports events to community activities, watch the rich experiences that define our school community come alive.</p>
-            </div>
-        </div>
-    </section>
+        </section>  
+    
 
     <section class="content-section light-bg">
         <div class="section-container">

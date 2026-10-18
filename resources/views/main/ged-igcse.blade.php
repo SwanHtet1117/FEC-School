@@ -15,7 +15,7 @@
     
     @include('partials.header')
 
-    <section class="content-section">
+    <section class="content-section ged-igcse-intro">
         <div class="section-container">
             <div class="page-header program-page-hero fade-in-up" style="background-image: linear-gradient(rgba(15, 19, 42, 0.2), rgba(15, 19, 42, 0.2)), url('{{ asset('image/ged_student_activity_01.jpg') }}'); background-size: cover; background-position: center;">
                 <h1 class="page-title">GED/IGCSE Program</h1>
@@ -62,29 +62,29 @@
             <div class="curriculum-container fade-in-up">
                 <div class="curriculum-item">
                     <div class="curriculum-number">01</div>
-                    <h3>Mathematical Reasoning</h3>
+                    <h4>Mathematical Reasoning</h4>
                     <p>Algebra, geometry, data analysis, and quantitative problem-solving skills essential for academic and real-world applications.</p>
                 </div>
                 <div class="curriculum-item">
                     <div class="curriculum-number">02</div>
-                    <h3>Reasoning Through Language Arts</h3>
+                    <h4>Reasoning Language Arts</h4>
                     <p>Reading comprehension, writing, grammar, and critical analysis of texts to develop strong communication skills.</p>
                 </div>
                 <div class="curriculum-item">
                     <div class="curriculum-number">03</div>
-                    <h3>Science</h3>
+                    <h4>Science</h4>
                     <p>Life science, physical science, and earth science with emphasis on scientific reasoning and experimental design.</p>
                 </div>
                 <div class="curriculum-item">
                     <div class="curriculum-number">04</div>
-                    <h3>Social Studies</h3>
+                    <h4>Social Studies</h4>
                     <p>Civics, government, history, economics, and geography to develop informed and engaged global citizens.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="content-section light-bg">
+    <section class="content-section light-bg igcse-subjects-section">
         <div class="section-container">
             <h2 class="section-title fade-in-up">IGCSE Subjects</h2>
             <div class="methodology-grid fade-in-up">

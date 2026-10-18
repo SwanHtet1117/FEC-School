@@ -94,19 +94,20 @@ p<!DOCTYPE html>
     <body>
         @include('partials.header')
 
-            <section class="content-section">
-                <div class="section-container">
-                    <div class="page-header fade-in-up">
-                        <h1 class="page-title">Photo Gallery</h1>
-                        <p class="page-subtitle">Capturing Moments at FEC International School</p>
-                    </div>
-                    <div class="gallery-intro fade-in-up">
-                        <p>Welcome to our photo gallery, where we showcase the vibrant life and memorable moments at FEC International School. From academic achievements to cultural celebrations, sports events to community activities, explore the rich experiences that define our school community.</p>
-                    </div>
-                </div>
-            </section>
+        <section class="news-events-hero fade-in-up">
+            <h1 class="page-title">Photo Gallery</h1>
+            <p class="page-subtitle">Capturing Moments at FEC International School</p>
+        </section>
 
-            <section class="content-section light-bg">
+        <section class="content-section">
+            <div class="section-container">                    
+                <div class="gallery-intro fade-in-up">
+                    <p>Welcome to our photo gallery, where we showcase the vibrant life and memorable moments at FEC International School. From academic achievements to cultural celebrations, sports events to community activities, explore the rich experiences that define our school community.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section light-bg">
                 <div class="section-container">
                     <h2 class="section-title fade-in-up">School Events</h2>
                     <div class="gallery-grid fade-in-up">
@@ -149,10 +150,8 @@ p<!DOCTYPE html>
                         </div>
                         <div class="gallery-zoom-btn"><i class="fas fa-search-plus"></i></div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                </div>            
+        </section>
 
     <section class="content-section">
         <div class="section-container">
