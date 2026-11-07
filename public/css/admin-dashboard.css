@@ -1,0 +1,605 @@
+:root {
+    --admin-ink: var(--primary-dark);
+    --admin-muted: var(--text-muted);
+    --admin-border: rgba(226, 232, 240, 0.9);
+    --admin-bg: var(--bg-main);
+    --admin-blue: var(--fec-logo-blue);
+}
+
+.admin-dashboard {
+    min-height: 100vh;
+    background: var(--admin-bg);
+    color: var(--text-main);
+    font: 14px/1.6 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.admin-dashboard a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.admin-dashboard .btn-login {
+    color: #fff;
+}
+
+.dashboard-container {
+    width: 100%;
+    max-width: 1240px;
+    margin: 142px auto 56px;
+    padding: 0 8%;
+}
+
+.dashboard-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    margin-bottom: 26px;
+    padding: 26px 30px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(120deg, var(--primary-dark), var(--fec-logo-blue));
+    box-shadow: var(--shadow-soft);
+    color: #fff;
+}
+
+.eyebrow {
+    margin-bottom: 5px;
+    color: var(--accent-gold);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .12em;
+}
+
+.dashboard-heading h1 {
+    margin: 0;
+    color: #fff;
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.dashboard-description {
+    margin: 7px 0 3px;
+    color: rgba(255, 255, 255, .82);
+    font-size: 18px;
+}
+
+.signed-in {
+    margin: 0;
+    color: #fff;
+    font-size: 11px;
+}
+
+.signed-in strong {
+    color: #fff;
+}
+
+.dashboard-meta {
+    display: grid;
+    justify-items: end;
+    gap: 2px;
+    color: rgba(255, 255, 255, .7);
+    font-size: 11px;
+}
+
+.dashboard-meta strong {
+    color: #fff;
+    font-size: 12px;
+}
+
+.system-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 3px;
+    color: #b7f4ce;
+}
+
+.system-status i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #54d68a;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-height: 88px;
+    padding: 16px;
+    border: 1px solid var(--admin-border);
+    border-radius: var(--radius-sm);
+    background: #fff;
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition);
+}
+
+.stat-card:hover,
+.stat-card:focus-visible {
+    transform: translateY(-2px);
+    border-color: var(--fec-logo-blue);
+    box-shadow: var(--shadow-hover);
+}
+
+.stat-icon {
+    display: grid;
+    width: 35px;
+    height: 35px;
+    flex: 0 0 34px;
+    place-items: center;
+    border-radius: 50%;
+    font-size: 16px;
+}
+
+.stat-icon.blue { background: rgba(15, 89, 155, .1); color: var(--fec-logo-blue); }
+.stat-icon.green { background: #e7f6ed; color: #27945a; }
+.stat-icon.amber { background: rgba(247, 158, 5, .15); color: #bd8215; }
+.stat-icon.slate { background: #eef1f5; color: #64748b; }
+.stat-icon.rose { background: #ffe9eb; color: #d84c5c; }
+.stat-icon.cyan { background: #e4f8fc; color: #1591a8; }
+
+.stat-copy {
+    display: grid;
+    min-width: 0;
+    gap: 1px;
+}
+
+.stat-copy strong {
+    color: var(--admin-ink);
+    font-size: 19px;
+    line-height: 1.15;
+}
+
+.stat-copy small {
+    overflow: hidden;
+    color: #6d7b8d;
+    font-size: 14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.stat-link {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #b3bfcc;
+    font-size: 12px;
+}
+
+.dashboard-columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1.85fr) minmax(270px, .92fr);
+    align-items: start;
+    gap: 14px;
+}
+
+.dashboard-main-column,
+.dashboard-side-column {
+    display: grid;
+    gap: 14px;
+}
+
+.panel {
+    min-width: 0;
+    padding: 20px;
+    border: 1px solid var(--admin-border);
+    border-radius: var(--radius-sm);
+    background: #fff;
+    box-shadow: var(--shadow-soft);
+}
+
+.panel-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.panel-heading h2 {
+    margin: 0;
+    color: var(--admin-ink);
+    font-size: 17px;
+    font-weight: 750;
+}
+
+.panel-heading p {
+    margin: 3px 0 0;
+    color: var(--admin-muted);
+    font-size: 11px;
+}
+
+.text-link {
+    color: var(--primary-blue) !important;
+    font-size: 14px;
+    font-weight: 650;
+    white-space: nowrap;
+}
+
+.text-link i {
+    margin-left: 3px;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+p.system_activity {
+    font-size: 16px;
+}
+.activity-panel table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 13px;
+}
+
+.activity-panel th {
+    padding: 8px 7px;
+    border-bottom: 1px solid var(--admin-border);
+    color: var(--text-muted);
+    font-weight: 650;
+    white-space: nowrap;
+}
+
+.activity-panel td {
+    padding: 8px 7px;
+    border-bottom: 1px solid #edf0f4;
+    color: var(--text-main);
+    vertical-align: middle;
+}
+
+.activity-panel tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.activity-panel td:first-child {
+    min-width: 70px;
+}
+
+.activity-panel td:first-child strong,
+.activity-panel td:first-child small {
+    display: block;
+}
+
+.activity-panel td:first-child small {
+    color: #9aa5b2;
+    font-size: 9px;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+.status-badge.success { background: #e5f6ec; color: #178146; }
+.status-badge.danger { background: #fff0f0; color: #cc3a43; }
+
+.quick-actions {
+    display: grid;
+    gap: 6px;
+}
+
+.quick-actions a {
+    display: flex;
+    min-height: 36px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 7px 10px;
+    border: 1px solid rgba(15, 89, 155, .32);
+    border-radius: var(--radius-sm);
+    color: var(--fec-logo-blue);
+    font-size: 14px;
+    font-weight: 600;
+    transition: background .18s ease, border-color .18s ease;
+}
+
+.quick-actions a:first-child {
+    border-color: var(--fec-logo-blue);
+    background: var(--fec-logo-blue);
+    color: #fff;
+}
+
+.quick-actions a:hover,
+.quick-actions a:focus-visible {
+    border-color: var(--fec-logo-blue);
+    background: rgba(15, 89, 155, .08);
+    color: var(--fec-logo-blue);
+}
+
+.quick-actions a:first-child:hover,
+.quick-actions a:first-child:focus-visible {
+    background: var(--primary-dark);
+    color: #fff;
+}
+
+.quick-actions i {
+    font-size: 14px;
+}
+
+.performance-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px 20px;
+}
+
+.performance-item > div:first-child,
+.storage-item > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 5px;
+    color: #526175;
+    font-size: 14px;
+}
+
+.performance-item strong,
+.storage-item strong {
+    color: #66778a;
+    font-size: 14px;
+}
+
+.progress-track {
+    overflow: hidden;
+    height: 8px;
+    border-radius: 4px;
+    background: #e9edf2;
+}
+
+.progress-track span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+}
+
+.progress-green { background: #1ca86a; }
+.progress-blue { background: #2479ed; }
+.progress-cyan { background: #16b6cf; }
+.progress-amber { background: #f0a51e; }
+
+.period-select {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 5px 8px;
+    border: 1px solid var(--admin-border);
+    border-radius: 4px;
+    color: #657487;
+    font-size: 12px;
+}
+
+.period-select i {
+    font-size: 10px;
+}
+
+.alerts-panel .panel-heading,
+.events-panel .panel-heading,
+.storage-panel .panel-heading {
+    margin-bottom: 10px;
+}
+
+.alert {
+    display: grid;
+    gap: 2px;
+    margin-top: 7px;
+    padding: 9px 10px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.alert strong {
+    font-size: 14px;
+}
+
+.alert strong i {
+    margin-right: 4px;
+}
+
+.alert-danger { border-color: #f1b8bd; background: #fff0f1; color: #a82f39; }
+.alert-warning { border-color: #f2d896; background: #fff8e4; color: #8c6610; }
+.alert-info { border-color: #afe0ed; background: #eaf9fc; color: #16738a; }
+
+.event-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid #edf0f4;
+}
+
+.event-row:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+.event-row span,
+.event-row strong,
+.event-row small {
+    display: block;
+}
+
+.event-row strong {
+    color: #3d4d61;
+    font-size: 14px;
+}
+
+.event-row small {
+    margin-top: 2px;
+    color: #8a97a6;
+    font-size: 13px;
+}
+
+.event-row > i {
+    font-size: 14px;
+}
+
+.event-red { color: #d74a59; }
+.event-blue { color: #3174c6; }
+.event-green { color: #269461; }
+
+.storage-item {
+    margin-top: 10px;
+}
+
+.storage-caption {
+    margin: 10px 0 0;
+    color: #9aa5b2;
+    font-size: 12px;
+    text-align: right;
+}
+
+@media (max-width: 1024px) {
+    .dashboard-container {
+        padding-right: 5%;
+        padding-left: 5%;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .dashboard-columns {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .dashboard-side-column {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: start;
+    }
+
+    .quick-actions-panel {
+        grid-row: span 2;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        margin-top: 220px;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dashboard-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .dashboard-meta {
+        justify-items: start;
+    }
+
+    .dashboard-heading h1 {
+        font-size: clamp(32px, 7vw, 44px);
+    }
+}
+
+@media (max-width: 600px) {
+    .dashboard-container {
+        margin-top: 220px;
+        margin-bottom: 36px;
+        padding-right: 16px;
+        padding-left: 16px;
+    }
+
+    .dashboard-heading {
+        margin-bottom: 16px;
+        padding: 20px;
+    }
+
+    .dashboard-description {
+        font-size: 16px;
+    }
+
+    .stats-grid {
+        gap: 9px;
+        margin-bottom: 16px;
+    }
+
+    .stat-card {
+        min-height: 70px;
+        gap: 8px;
+        padding: 10px;
+    }
+
+    .stat-icon {
+        width: 32px;
+        height: 32px;
+        flex-basis: 32px;
+        font-size: 14px;
+    }
+
+    .stat-copy strong {
+        font-size: 17px;
+    }
+
+    .stat-copy small {
+        font-size: 12px;
+    }
+
+    .dashboard-side-column {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .quick-actions-panel {
+        grid-row: auto;
+    }
+
+    .panel {
+        padding: 16px;
+    }
+
+    .panel-heading {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .panel-heading p.system_activity {
+        font-size: 14px;
+    }
+
+    .table-wrap {
+        margin-right: -4px;
+    }
+
+    .activity-panel table {
+        min-width: 620px;
+    }
+}
+
+@media (max-width: 380px) {
+    .dashboard-container {
+        padding-right: 12px;
+        padding-left: 12px;
+    }
+
+    .stats-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .stat-card {
+        min-height: 64px;
+    }
+
+    .performance-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 12px;
+    }
+}

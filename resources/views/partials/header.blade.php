@@ -48,7 +48,14 @@
                 <li><a href="/contact" class="{{ request()->is('contact*') ? 'active' : '' }}">Contact Us</a></li>
             </ul>
             <div class="auth-buttons">
-                <a href="/login" class="btn-login">Login</a>
+                @auth
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn-login">Sign out</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="btn-login">Login</a>
+                @endauth
             </div>
         </nav>
     </header>
@@ -86,7 +93,14 @@
             <li><a href="/contact" onclick="toggleMobileMenu()" class="{{ request()->is('contact*') ? 'active' : '' }}">Contact</a></li>
         </ul>
         <div class="mobile-auth-buttons">
-            <a href="/login" onclick="toggleMobileMenu()" class="btn-login">Login</a>
+            @auth
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn-login">Sign out</button>
+                </form>
+            @else
+                <a href="{{ route('login') }}" onclick="toggleMobileMenu()" class="btn-login">Login</a>
+            @endauth
         </div>
     </div>
 

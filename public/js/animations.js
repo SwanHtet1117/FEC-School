@@ -3,10 +3,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const hero = document.querySelector('.hero-section[data-slides]');
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    if (hero && !prefersReducedMotion) {
+    if (hero) {
         const imageSources = hero.dataset.slides.split('|').filter(Boolean);
 
-        if (imageSources.length > 1) {
+        if (imageSources.length > 0) {
             const slideshow = document.createElement('div');
             slideshow.className = 'hero-slideshow';
             slideshow.setAttribute('aria-hidden', 'true');
@@ -30,13 +30,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
             hero.insertBefore(slideshow, hero.firstElementChild);
 
-            let activeIndex = 0;
-            window.setInterval(() => {
-                const nextIndex = (activeIndex + 1) % slides.length;
-                slides[nextIndex].classList.add('is-active');
-                slides[activeIndex].classList.remove('is-active');
-                activeIndex = nextIndex;
-            }, 7000);
+            if (slides.length > 1 && !prefersReducedMotion) {
+                let activeIndex = 0;
+                window.setInterval(() => {
+                    const nextIndex = (activeIndex + 1) % slides.length;
+                    slides[nextIndex].classList.add('is-active');
+                    slides[activeIndex].classList.remove('is-active');
+                    activeIndex = nextIndex;
+                }, 7000);
+            }
         }
     }
 

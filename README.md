@@ -21,6 +21,24 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
+## Admin hero image controls
+
+Run the migrations to create the account and homepage hero tables:
+
+```sh
+php artisan migrate
+```
+
+Site visitors can create regular accounts at `/register`. To access the admin dashboard, provision an administrator from the command line:
+
+```sh
+php artisan admin:create
+```
+
+Sign in at `/login` to manage homepage hero images at `/admin/hero/manage`. Images can be added, edited, replaced, enabled, disabled, or deleted. Uploads are limited to JPG, PNG, or WebP files up to 5 MB; run `php artisan storage:link` to serve uploaded files. Public registration never grants administrator access, and at least one slide and one enabled slide must remain.
+
+Visitors can register a regular account at `/register`; registration signs them in and returns them to the homepage.
+
 ## Learning Laravel
 
 Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.

@@ -1,11 +1,17 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\HeroSlideController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\PostController;
+use App\Models\HeroSlide;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('main.home');
-});
+    return view('main.home', [
+        'heroSlides' => HeroSlide::where('is_enabled', true)->ordered()->get(),
+    ]);
+})->name('home');
 
 Route::get('/about', function () {
     return view('main.about');
@@ -61,11 +67,28 @@ Route::get('/news-events/all-posts', function () {
 
 Route::get('/news-events/posts/{slug}', [PostController::class, 'show'])->name('news-events.posts.show');
 
-Route::get('/login', function () {
-    return view('auth.login');
-});
+Route::get('/login', [LoginController::class, 'create'])->name('login');
+Route::post('/login', [LoginController::class, 'store'])->middleware('throttle:5,1')->name('login.store');
+Route::post('/logout', [LoginController::class, 'destroy'])->middleware('auth')->name('logout');
 
-Route::get('/register', function () {
-    return view('auth.register');
+Route::get('/register', [RegisterController::class, 'create'])->name('register');
+Route::post('/register', [RegisterController::class, 'store'])
+    ->middleware('throttle:5,1')
+    ->name('register.store');
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard', [
+            'heroImageCount' => HeroSlide::count(),
+        ]);
+    })->name('admin.dashboard');
+
+    Route::get('/hero/manage', [HeroSlideController::class, 'index'])->name('admin.hero.manage');
+    Route::post('/hero/manage', [HeroSlideController::class, 'store'])->name('admin.hero.store');
+    Route::put('/hero/manage/{heroSlide}', [HeroSlideController::class, 'update'])
+        ->name('admin.hero.update');
+    Route::delete('/hero/manage/{heroSlide}', [HeroSlideController::class, 'destroy'])
+        ->name('admin.hero.destroy');
+    Route::post('/hero/manage/{heroSlide}/toggle', [HeroSlideController::class, 'toggle'])
+        ->name('admin.hero.toggle');
 });
-    

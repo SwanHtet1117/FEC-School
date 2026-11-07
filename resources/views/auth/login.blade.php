@@ -24,15 +24,24 @@
         <div class="auth-card">
             <div class="auth-header">
                 <h2>Welcome Back</h2>
-                <p>Enter your credentials to access your account</p>
+                <p>Sign in to your FEC International School account.</p>
             </div>
 
-            <form action="#" method="POST" class="auth-form">
+            @if ($errors->any())
+                <div class="alert alert-danger" role="alert">
+                    @foreach ($errors->all() as $error)
+                        <p>{{ $error }}</p>
+                    @endforeach
+                </div>
+            @endif
+
+            <form action="{{ route('login.store') }}" method="POST" class="auth-form">
+                @csrf
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <div class="input-with-icon">
                         <i class="fas fa-envelope"></i>
-                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                        <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="Enter your email" autocomplete="username" required>
                     </div>
                 </div>
 
@@ -40,16 +49,15 @@
                     <label for="password">Password</label>
                     <div class="input-with-icon">
                         <i class="fas fa-lock"></i>
-                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
                     </div>
                 </div>
 
                 <div class="form-options">
                     <label class="checkbox-label">
-                        <input type="checkbox" name="remember">
+                        <input type="checkbox" name="remember" value="1">
                         <span>Remember me</span>
                     </label>
-                    <a href="#" class="forgot-password">Forgot password?</a>
                 </div>
 
                 <button type="submit" class="btn-auth-submit">
@@ -57,23 +65,9 @@
                 </button>
             </form>
 
-            <div class="auth-divider">
-                <span>or continue with</span>
-            </div>
-
-            <div class="social-login">
-                <button class="social-btn google">
-                    <i class="fab fa-google"></i>
-                    <span>Google</span>
-                </button>
-                <button class="social-btn facebook">
-                    <i class="fab fa-facebook-f"></i>
-                    <span>Facebook</span>
-                </button>
-            </div>
-
             <div class="auth-footer">
                 <p>Don't have an account? <a href="/register">Register here</a></p>
+                <p>Administrator access is managed separately by the site owner.</p>
             </div>
         </div>
     </div>

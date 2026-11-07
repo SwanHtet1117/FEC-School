@@ -15,7 +15,11 @@
     
     @include('partials.header')
 
-    <section class="hero-section" data-slides="{{ asset('image/fec_building.jpg') }}|{{ asset('image/all_student_activity_02.jpg') }}|{{ asset('image/fec_building_02.jpg') }}">
+    @if (session('status'))
+        <p class="registration-status" role="status">{{ session('status') }}</p>
+    @endif
+
+    <section class="hero-section" data-slides="{{ $heroSlides->map(fn ($slide) => $slide->image_url)->implode('|') }}">
         <div class="hero-overlay">
             <div class="hero-content">
                 <h2 class="hero-title">FEC INTERNATIONAL SCHOOL</h2>
