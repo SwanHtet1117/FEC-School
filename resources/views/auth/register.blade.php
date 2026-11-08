@@ -24,7 +24,7 @@
         <div class="auth-card">
             <div class="auth-header">
                 <h2>Create Account</h2>
-                <p>Fill in your details to get started</p>
+                <p>Fill in your details to get started. An administrator must approve your account before you can sign in.</p>
             </div>
 
             @if ($errors->any())

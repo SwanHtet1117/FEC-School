@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Services\ActivityLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 
@@ -35,12 +34,17 @@ class RegisterController extends Controller
             'phone' => $validated['phone'] ?? null,
             'password' => $validated['password'],
             'is_admin' => false,
+            'is_approved' => false,
         ]);
 
-        Auth::login($user);
-        $request->session()->regenerate();
-        app(ActivityLogger::class)->record($request, 'Registration', 'Account created', user: $user);
+        app(ActivityLogger::class)->record(
+            $request,
+            'Registration',
+            'Awaiting admin approval',
+            user: $user
+        );
 
-        return redirect()->route('home')->with('status', 'Your account has been created.');
+        return redirect()->route('login')
+            ->with('status', 'Your account was created and is awaiting admin approval before you can sign in.');
     }
 }

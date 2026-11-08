@@ -21,7 +21,7 @@ class RegistrationTest extends TestCase
             ->assertSee('name="information_confirmed"', false);
     }
 
-    public function test_visitor_can_register_a_regular_account_and_is_signed_in(): void
+    public function test_visitor_can_register_a_regular_account_pending_admin_approval(): void
     {
         $this->post('/register', [
             'first_name' => 'Ada',
@@ -32,17 +32,19 @@ class RegistrationTest extends TestCase
             'password_confirmation' => 'a-strong-password',
             'information_confirmed' => '1',
             'is_admin' => '1',
-        ])->assertRedirect(route('home'))
-            ->assertSessionHas('status', 'Your account has been created.');
+        ])->assertRedirect(route('login'))
+            ->assertSessionHas('status', 'Your account was created and is awaiting admin approval before you can sign in.');
 
         $user = User::where('email', 'ada@example.com')->firstOrFail();
 
         $this->assertSame('Ada Lovelace', $user->name);
         $this->assertSame('+95 123456789', $user->phone);
         $this->assertFalse($user->is_admin);
+        $this->assertFalse($user->is_approved);
         $this->assertTrue(Hash::check('a-strong-password', $user->password));
-        $this->assertAuthenticatedAs($user);
-        $this->get(route('home'))->assertSee('Sign out');
+        $this->assertGuest();
+        $this->get(route('login'))
+            ->assertSee('awaiting admin approval before you can sign in.');
     }
 
     public function test_registration_rejects_mismatched_passwords_and_missing_confirmation(): void
@@ -76,5 +78,22 @@ class RegistrationTest extends TestCase
 
         $this->assertAuthenticatedAs($user);
         $this->get('/admin/hero/manage')->assertForbidden();
+    }
+
+    public function test_pending_user_cannot_sign_in_before_admin_approval(): void
+    {
+        $user = User::factory()->create([
+            'email' => 'pending@example.com',
+            'password' => 'a-strong-password',
+            'is_approved' => false,
+        ]);
+
+        $this->post('/login', [
+            'email' => $user->email,
+            'password' => 'a-strong-password',
+        ])->assertRedirect('/login')
+            ->assertSessionHasErrors(['email' => 'Your account is awaiting admin approval.']);
+
+        $this->assertGuest();
     }
 }

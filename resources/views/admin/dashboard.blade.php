@@ -90,14 +90,14 @@
                 <span class="stat-copy"><strong>7</strong><small>Messages</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
-            <a class="stat-card" href="{{ url('/login') }}">
+            <a class="stat-card" href="{{ route('admin.users.index') }}">
                 <span class="stat-icon slate"><i class="fa-solid fa-user-shield" aria-hidden="true"></i></span>
-                <span class="stat-copy"><strong>2</strong><small>User Accounts</small></span>
+                <span class="stat-copy"><strong>{{ $userCount }}</strong><small>User Accounts</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
-            <a class="stat-card" href="{{ url('/register') }}">
+            <a class="stat-card" href="{{ route('admin.users.index') }}">
                 <span class="stat-icon rose"><i class="fa-solid fa-user-clock" aria-hidden="true"></i></span>
-                <span class="stat-copy"><strong>0</strong><small>Pending Registrations</small></span>
+                <span class="stat-copy"><strong>{{ $pendingCount }}</strong><small>Pending Registrations</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
         </section>
@@ -167,7 +167,7 @@
                         <a href="{{ url('/campus-life') }}"><i class="fa-solid fa-people-group" aria-hidden="true"></i> Student Life</a>
                         <a href="{{ url('/admissions') }}"><i class="fa-solid fa-user-group" aria-hidden="true"></i> Parents</a>
                         <a href="{{ url('/contact') }}"><i class="fa-regular fa-circle-question" aria-hidden="true"></i> FAQs</a>
-                        <a href="{{ url('/login') }}"><i class="fa-solid fa-user-shield" aria-hidden="true"></i> User Accounts</a>
+                        <a href="{{ route('admin.users.index') }}"><i class="fa-solid fa-user-shield" aria-hidden="true"></i> User Accounts</a>
                         <a href="{{ url('/contact') }}"><i class="fa-regular fa-envelope" aria-hidden="true"></i> Messages</a>
                     </div>
                 </section>

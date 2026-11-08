@@ -37,6 +37,22 @@ class LoginController extends Controller
             ]);
         }
 
+        if (! $request->user()->is_approved) {
+            $pendingUser = $request->user();
+            Auth::logout();
+            app(ActivityLogger::class)->record(
+                $request,
+                'Login',
+                'Account awaiting admin approval',
+                'Failed',
+                $pendingUser
+            );
+
+            throw ValidationException::withMessages([
+                'email' => 'Your account is awaiting admin approval.',
+            ]);
+        }
+
         $request->session()->regenerate();
         $activityLogger = app(ActivityLogger::class);
         $request->session()->put('device_timezone', $activityLogger->timezone($request));

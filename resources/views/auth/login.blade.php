@@ -27,6 +27,10 @@
                 <p>Sign in to your FEC International School account.</p>
             </div>
 
+            @if (session('status'))
+                <p class="registration-status" role="status">{{ session('status') }}</p>
+            @endif
+
             @if ($errors->any())
                 <div class="alert alert-danger auth-login-error" role="alert">
                     @foreach ($errors->all() as $error)

@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\Admin\HeroSlideController;
+use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\PostController;
 use App\Models\HeroSlide;
 use App\Models\SystemActivity;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -82,8 +84,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         return view('admin.dashboard', [
             'heroImageCount' => HeroSlide::count(),
             'activities' => SystemActivity::latest()->limit(10)->get(),
+            'userCount' => User::count(),
+            'pendingCount' => User::where('is_approved', false)->count(),
+            'adminCount' => User::where('is_admin', true)->count(),
         ]);
     })->name('admin.dashboard');
+
+    Route::get('/users', [UserManagementController::class, 'index'])->name('admin.users.index');
+    Route::post('/users/{user}/approve', [UserManagementController::class, 'approve'])
+        ->name('admin.users.approve');
+    Route::delete('/users/{user}', [UserManagementController::class, 'destroy'])
+        ->name('admin.users.destroy');
 
     Route::get('/hero/manage', [HeroSlideController::class, 'index'])->name('admin.hero.manage');
     Route::post('/hero/manage', [HeroSlideController::class, 'store'])->name('admin.hero.store');
