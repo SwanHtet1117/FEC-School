@@ -128,29 +128,31 @@
                                     <span>Display order</span>
                                     <input type="number" name="sort_order" value="{{ $slide->sort_order }}" min="0" max="10000" required>
                                 </label>
-                                <span class="hero-slide-status {{ $slide->is_enabled ? 'enabled' : 'disabled' }}">
-                                    <i class="fa-solid {{ $slide->is_enabled ? 'fa-circle-check' : 'fa-circle-minus' }}" aria-hidden="true"></i>
-                                    {{ $slide->is_enabled ? 'Enabled on homepage' : 'Disabled on homepage' }}
-                                </span>
                                 <button class="hero-button primary" type="submit">
                                     <i class="fa-regular fa-floppy-disk" aria-hidden="true"></i> Save changes
                                 </button>
                             </form>
-                            <div class="hero-slide-actions">
-                                <form class="hero-slide-toggle" action="{{ route('admin.hero.toggle', $slide) }}" method="POST">
-                                    @csrf
-                                    <button class="hero-button {{ $slide->is_enabled ? 'danger' : 'success' }}" type="submit">
-                                        <i class="fa-solid {{ $slide->is_enabled ? 'fa-toggle-off' : 'fa-toggle-on' }}" aria-hidden="true"></i>
-                                        {{ $slide->is_enabled ? 'Disable' : 'Enable' }}
-                                    </button>
-                                </form>
-                                <form class="hero-slide-delete" action="{{ route('admin.hero.destroy', $slide) }}" method="POST" onsubmit="return confirm('Delete this hero image? This cannot be undone.')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="hero-button danger" type="submit">
-                                        <i class="fa-regular fa-trash-can" aria-hidden="true"></i> Delete
-                                    </button>
-                                </form>
+                            <div class="hero-slide-controls">
+                                <span class="hero-slide-status {{ $slide->is_enabled ? 'enabled' : 'disabled' }}">
+                                    <i class="fa-solid {{ $slide->is_enabled ? 'fa-circle-check' : 'fa-circle-minus' }}" aria-hidden="true"></i>
+                                    {{ $slide->is_enabled ? 'Enabled on homepage' : 'Disabled on homepage' }}
+                                </span>
+                                <div class="hero-slide-actions">
+                                    <form class="hero-slide-toggle" action="{{ route('admin.hero.toggle', $slide) }}" method="POST">
+                                        @csrf
+                                        <button class="hero-button {{ $slide->is_enabled ? 'danger' : 'success' }}" type="submit">
+                                            <i class="fa-solid {{ $slide->is_enabled ? 'fa-toggle-off' : 'fa-toggle-on' }}" aria-hidden="true"></i>
+                                            {{ $slide->is_enabled ? 'Disable' : 'Enable' }}
+                                        </button>
+                                    </form>
+                                    <form class="hero-slide-delete" action="{{ route('admin.hero.destroy', $slide) }}" method="POST" onsubmit="return confirm('Delete this hero image? This cannot be undone.')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="hero-button danger" type="submit">
+                                            <i class="fa-regular fa-trash-can" aria-hidden="true"></i> Delete
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </article>

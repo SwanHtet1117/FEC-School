@@ -386,7 +386,7 @@
 
 .hero-slide-edit {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 120px;
+    grid-template-columns: minmax(0, 1fr) max-content;
     align-items: end;
     gap: 12px;
 }
@@ -396,13 +396,9 @@
     grid-column: 1 / -1;
 }
 
-.hero-slide-edit .hero-description-field {
-    width: 320px;
-    max-width: 100%;
-}
-
+.hero-slide-edit .hero-description-field,
 .hero-slide-edit .hero-replace-field {
-    width: 100%;
+    width: 320px;
     max-width: 100%;
 }
 
@@ -416,15 +412,22 @@
     justify-self: start;
     padding-right: 10px;
     padding-left: 10px;
+    white-space: nowrap;
+}
+
+.hero-slide-controls {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
 }
 
 .hero-slide-actions {
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
     gap: 8px;
-    justify-content: flex-end;
-    justify-self: stretch;
 }
 
 .hero-slide-status {
@@ -449,7 +452,7 @@
 
 .hero-slide-toggle {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: flex-end;
 }
 
@@ -608,17 +611,17 @@
         min-height: 42px;
     }
 
-    .hero-slide-actions {
-        justify-content: space-between;
+    .hero-slide-controls {
+        justify-content: flex-start;
     }
 
     .hero-slide-actions form {
-        flex: 1 1 0;
+        flex: 0 1 auto;
         min-width: 0;
     }
 
     .hero-slide-actions .hero-button {
-        width: 100%;
+        width: fit-content;
         min-height: 42px;
     }
 
