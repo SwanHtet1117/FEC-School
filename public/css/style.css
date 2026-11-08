@@ -3863,6 +3863,23 @@ body {
     color: var(--text-muted);
 }
 
+.auth-login-error {
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    border: 1px solid #f1b8bd;
+    border-radius: var(--radius-sm);
+    background: #fff0f1;
+    color: #a82f39;
+}
+
+.auth-login-error p {
+    margin: 0;
+}
+
+.auth-login-error p + p {
+    margin-top: 6px;
+}
+
 .auth-form {
     margin-bottom: 30px;
 }

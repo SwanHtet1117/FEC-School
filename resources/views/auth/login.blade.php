@@ -28,15 +28,16 @@
             </div>
 
             @if ($errors->any())
-                <div class="alert alert-danger" role="alert">
+                <div class="alert alert-danger auth-login-error" role="alert">
                     @foreach ($errors->all() as $error)
                         <p>{{ $error }}</p>
                     @endforeach
                 </div>
             @endif
 
-            <form action="{{ route('login.store') }}" method="POST" class="auth-form">
+            <form action="{{ route('login.store') }}" method="POST" class="auth-form" id="login-form">
                 @csrf
+                <input type="hidden" name="timezone" id="device-timezone" value="UTC">
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <div class="input-with-icon">
@@ -64,6 +65,16 @@
                     Login <i class="fas fa-arrow-right"></i>
                 </button>
             </form>
+            <script>
+                const loginForm = document.getElementById('login-form');
+                const deviceTimezone = document.getElementById('device-timezone');
+                const updateDeviceTimezone = () => {
+                    deviceTimezone.value = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+                };
+
+                updateDeviceTimezone();
+                loginForm.addEventListener('submit', updateDeviceTimezone);
+            </script>
 
             <div class="auth-footer">
                 <p>Don't have an account? <a href="/register">Register here</a></p>

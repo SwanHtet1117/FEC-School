@@ -24,7 +24,7 @@
             </div>
             <div class="dashboard-meta">
                 <span>Last updated</span>
-                <strong>{{ now()->format('M d, Y · h:i A') }}</strong>
+                <strong>{{ now()->setTimezone(session('device_timezone', 'UTC'))->format('M d, Y · h:i A') }}</strong>
                 <span class="system-status"><i aria-hidden="true"></i> System operational</span>
             </div>
         </div>
@@ -115,16 +115,25 @@
                     <div class="table-wrap">
                         <table id="system-activities">
                             <thead>
-                                <tr><th>Time</th><th>User</th><th>Action</th><th>Details</th><th>Status</th></tr>
+                                <tr><th>Time</th><th>Device</th><th>User</th><th>Action</th><th>Details</th><th>Status</th></tr>
                             </thead>
                             <tbody>
-                                <tr><td><strong>1:44 PM</strong>Today</td><td>MCN</td><td>Login</td><td>administrator account</td><td><span class="status-badge success">Success</span></td></tr>
-                                <tr><td><strong>1:35 PM</strong>Today</td><td>Kyaw Zay</td><td>Login</td><td>Admin dashboard access</td><td><span class="status-badge success">Success</span></td></tr>
-                                <tr><td><strong>1:31 PM</strong>Today</td><td>Unknown User</td><td>Login</td><td>Unrecognized email</td><td><span class="status-badge danger">Failed</span></td></tr>
-                                <tr><td><strong>1:26 PM</strong>Today</td><td>Unknown User</td><td>Login</td><td>Unrecognized email</td><td><span class="status-badge danger">Failed</span></td></tr>
-                                <tr><td><strong>1:15 PM</strong>Today</td><td>Unknown User</td><td>Login</td><td>Unrecognized email</td><td><span class="status-badge danger">Failed</span></td></tr>
-                                <tr><td><strong>12:53 PM</strong>Today</td><td>Kyaw Zay</td><td>Login</td><td>Admin dashboard access</td><td><span class="status-badge success">Success</span></td></tr>
-                                <tr><td><strong>12:33 PM</strong>Today</td><td>Kyaw Zay</td><td>Login</td><td>Admin dashboard access</td><td><span class="status-badge success">Success</span></td></tr>
+                                @forelse ($activities as $activity)
+                                    @php($activityTime = $activity->created_at->setTimezone($activity->timezone))
+                                    <tr>
+                                        <td>
+                                            <strong>{{ $activityTime->format('h:i A') }}</strong>
+                                            <p>{{ $activityTime->format('M d, Y') }} · {{ $activity->timezone }}</p>
+                                        </td>
+                                        <td>{{ $activity->device }}</td>
+                                        <td>{{ $activity->user_name }}</td>
+                                        <td>{{ $activity->action }}</td>
+                                        <td>{{ $activity->details }}</td>
+                                        <td><span class="status-badge {{ $activity->status === 'Success' ? 'success' : 'danger' }}">{{ $activity->status }}</span></td>
+                                    </tr>
+                                @empty
+                                    <tr><td colspan="6">No system activities have been recorded yet.</td></tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

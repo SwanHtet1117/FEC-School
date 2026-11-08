@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\HeroSlide;
+use App\Services\ActivityLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -38,6 +39,7 @@ class HeroSlideController extends Controller
             'sort_order' => (HeroSlide::max('sort_order') ?? -1) + 1,
             'is_enabled' => true,
         ]);
+        app(ActivityLogger::class)->record($request, 'Hero image added', $validated['alt_text']);
 
         return redirect()->route('admin.hero.manage')->with('status', 'Hero image added.');
     }
@@ -69,13 +71,15 @@ class HeroSlideController extends Controller
         if (isset($validated['image_path']) && $this->isUploadedImage($previousPath)) {
             $this->deleteUploadedImage($previousPath);
         }
+        app(ActivityLogger::class)->record($request, 'Hero image updated', $validated['alt_text']);
 
         return redirect()->route('admin.hero.manage')->with('status', 'Hero image updated.');
     }
 
-    public function destroy(HeroSlide $heroSlide): RedirectResponse
+    public function destroy(Request $request, HeroSlide $heroSlide): RedirectResponse
     {
         $imagePath = $heroSlide->image_path;
+        $description = $heroSlide->alt_text;
         $deleted = DB::transaction(function () use ($heroSlide): bool {
             $slides = HeroSlide::query()->lockForUpdate()->get();
             $slide = $slides->firstWhere('id', $heroSlide->getKey());
@@ -98,11 +102,12 @@ class HeroSlideController extends Controller
         if ($this->isUploadedImage($imagePath)) {
             $this->deleteUploadedImage($imagePath);
         }
+        app(ActivityLogger::class)->record($request, 'Hero image deleted', $description);
 
         return redirect()->route('admin.hero.manage')->with('status', 'Hero image deleted.');
     }
 
-    public function toggle(HeroSlide $heroSlide): RedirectResponse
+    public function toggle(Request $request, HeroSlide $heroSlide): RedirectResponse
     {
         $enabled = DB::transaction(function () use ($heroSlide): ?bool {
             $slides = HeroSlide::query()->lockForUpdate()->get();
@@ -122,6 +127,11 @@ class HeroSlideController extends Controller
             return redirect()->route('admin.hero.manage')
                 ->withErrors(['hero_slide' => 'At least one hero image must remain enabled.']);
         }
+        app(ActivityLogger::class)->record(
+            $request,
+            $enabled ? 'Hero image enabled' : 'Hero image disabled',
+            $heroSlide->alt_text
+        );
 
         return redirect()->route('admin.hero.manage')->with(
             'status',

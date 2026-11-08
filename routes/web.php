@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\PostController;
 use App\Models\HeroSlide;
+use App\Models\SystemActivity;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -80,6 +81,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard', [
             'heroImageCount' => HeroSlide::count(),
+            'activities' => SystemActivity::latest()->limit(10)->get(),
         ]);
     })->name('admin.dashboard');
 

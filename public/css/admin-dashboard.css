@@ -265,6 +265,11 @@ p.system_activity {
     min-width: 70px;
 }
 
+.activity-panel td:nth-child(2) {
+    min-width: 80px;
+    white-space: nowrap;
+}
+
 .activity-panel td:first-child strong,
 .activity-panel td:first-child small {
     display: block;
