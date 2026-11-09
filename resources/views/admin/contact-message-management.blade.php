@@ -41,7 +41,7 @@
             <div class="user-management-panel-heading">
                 <div>
                     <h2 id="message-list-title">Inbox</h2>
-                    <p class="fs-sm">Newest messages appear first.</p>
+                    <p>Newest messages appear first.</p>
                 </div>
             </div>
             <div class="user-management-table-wrap">
