@@ -85,9 +85,9 @@
                 <span class="stat-copy"><strong>72</strong><small>Total Posts</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
-            <a class="stat-card" href="{{ url('/contact') }}">
+            <a class="stat-card" href="{{ route('admin.messages.index') }}">
                 <span class="stat-icon amber"><i class="fa-regular fa-envelope" aria-hidden="true"></i></span>
-                <span class="stat-copy"><strong>7</strong><small>Messages</small></span>
+                <span class="stat-copy"><strong>{{ $messageCount }}</strong><small>Messages</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
             <a class="stat-card" href="{{ route('admin.users.index') }}">
@@ -168,7 +168,7 @@
                         <a href="{{ url('/admissions') }}"><i class="fa-solid fa-user-group" aria-hidden="true"></i> Parents</a>
                         <a href="{{ url('/contact') }}"><i class="fa-regular fa-circle-question" aria-hidden="true"></i> FAQs</a>
                         <a href="{{ route('admin.users.index') }}"><i class="fa-solid fa-user-shield" aria-hidden="true"></i> User Accounts</a>
-                        <a href="{{ url('/contact') }}"><i class="fa-regular fa-envelope" aria-hidden="true"></i> Messages</a>
+                        <a href="{{ route('admin.messages.index') }}"><i class="fa-regular fa-envelope" aria-hidden="true"></i> Contact Messages</a>
                     </div>
                 </section>
 

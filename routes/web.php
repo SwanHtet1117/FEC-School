@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\Admin\ContactMessageManagementController;
 use App\Http\Controllers\Admin\HeroSlideController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\PostController;
+use App\Models\ContactMessage;
 use App\Models\HeroSlide;
 use App\Models\SystemActivity;
 use App\Models\User;
@@ -22,7 +25,11 @@ Route::get('/about', function () {
 
 Route::get('/contact', function () {
     return view('main.contact');
-});
+})->name('contact');
+
+Route::post('/contact', [ContactMessageController::class, 'store'])
+    ->middleware('throttle:5,1')
+    ->name('contact.messages.store');
 
 Route::get('/news-events', function () {
     return view('main.news-events');
@@ -84,6 +91,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         return view('admin.dashboard', [
             'heroImageCount' => HeroSlide::count(),
             'activities' => SystemActivity::latest()->limit(10)->get(),
+            'messageCount' => ContactMessage::count(),
             'userCount' => User::count(),
             'pendingCount' => User::where('is_approved', false)->count(),
             'adminCount' => User::where('is_admin', true)->count(),
@@ -95,6 +103,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         ->name('admin.users.approve');
     Route::delete('/users/{user}', [UserManagementController::class, 'destroy'])
         ->name('admin.users.destroy');
+
+    Route::get('/messages', [ContactMessageManagementController::class, 'index'])
+        ->name('admin.messages.index');
+    Route::post('/messages/{contactMessage}/toggle-read', [ContactMessageManagementController::class, 'toggleRead'])
+        ->name('admin.messages.toggle-read');
+    Route::delete('/messages/{contactMessage}', [ContactMessageManagementController::class, 'destroy'])
+        ->name('admin.messages.destroy');
 
     Route::get('/hero/manage', [HeroSlideController::class, 'index'])->name('admin.hero.manage');
     Route::post('/hero/manage', [HeroSlideController::class, 'store'])->name('admin.hero.store');

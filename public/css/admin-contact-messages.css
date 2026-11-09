@@ -1,0 +1,106 @@
+.contact-message-table td:first-child {
+    min-width: 180px;
+}
+
+.contact-message-table td:first-child strong,
+.contact-message-table td:first-child small,
+.contact-message-table td:nth-child(4) small {
+    display: block;
+}
+
+.contact-message-table td:first-child small,
+.contact-message-table td:nth-child(4) small {
+    color: var(--admin-muted);
+    font-size: 13px;
+}
+
+.contact-message-email {
+    display: block;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+.contact-message-content {
+    min-width: 220px;
+    width: 30%;
+}
+
+.contact-message-preview {
+    margin: 0 0 8px;
+    color: var(--admin-ink);
+    font-size: 13px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.contact-message-detail summary {
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    border: 1px solid var(--admin-border);
+    border-radius: 6px;
+    background: #fff;
+    color: var(--admin-ink);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 650;
+    list-style: none;
+}
+
+.contact-message-detail summary::-webkit-details-marker {
+    display: none;
+}
+
+.contact-message-detail summary:hover,
+.contact-message-detail[open] summary {
+    border-color: var(--fec-logo-blue);
+    color: var(--fec-logo-blue);
+}
+
+.contact-message-detail summary i {
+    font-size: 10px;
+    transition: transform .2s ease;
+}
+
+.contact-message-detail[open] summary i {
+    transform: rotate(180deg);
+}
+
+.contact-message-detail-body {
+    width: min(60vw, 720px);
+    min-width: 360px;
+    max-width: 720px;
+    margin-top: 8px;
+    padding: 12px;
+    border: 1px solid var(--admin-border);
+    border-radius: 6px;
+    background: #f8fafc;
+    color: var(--admin-ink);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.contact-message-unread {
+    background: #f7fbff;
+}
+
+.contact-message-unread td:first-child strong {
+    color: var(--admin-ink);
+}
+
+.contact-message-actions {
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+@media (max-width: 768px) {
+    .contact-message-table {
+        min-width: 1050px;
+    }
+}

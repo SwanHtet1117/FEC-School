@@ -75,37 +75,51 @@
         <!-- Contact Form -->
         <div class="contact-form-card fade-in-right">
             <h2>Send a Message</h2>
-            <form action="#" method="POST">
+            @if (session('status'))
+                <p class="contact-form-status" role="status">{{ session('status') }}</p>
+            @endif
+            @if ($errors->any())
+                <div class="contact-form-status error" role="alert">
+                    <p>Please correct the following:</p>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            <form action="{{ route('contact.messages.store') }}" method="POST">
+                @csrf
                 <div class="form-group">
                     <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                    <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Enter your full name" maxlength="255" autocomplete="name" required>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+                    <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="Enter your email address" maxlength="255" autocomplete="email" required>
                 </div>
 
                 <div class="form-group">
                     <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" placeholder="Enter your phone number">
+                    <input type="tel" id="phone" name="phone" value="{{ old('phone') }}" placeholder="Enter your phone number" maxlength="30" autocomplete="tel" pattern="[0-9+\s().-]+" required>
                 </div>
 
                 <div class="form-group">
                     <label for="subject">Subject</label>
                     <select id="subject" name="subject" required>
                         <option value="">Select a subject</option>
-                        <option value="admissions">Admissions Inquiry</option>
-                        <option value="academic">Academic Programs</option>
-                        <option value="general">General Inquiry</option>
-                        <option value="careers">Career Opportunities</option>
-                        <option value="other">Other</option>
+                        <option value="admissions" @selected(old('subject') === 'admissions')>Admissions Inquiry</option>
+                        <option value="academic" @selected(old('subject') === 'academic')>Academic Programs</option>
+                        <option value="general" @selected(old('subject') === 'general')>General Inquiry</option>
+                        <option value="careers" @selected(old('subject') === 'careers')>Career Opportunities</option>
+                        <option value="other" @selected(old('subject') === 'other')>Other</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="message">Message</label>
-                    <textarea id="message" name="message" placeholder="Type your message here..." required></textarea>
+                    <textarea id="message" name="message" maxlength="10000" placeholder="Type your message here..." required>{{ old('message') }}</textarea>
                 </div>
 
                 <button type="submit" class="btn-submit">
