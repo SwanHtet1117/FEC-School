@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ asset('css/admin-dashboard.css') }}">
     <script src="{{ asset('js/animations.js') }}" defer></script>
 </head>
-<body class="admin-dashboard">
+<body class="admin-dashboard admin-dashboard-home">
     @include('partials.header')
 
     <main class="dashboard-container">
@@ -35,9 +35,9 @@
                 <span class="stat-copy"><strong>{{ $heroImageCount }}</strong><small>Hero Images</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
-            <a class="stat-card" href="{{ url('/contact') }}">
+            <a class="stat-card" href="{{ route('admin.careers.index') }}">
                 <span class="stat-icon green"><i class="fa-solid fa-briefcase" aria-hidden="true"></i></span>
-                <span class="stat-copy"><strong>12</strong><small>Career Opportunities</small></span>
+                <span class="stat-copy"><strong>{{ $careerCount }}</strong><small>Career Opportunities</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
             <a class="stat-card" href="{{ url('/news-events') }}">
@@ -159,7 +159,7 @@
                     <div class="quick-actions">
                         <a href="{{ route('admin.hero.manage') }}"><i class="fa-regular fa-images" aria-hidden="true"></i> Manage Hero Images</a>
                         <a href="{{ url('/news-events') }}"><i class="fa-regular fa-image" aria-hidden="true"></i> News Images</a>
-                        <a href="{{ url('/contact') }}"><i class="fa-solid fa-briefcase" aria-hidden="true"></i> Career Opportunities</a>
+                        <a href="{{ route('admin.careers.index') }}"><i class="fa-solid fa-briefcase" aria-hidden="true"></i> Career Opportunities</a>
                         <a href="{{ url('/news-events/all-posts') }}"><i class="fa-regular fa-newspaper" aria-hidden="true"></i> News &amp; Announcements</a>
                         <a href="{{ url('/gallery/photo') }}"><i class="fa-regular fa-images" aria-hidden="true"></i> Photo Gallery</a>
                         <a href="{{ url('/gallery/video') }}"><i class="fa-solid fa-circle-play" aria-hidden="true"></i> Video Gallery</a>

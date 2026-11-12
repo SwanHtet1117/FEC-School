@@ -144,107 +144,28 @@
             <p class="section-text fade-in-up">Join our team of dedicated educators and staff committed to excellence in education.</p>
             
             <div class="careers-grid fade-in-up">
-                <div class="career-card">
-                    <div class="career-header">
-                        <div class="career-icon">
-                            <i class="fas fa-chalkboard-teacher"></i>
+                @forelse ($careerOpportunities as $opportunity)
+                    <article class="career-card">
+                        <div class="career-header">
+                            <div class="career-icon">
+                                <i class="fas fa-briefcase" aria-hidden="true"></i>
+                            </div>
+                            <span class="career-type">{{ $opportunity->employment_type }}</span>
                         </div>
-                        <span class="career-type">Teaching</span>
-                    </div>
-                    <h3>English Teacher</h3>
-                    <p class="career-department">Primary School</p>
-                    <div class="career-details">
-                        <span><i class="fas fa-clock"></i> Full-time</span>
-                        <span><i class="fas fa-map-marker-alt"></i> Naypyidaw</span>
-                    </div>
-                    <p class="career-description">We are seeking an experienced English teacher to join our primary school team. Candidates should have strong communication skills and passion for teaching young learners.</p>
-                    <a href="#" class="career-apply-btn">Apply Now <i class="fas fa-arrow-right"></i></a>
-                </div>
-
-                <div class="career-card">
-                    <div class="career-header">
-                        <div class="career-icon">
-                            <i class="fas fa-flask"></i>
+                        <h3>{{ $opportunity->title }}</h3>
+                        <p class="career-department">{{ $opportunity->department }}</p>
+                        <div class="career-details">
+                            <span><i class="fas fa-clock" aria-hidden="true"></i> {{ $opportunity->employment_type }}</span>
+                            <span><i class="fas fa-map-marker-alt" aria-hidden="true"></i> {{ $opportunity->location }}</span>
                         </div>
-                        <span class="career-type">Teaching</span>
-                    </div>
-                    <h3>Science Teacher</h3>
-                    <p class="career-department">Secondary School</p>
-                    <div class="career-details">
-                        <span><i class="fas fa-clock"></i> Full-time</span>
-                        <span><i class="fas fa-map-marker-alt"></i> Naypyidaw</span>
-                    </div>
-                    <p class="career-description">Looking for a qualified Science teacher with expertise in Physics, Chemistry, or Biology. Laboratory experience and innovative teaching methods required.</p>
-                    <a href="#" class="career-apply-btn">Apply Now <i class="fas fa-arrow-right"></i></a>
-                </div>
-
-                <div class="career-card">
-                    <div class="career-header">
-                        <div class="career-icon">
-                            <i class="fas fa-calculator"></i>
-                        </div>
-                        <span class="career-type">Teaching</span>
-                    </div>
-                    <h3>Mathematics Teacher</h3>
-                    <p class="career-department">Secondary School</p>
-                    <div class="career-details">
-                        <span><i class="fas fa-clock"></i> Full-time</span>
-                        <span><i class="fas fa-map-marker-alt"></i> Naypyidaw</span>
-                    </div>
-                    <p class="career-description">We need a passionate Mathematics teacher to inspire students. Strong background in algebra, geometry, and calculus preferred.</p>
-                    <a href="#" class="career-apply-btn">Apply Now <i class="fas fa-arrow-right"></i></a>
-                </div>
-
-                <div class="career-card">
-                    <div class="career-header">
-                        <div class="career-icon">
-                            <i class="fas fa-user-tie"></i>
-                        </div>
-                        <span class="career-type">Administration</span>
-                    </div>
-                    <h3>Administrative Assistant</h3>
-                    <p class="career-department">School Office</p>
-                    <div class="career-details">
-                        <span><i class="fas fa-clock"></i> Full-time</span>
-                        <span><i class="fas fa-map-marker-alt"></i> Naypyidaw</span>
-                    </div>
-                    <p class="career-description">Seeking an organized administrative assistant to support daily school operations. Excellent communication and computer skills required.</p>
-                    <a href="#" class="career-apply-btn">Apply Now <i class="fas fa-arrow-right"></i></a>
-                </div>
-
-                <div class="career-card">
-                    <div class="career-header">
-                        <div class="career-icon">
-                            <i class="fas fa-laptop"></i>
-                        </div>
-                        <span class="career-type">IT Support</span>
-                    </div>
-                    <h3>IT Technician</h3>
-                    <p class="career-department">IT Department</p>
-                    <div class="career-details">
-                        <span><i class="fas fa-clock"></i> Full-time</span>
-                        <span><i class="fas fa-map-marker-alt"></i> Naypyidaw</span>
-                    </div>
-                    <p class="career-description">Looking for an IT technician to maintain school computer systems, networks, and provide technical support to staff and students.</p>
-                    <a href="#" class="career-apply-btn">Apply Now <i class="fas fa-arrow-right"></i></a>
-                </div>
-
-                <div class="career-card">
-                    <div class="career-header">
-                        <div class="career-icon">
-                            <i class="fas fa-heart"></i>
-                        </div>
-                        <span class="career-type">Student Services</span>
-                    </div>
-                    <h3>School Counselor</h3>
-                    <p class="career-department">Student Services</p>
-                    <div class="career-details">
-                        <span><i class="fas fa-clock"></i> Full-time</span>
-                        <span><i class="fas fa-map-marker-alt"></i> Naypyidaw</span>
-                    </div>
-                    <p class="career-description">We need a qualified school counselor to provide emotional and academic support to students. Psychology background and experience with children required.</p>
-                    <a href="#" class="career-apply-btn">Apply Now <i class="fas fa-arrow-right"></i></a>
-                </div>
+                        <p class="career-description">{{ $opportunity->description }}</p>
+                        <a href="mailto:{{ $opportunity->application_email }}?subject={{ rawurlencode('Application: '.$opportunity->title) }}" class="career-apply-btn">
+                            Apply Now <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </article>
+                @empty
+                    <p class="career-empty-state">There are no current openings. Please check back soon.</p>
+                @endforelse
             </div>
         </div>
     </section>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ContactMessageManagementController;
+use App\Http\Controllers\Admin\CareerOpportunityController;
 use App\Http\Controllers\Admin\HeroSlideController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Auth\LoginController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\PostController;
 use App\Models\ContactMessage;
+use App\Models\CareerOpportunity;
 use App\Models\HeroSlide;
 use App\Models\SystemActivity;
 use App\Models\User;
@@ -24,7 +26,9 @@ Route::get('/about', function () {
 });
 
 Route::get('/contact', function () {
-    return view('main.contact');
+    return view('main.contact', [
+        'careerOpportunities' => CareerOpportunity::open()->latest()->get(),
+    ]);
 })->name('contact');
 
 Route::post('/contact', [ContactMessageController::class, 'store'])
@@ -92,6 +96,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
             'heroImageCount' => HeroSlide::count(),
             'activities' => SystemActivity::latest()->limit(10)->get(),
             'messageCount' => ContactMessage::count(),
+            'careerCount' => CareerOpportunity::open()->count(),
             'userCount' => User::count(),
             'pendingCount' => User::where('is_approved', false)->count(),
             'adminCount' => User::where('is_admin', true)->count(),
@@ -110,6 +115,15 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         ->name('admin.messages.toggle-read');
     Route::delete('/messages/{contactMessage}', [ContactMessageManagementController::class, 'destroy'])
         ->name('admin.messages.destroy');
+
+    Route::get('/careers', [CareerOpportunityController::class, 'index'])->name('admin.careers.index');
+    Route::post('/careers', [CareerOpportunityController::class, 'store'])->name('admin.careers.store');
+    Route::get('/careers/{careerOpportunity}/edit', [CareerOpportunityController::class, 'edit'])
+        ->name('admin.careers.edit');
+    Route::put('/careers/{careerOpportunity}', [CareerOpportunityController::class, 'update'])
+        ->name('admin.careers.update');
+    Route::delete('/careers/{careerOpportunity}', [CareerOpportunityController::class, 'destroy'])
+        ->name('admin.careers.destroy');
 
     Route::get('/hero/manage', [HeroSlideController::class, 'index'])->name('admin.hero.manage');
     Route::post('/hero/manage', [HeroSlideController::class, 'store'])->name('admin.hero.store');

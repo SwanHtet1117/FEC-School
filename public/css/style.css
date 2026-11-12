@@ -3614,6 +3614,16 @@ body {
     box-shadow: 0 8px 20px rgba(29, 78, 216, 0.3);
 }
 
+.career-empty-state {
+    grid-column: 1 / -1;
+    margin: 0;
+    padding: 28px;
+    border: 1px dashed rgba(100, 116, 139, .35);
+    border-radius: var(--radius-md);
+    color: var(--text-muted);
+    text-align: center;
+}
+
 /* --- Pagination Styles --- */
 .pagination {
     display: flex;
