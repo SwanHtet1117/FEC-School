@@ -239,36 +239,15 @@
         <div class="section-container">
             <h2 class="section-title fade-in-up">Frequently Asked Questions</h2>
             <div class="curriculum-container fade-in-up">
-                <div class="curriculum-item">
-                    <div class="curriculum-number">Q1</div>
-                    <h4>What is the age requirement for admission?</h4>
-                    <p>Early Years: 3-5 years, Primary: 6-11 years, Secondary: 12-16 years. Age requirements may vary based on previous education.</p>
-                </div>
-                <div class="curriculum-item">
-                    <div class="curriculum-number">Q2</div>
-                    <h4>Is there an entrance examination?</h4>
-                    <p>Yes, age-appropriate assessments are conducted to determine proper placement and identify learning needs.</p>
-                </div>
-                <div class="curriculum-item">
-                    <div class="curriculum-number">Q3</div>
-                    <h4>When does the academic year begin?</h4>
-                    <p>Our academic year typically begins in June and runs through March, with breaks scheduled for holidays.</p>
-                </div>
-                <div class="curriculum-item">
-                    <div class="curriculum-number">Q4</div>
-                    <h4>Do you accept international students?</h4>
-                    <p>Yes, we welcome international students and provide support for their transition to our school community.</p>
-                </div>
-                <div class="curriculum-item">
-                    <div class="curriculum-number">Q5</div>
-                    <h4>What is the student-teacher ratio?</h4>
-                    <p>We maintain small class sizes with a student-teacher ratio of approximately 15:1 to ensure personalized attention.</p>
-                </div>
-                <div class="curriculum-item">
-                    <div class="curriculum-number">Q6</div>
-                    <h4>Is transportation available?</h4>
-                    <p>Yes, we provide school bus services covering major areas. Contact admissions for route information.</p>
-                </div>
+                @forelse ($faqs as $faq)
+                    <div class="curriculum-item">
+                        <div class="curriculum-number">Q{{ $loop->iteration }}</div>
+                        <h4>{{ $faq->question }}</h4>
+                        <p>{{ $faq->answer }}</p>
+                    </div>
+                @empty
+                    <p>No frequently asked questions are available right now.</p>
+                @endforelse
             </div>
         </div>
     </section>

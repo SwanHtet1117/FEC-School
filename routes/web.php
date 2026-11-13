@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ContactMessageManagementController;
 use App\Http\Controllers\Admin\CareerOpportunityController;
+use App\Http\Controllers\Admin\FaqManagementController;
 use App\Http\Controllers\Admin\HeroSlideController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Auth\LoginController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\PostController;
 use App\Models\ContactMessage;
 use App\Models\CareerOpportunity;
+use App\Models\Faq;
 use App\Models\HeroSlide;
 use App\Models\SystemActivity;
 use App\Models\User;
@@ -72,7 +74,9 @@ Route::get('/gallery/video', function () {
 });
 
 Route::get('/admissions', function () {
-    return view('main.admission-overview');
+    return view('main.admission-overview', [
+        'faqs' => Faq::query()->orderBy('sort_order')->orderBy('id')->get(),
+    ]);
 });
 
 Route::get('/news-events/all-posts', function () {
@@ -97,6 +101,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
             'activities' => SystemActivity::latest()->limit(10)->get(),
             'messageCount' => ContactMessage::count(),
             'careerCount' => CareerOpportunity::open()->count(),
+            'faqCount' => Faq::count(),
             'userCount' => User::count(),
             'pendingCount' => User::where('is_approved', false)->count(),
             'adminCount' => User::where('is_admin', true)->count(),
@@ -124,6 +129,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         ->name('admin.careers.update');
     Route::delete('/careers/{careerOpportunity}', [CareerOpportunityController::class, 'destroy'])
         ->name('admin.careers.destroy');
+
+    Route::get('/faqs', [FaqManagementController::class, 'index'])->name('admin.faqs.index');
+    Route::post('/faqs', [FaqManagementController::class, 'store'])->name('admin.faqs.store');
+    Route::get('/faqs/{faq}/edit', [FaqManagementController::class, 'edit'])->name('admin.faqs.edit');
+    Route::put('/faqs/{faq}', [FaqManagementController::class, 'update'])->name('admin.faqs.update');
+    Route::delete('/faqs/{faq}', [FaqManagementController::class, 'destroy'])->name('admin.faqs.destroy');
 
     Route::get('/hero/manage', [HeroSlideController::class, 'index'])->name('admin.hero.manage');
     Route::post('/hero/manage', [HeroSlideController::class, 'store'])->name('admin.hero.store');

@@ -75,9 +75,9 @@
                 <span class="stat-copy"><strong>6</strong><small>Parents</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
-            <a class="stat-card" href="{{ url('/contact') }}">
+            <a class="stat-card" href="{{ route('admin.faqs.index') }}">
                 <span class="stat-icon cyan"><i class="fa-regular fa-circle-question" aria-hidden="true"></i></span>
-                <span class="stat-copy"><strong>5</strong><small>FAQs</small></span>
+                <span class="stat-copy"><strong>{{ $faqCount }}</strong><small>FAQs</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
             <a class="stat-card" href="{{ url('/news-events/all-posts') }}">
@@ -166,7 +166,7 @@
                         <a href="{{ url('/campus-life') }}"><i class="fa-regular fa-comment-dots" aria-hidden="true"></i> Testimonials</a>
                         <a href="{{ url('/campus-life') }}"><i class="fa-solid fa-people-group" aria-hidden="true"></i> Student Life</a>
                         <a href="{{ url('/admissions') }}"><i class="fa-solid fa-user-group" aria-hidden="true"></i> Parents</a>
-                        <a href="{{ url('/contact') }}"><i class="fa-regular fa-circle-question" aria-hidden="true"></i> FAQs</a>
+                        <a href="{{ route('admin.faqs.index') }}"><i class="fa-regular fa-circle-question" aria-hidden="true"></i> FAQs</a>
                         <a href="{{ route('admin.users.index') }}"><i class="fa-solid fa-user-shield" aria-hidden="true"></i> User Accounts</a>
                         <a href="{{ route('admin.messages.index') }}"><i class="fa-regular fa-envelope" aria-hidden="true"></i> Contact Messages</a>
                     </div>
