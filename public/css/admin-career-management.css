@@ -257,6 +257,7 @@
 
 .career-opportunity-list {
     display: grid;
+    gap: 12px;
 }
 
 .career-opportunity-item {
@@ -264,13 +265,20 @@
     align-items: flex-start;
     justify-content: space-between;
     gap: 20px;
-    padding: 18px 0;
-    border-top: 1px solid #18047b;
+    padding: 18px;
+    border: 1px solid #dce8f4;
+    border-left: 4px solid #4388bd;
+    border-radius: 14px;
+    background: linear-gradient(120deg, #f5faff 0%, #fff 78%);
+    box-shadow: 0 4px 14px rgba(31, 74, 112, .045);
+    transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
 }
 
-.career-opportunity-item:first-child {
-    padding-top: 0;
-    border-top: 0;
+.career-opportunity-item:hover {
+    border-color: #b8d3eb;
+    border-left-color: #2778b5;
+    background: linear-gradient(120deg, #eff7ff 0%, #fff 78%);
+    box-shadow: 0 8px 20px rgba(31, 74, 112, .09);
 }
 
 .career-opportunity-copy {
@@ -286,39 +294,54 @@
 
 .career-opportunity-title h3 {
     margin: 0;
-    color: #26364b;
+    color: #19466b;
     font-size: 16px;
 }
 
 .career-opportunity-status {
+    display: inline-flex;
+    align-items: center;
     padding: 3px 9px;
+    border: 1px solid transparent;
     border-radius: 999px;
     font-size: 11px;
     font-weight: 700;
 }
 
 .career-opportunity-status.open {
-    background: #e9f8ef;
-    color: #287844;
+    border-color: #b8e3c7;
+    background: #eaf8ef;
+    color: #216b3b;
 }
 
 .career-opportunity-status.closed {
-    background: #f0f2f5;
-    color: #697789;
+    border-color: #dce2e9;
+    background: #f1f4f7;
+    color: #5d6b7b;
 }
 
-.career-opportunity-meta,
-.career-opportunity-deadline {
+.career-opportunity-meta {
     margin: 6px 0 0;
-    color: #718096;
+    color: #55718b;
     font-size: 13px;
 }
 
 .career-opportunity-description {
     margin: 9px 0 0;
-    color: #4b5b70;
+    color: #46596f;
     font-size: 14px;
     line-height: 1.55;
+}
+
+.career-opportunity-deadline {
+    width: fit-content;
+    margin: 10px 0 0;
+    padding: 5px 9px;
+    border-radius: 8px;
+    background: #fff5df;
+    color: #805d17;
+    font-size: 12px;
+    font-weight: 600;
 }
 
 .career-opportunity-actions {
