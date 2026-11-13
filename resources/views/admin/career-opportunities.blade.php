@@ -42,27 +42,27 @@
             </div>
         @endif
 
-        <section class="career-management-panel" aria-labelledby="career-upload-title">
+        <section class="career-management-panel career-upload-panel" aria-labelledby="career-upload-title">
             <div class="career-management-panel-heading">
                 <span class="career-management-icon"><i class="fa-solid fa-briefcase" aria-hidden="true"></i></span>
                 <div>
                     <h2 id="career-upload-title">Post a job opportunity</h2>
-                    <p>Published positions appear in the Careers section of the contact page.</p>
+                    <p>Share the role details below. Published positions appear in the Careers section of the contact page.</p>
                 </div>
             </div>
 
             <form class="career-upload-form" action="{{ route('admin.careers.store') }}" method="POST">
                 @csrf
                 <label class="career-field">
-                    <span>Job title</span>
+                    <span>Job title <span class="career-required" aria-hidden="true">*</span></span>
                     <input type="text" name="title" value="{{ old('title') }}" maxlength="255" placeholder="e.g. Primary English Teacher" required>
                 </label>
                 <label class="career-field">
-                    <span>Department</span>
+                    <span>Department <span class="career-required" aria-hidden="true">*</span></span>
                     <input type="text" name="department" value="{{ old('department') }}" maxlength="255" placeholder="e.g. Primary School" required>
                 </label>
                 <label class="career-field">
-                    <span>Employment type</span>
+                    <span>Employment type <span class="career-required" aria-hidden="true">*</span></span>
                     <select name="employment_type" required>
                         <option value="">Select employment type</option>
                         @foreach (['Full-time', 'Part-time', 'Contract'] as $employmentType)
@@ -71,15 +71,15 @@
                     </select>
                 </label>
                 <label class="career-field">
-                    <span>Location</span>
+                    <span>Location <span class="career-required" aria-hidden="true">*</span></span>
                     <input type="text" name="location" value="{{ old('location', 'Naypyidaw') }}" maxlength="255" required>
                 </label>
                 <label class="career-field career-field-wide">
-                    <span>Job description</span>
+                    <span>Job description <span class="career-required" aria-hidden="true">*</span></span>
                     <textarea name="description" maxlength="5000" rows="5" placeholder="Describe the role, qualifications, and responsibilities." required>{{ old('description') }}</textarea>
                 </label>
                 <label class="career-field">
-                    <span>Application email</span>
+                    <span>Application email <span class="career-required" aria-hidden="true">*</span></span>
                     <input type="email" name="application_email" value="{{ old('application_email') }}" maxlength="255" placeholder="careers@example.com" required>
                 </label>
                 <label class="career-field">
@@ -87,6 +87,7 @@
                     <input type="date" name="closes_at" value="{{ old('closes_at') }}" min="{{ today()->toDateString() }}">
                 </label>
                 <div class="career-form-actions">
+                    <p class="career-form-hint"><span class="career-required" aria-hidden="true">*</span> Required fields</p>
                     <button class="career-management-button" type="submit">
                         <i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Publish opportunity
                     </button>
@@ -130,7 +131,7 @@
                             <a class="career-edit-button" href="{{ route('admin.careers.edit', $opportunity) }}">
                                 <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i> Edit
                             </a>
-                            <form action="{{ route('admin.careers.destroy', $opportunity) }}" method="POST" onsubmit="return confirm('Delete this career opportunity? This cannot be undone.')">
+                            <form class="career-delete-form" data-career-delete-title="{{ $opportunity->title }}" action="{{ route('admin.careers.destroy', $opportunity) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button class="career-delete-button" type="submit" aria-label="Delete {{ $opportunity->title }}">
@@ -144,8 +145,62 @@
                 @endforelse
             </div>
         </section>
+
+        <dialog class="career-delete-dialog" id="careerDeleteDialog" aria-labelledby="careerDeleteTitle" aria-describedby="careerDeleteDescription">
+            <div class="career-delete-dialog-heading">
+                <span class="career-delete-dialog-icon"><i class="fa-solid fa-trash-can" aria-hidden="true"></i></span>
+                <div>
+                    <h2 id="careerDeleteTitle">Delete this job opportunity?</h2>
+                    <p>This action cannot be undone.</p>
+                </div>
+            </div>
+            <p class="career-delete-dialog-description" id="careerDeleteDescription">
+                You are about to delete <strong id="careerDeleteOpportunityTitle"></strong>.
+            </p>
+            <div class="career-delete-dialog-actions">
+                <button class="career-delete-dialog-cancel" id="careerDeleteCancel" type="button" autofocus>Keep opportunity</button>
+                <button class="career-delete-dialog-confirm" id="careerDeleteConfirm" type="button">
+                    <i class="fa-solid fa-trash-can" aria-hidden="true"></i> Delete opportunity
+                </button>
+            </div>
+        </dialog>
     </main>
 
     @include('partials.footer')
+    <script>
+        const careerDeleteDialog = document.getElementById('careerDeleteDialog');
+        const careerDeleteOpportunityTitle = document.getElementById('careerDeleteOpportunityTitle');
+        let pendingCareerDeleteForm = null;
+
+        document.querySelectorAll('.career-delete-form').forEach((form) => {
+            form.addEventListener('submit', (event) => {
+                if (form.dataset.confirmed === 'true') {
+                    return;
+                }
+
+                event.preventDefault();
+                pendingCareerDeleteForm = form;
+                careerDeleteOpportunityTitle.textContent = form.dataset.careerDeleteTitle;
+                careerDeleteDialog.showModal();
+            });
+        });
+
+        document.getElementById('careerDeleteCancel').addEventListener('click', () => {
+            careerDeleteDialog.close();
+        });
+
+        document.getElementById('careerDeleteConfirm').addEventListener('click', () => {
+            if (!pendingCareerDeleteForm) {
+                return;
+            }
+
+            pendingCareerDeleteForm.dataset.confirmed = 'true';
+            pendingCareerDeleteForm.requestSubmit();
+        });
+
+        careerDeleteDialog.addEventListener('close', () => {
+            pendingCareerDeleteForm = null;
+        });
+    </script>
 </body>
 </html>
