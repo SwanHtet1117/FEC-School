@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ContactMessageManagementController;
 use App\Http\Controllers\Admin\CareerOpportunityController;
 use App\Http\Controllers\Admin\FaqManagementController;
 use App\Http\Controllers\Admin\HeroSlideController;
+use App\Http\Controllers\Admin\SystemActivityController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -107,6 +108,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
             'adminCount' => User::where('is_admin', true)->count(),
         ]);
     })->name('admin.dashboard');
+
+    Route::get('/activities', [SystemActivityController::class, 'index'])
+        ->name('admin.activities.index');
 
     Route::get('/users', [UserManagementController::class, 'index'])->name('admin.users.index');
     Route::post('/users/{user}/approve', [UserManagementController::class, 'approve'])

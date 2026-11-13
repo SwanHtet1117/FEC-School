@@ -120,4 +120,69 @@ class SystemActivitiesTest extends TestCase
             ->assertSee('Hero image updated')
             ->assertDontSee('administrator account');
     }
+
+    public function test_admin_can_view_all_system_activities_across_pages(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+
+        foreach (range(1, 26) as $number) {
+            SystemActivity::create([
+                'user_name' => 'Admin User',
+                'action' => 'Content updated',
+                'details' => sprintf('Activity entry %03d', $number),
+                'status' => 'Success',
+                'device' => 'Desktop',
+                'timezone' => 'UTC',
+            ]);
+        }
+
+        $this->actingAs($admin)
+            ->get(route('admin.activities.index'))
+            ->assertOk()
+            ->assertSee('Activity Log')
+            ->assertSee('Activity entry 026')
+            ->assertDontSee('Activity entry 001')
+            ->assertSee('Page 1 of 2');
+
+        $this->get(route('admin.activities.index', ['page' => 2]))
+            ->assertOk()
+            ->assertSee('Activity entry 001')
+            ->assertSee('Page 2 of 2');
+    }
+
+    public function test_activity_filters_can_be_combined_and_invalid_values_are_reported(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+        SystemActivity::create([
+            'user_name' => 'Admin User',
+            'action' => 'Login',
+            'details' => 'Signed in successfully',
+            'status' => 'Success',
+            'device' => 'Desktop',
+            'timezone' => 'UTC',
+        ]);
+        SystemActivity::create([
+            'user_name' => 'Admin User',
+            'action' => 'Login',
+            'details' => 'Invalid credentials',
+            'status' => 'Failed',
+            'device' => 'Mobile',
+            'timezone' => 'UTC',
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('admin.activities.index', [
+                'search' => 'credentials',
+                'status' => 'Failed',
+                'device' => 'Mobile',
+            ]))
+            ->assertOk()
+            ->assertSee('Invalid credentials')
+            ->assertDontSee('Signed in successfully');
+
+        $this->get(route('admin.activities.index', ['status' => 'Unknown']))
+            ->assertOk()
+            ->assertSee('Some filter values are invalid.')
+            ->assertSee('Please correct the filters above');
+    }
 }

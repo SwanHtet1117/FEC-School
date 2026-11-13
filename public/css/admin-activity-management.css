@@ -1,0 +1,359 @@
+.activity-management {
+    display: grid;
+    gap: 20px;
+}
+
+.activity-management-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 8px 0;
+}
+
+.activity-management-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    color: var(--admin-blue) !important;
+    font-size: 13px;
+    font-weight: 650;
+}
+
+.activity-management-back:hover {
+    color: #12466f !important;
+}
+
+.activity-management-heading h1 {
+    margin: 0;
+    color: var(--admin-ink);
+    font-size: clamp(30px, 4vw, 40px);
+    letter-spacing: -.035em;
+}
+
+.activity-management-heading > div > p {
+    margin: 6px 0 0;
+    color: var(--admin-muted);
+    font-size: 14px;
+}
+
+.activity-management-count {
+    flex: 0 0 auto;
+    padding: 9px 13px;
+    border: 1px solid #c9dfef;
+    border-radius: 999px;
+    background: #e7f2fb;
+    color: #15527f;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.activity-management-panel {
+    padding: 24px;
+    border-color: #dce8f4;
+    background: linear-gradient(180deg, #f8fbff 0%, #fff 140px);
+}
+
+.activity-filter-error {
+    padding: 13px 16px;
+    border: 1px solid #f0d39a;
+    border-radius: 12px;
+    background: #fff9e9;
+    color: #765714;
+    font-size: 13px;
+}
+
+.activity-filter-error ul {
+    margin: 6px 0 0;
+    padding-left: 20px;
+}
+
+.activity-filter-form {
+    display: grid;
+    grid-template-columns: minmax(200px, 2fr) repeat(3, minmax(130px, 1fr)) auto;
+    align-items: end;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding: 15px;
+    border: 1px solid #dfeaf4;
+    border-radius: 12px;
+    background: #f4f9fd;
+}
+
+.activity-filter-field {
+    display: grid;
+    min-width: 0;
+    gap: 6px;
+    color: #315d7e;
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.activity-filter-field input,
+.activity-filter-field select {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 40px;
+    padding: 8px 10px;
+    border: 1px solid #d4e0eb;
+    border-radius: 8px;
+    background: #fff;
+    color: #334b61;
+    font: inherit;
+    font-size: 13px;
+}
+
+.activity-filter-field input:focus,
+.activity-filter-field select:focus {
+    outline: none;
+    border-color: #4388bd;
+    box-shadow: 0 0 0 3px rgba(67, 136, 189, .13);
+}
+
+.activity-filter-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 1px;
+}
+
+.activity-filter-apply,
+.activity-filter-clear {
+    display: inline-flex;
+    min-height: 40px;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 8px 12px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 650;
+    text-decoration: none !important;
+}
+
+.activity-filter-apply {
+    background: #15598a;
+    color: #fff;
+}
+
+.activity-filter-apply:hover {
+    background: #12466f;
+}
+
+.activity-filter-clear {
+    border-color: #d4e0eb;
+    background: #fff;
+    color: #536b80 !important;
+}
+
+.activity-filter-clear:hover {
+    border-color: #a7cbe9;
+    background: #edf6ff;
+    color: #15598a !important;
+}
+
+.activity-management-table-wrap {
+    overflow-x: auto;
+}
+
+.activity-management-table {
+    width: 100%;
+    min-width: 860px;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 13px;
+}
+
+.activity-management-table th {
+    padding: 11px 10px;
+    border-bottom: 1px solid #d7e5f1;
+    background: #edf5fc;
+    color: #315d7e;
+    font-weight: 650;
+    white-space: nowrap;
+}
+
+.activity-management-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #e8eef4;
+    color: #3e5063;
+    vertical-align: top;
+}
+
+.activity-management-table tbody tr:nth-child(even) td {
+    background: #f8fbfe;
+}
+
+.activity-management-table tbody tr:hover td {
+    background: #edf6ff;
+}
+
+.activity-management-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.activity-management-table td:first-child strong {
+    color: #194f78;
+}
+
+.activity-management-table td:first-child {
+    min-width: 150px;
+    white-space: nowrap;
+}
+
+.activity-management-table td:first-child strong,
+.activity-management-table td:first-child small {
+    display: block;
+}
+
+.activity-management-table td:first-child small {
+    margin-top: 3px;
+    color: #71879a;
+    font-size: 11px;
+}
+
+.activity-management-table td:nth-child(2),
+.activity-management-table td:last-child {
+    white-space: nowrap;
+}
+
+.activity-management-table td:nth-child(5) {
+    min-width: 220px;
+    overflow-wrap: anywhere;
+}
+
+.activity-management-table .status-badge.success {
+    background: #e5f6ec;
+    color: #176b3a;
+}
+
+.activity-management-table .status-badge.danger {
+    background: #fff0f0;
+    color: #b42332;
+}
+
+.activity-management-empty {
+    padding: 30px !important;
+    background: #fff !important;
+    color: #718096 !important;
+    text-align: center;
+}
+
+.activity-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--admin-border);
+}
+
+.activity-pagination > p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+.activity-pagination-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.activity-pagination-actions a,
+.activity-pagination-actions > span {
+    display: inline-flex;
+    min-height: 36px;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 7px 10px;
+    border: 1px solid #dce4ee;
+    border-radius: 8px;
+    background: #fff;
+    color: #53647a;
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.activity-pagination-actions a:hover {
+    border-color: #a7cbe9;
+    background: #f3f8fd;
+    color: #15598a;
+}
+
+.activity-pagination-actions > span[aria-disabled="true"] {
+    background: #f6f8fa;
+    color: #98a3b0;
+}
+
+.activity-pagination-actions .activity-pagination-page {
+    border-color: transparent;
+    background: transparent;
+    color: #718096;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .activity-management-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .activity-filter-form {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .activity-filter-search {
+        grid-column: 1 / -1;
+    }
+
+    .activity-filter-actions {
+        grid-column: 1 / -1;
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 600px) {
+    .activity-management {
+        gap: 15px;
+    }
+
+    .activity-management-panel {
+        padding: 18px;
+    }
+
+    .activity-filter-form {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 12px;
+    }
+
+    .activity-filter-search,
+    .activity-filter-actions {
+        grid-column: auto;
+    }
+
+    .activity-filter-actions {
+        justify-content: stretch;
+    }
+
+    .activity-filter-apply {
+        flex: 1;
+    }
+
+    .activity-pagination {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .activity-pagination-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+}

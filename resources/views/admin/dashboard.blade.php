@@ -110,7 +110,7 @@
                             <h2>System Activities</h2>
                             <p class="system_activity">Recent account and content activity</p>
                         </div>
-                        <a class="text-link" href="#system-activities">View all <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                        <a class="text-link" href="{{ route('admin.activities.index') }}">View all <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
                     </div>
                     <div class="table-wrap">
                         <table id="system-activities">
