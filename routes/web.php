@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CareerOpportunityController;
 use App\Http\Controllers\Admin\FaqManagementController;
 use App\Http\Controllers\Admin\HeroSlideController;
 use App\Http\Controllers\Admin\SystemActivityController;
+use App\Http\Controllers\Admin\TestimonialManagementController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -15,12 +16,14 @@ use App\Models\CareerOpportunity;
 use App\Models\Faq;
 use App\Models\HeroSlide;
 use App\Models\SystemActivity;
+use App\Models\Testimonial;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('main.home', [
         'heroSlides' => HeroSlide::where('is_enabled', true)->ordered()->get(),
+        'testimonials' => Testimonial::query()->orderBy('sort_order')->orderBy('id')->get(),
     ]);
 })->name('home');
 
@@ -103,6 +106,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
             'messageCount' => ContactMessage::count(),
             'careerCount' => CareerOpportunity::open()->count(),
             'faqCount' => Faq::count(),
+            'testimonialCount' => Testimonial::count(),
             'userCount' => User::count(),
             'pendingCount' => User::where('is_approved', false)->count(),
             'adminCount' => User::where('is_admin', true)->count(),
@@ -139,6 +143,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/faqs/{faq}/edit', [FaqManagementController::class, 'edit'])->name('admin.faqs.edit');
     Route::put('/faqs/{faq}', [FaqManagementController::class, 'update'])->name('admin.faqs.update');
     Route::delete('/faqs/{faq}', [FaqManagementController::class, 'destroy'])->name('admin.faqs.destroy');
+
+    Route::get('/testimonials', [TestimonialManagementController::class, 'index'])
+        ->name('admin.testimonials.index');
+    Route::post('/testimonials', [TestimonialManagementController::class, 'store'])
+        ->name('admin.testimonials.store');
+    Route::get('/testimonials/{testimonial}/edit', [TestimonialManagementController::class, 'edit'])
+        ->name('admin.testimonials.edit');
+    Route::put('/testimonials/{testimonial}', [TestimonialManagementController::class, 'update'])
+        ->name('admin.testimonials.update');
+    Route::delete('/testimonials/{testimonial}', [TestimonialManagementController::class, 'destroy'])
+        ->name('admin.testimonials.destroy');
 
     Route::get('/hero/manage', [HeroSlideController::class, 'index'])->name('admin.hero.manage');
     Route::post('/hero/manage', [HeroSlideController::class, 'store'])->name('admin.hero.store');

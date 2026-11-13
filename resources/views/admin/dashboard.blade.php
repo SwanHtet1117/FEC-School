@@ -60,9 +60,9 @@
                 <span class="stat-copy"><strong>3</strong><small>Videos</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
-            <a class="stat-card" href="{{ url('/campus-life') }}">
+            <a class="stat-card" href="{{ route('admin.testimonials.index') }}">
                 <span class="stat-icon blue"><i class="fa-regular fa-comment-dots" aria-hidden="true"></i></span>
-                <span class="stat-copy"><strong>6</strong><small>Testimonials</small></span>
+                <span class="stat-copy"><strong>{{ $testimonialCount }}</strong><small>Testimonials</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
             <a class="stat-card" href="{{ url('/campus-life') }}">
@@ -163,7 +163,7 @@
                         <a href="{{ url('/news-events/all-posts') }}"><i class="fa-regular fa-newspaper" aria-hidden="true"></i> News &amp; Announcements</a>
                         <a href="{{ url('/gallery/photo') }}"><i class="fa-regular fa-images" aria-hidden="true"></i> Photo Gallery</a>
                         <a href="{{ url('/gallery/video') }}"><i class="fa-solid fa-circle-play" aria-hidden="true"></i> Video Gallery</a>
-                        <a href="{{ url('/campus-life') }}"><i class="fa-regular fa-comment-dots" aria-hidden="true"></i> Testimonials</a>
+                        <a href="{{ route('admin.testimonials.index') }}"><i class="fa-regular fa-comment-dots" aria-hidden="true"></i> Testimonials</a>
                         <a href="{{ url('/campus-life') }}"><i class="fa-solid fa-people-group" aria-hidden="true"></i> Student Life</a>
                         <a href="{{ url('/admissions') }}"><i class="fa-solid fa-user-group" aria-hidden="true"></i> Parents</a>
                         <a href="{{ route('admin.faqs.index') }}"><i class="fa-regular fa-circle-question" aria-hidden="true"></i> FAQs</a>

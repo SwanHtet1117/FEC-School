@@ -145,40 +145,81 @@
         <div class="section-container">
             <h2 class="section-title fade-in-up">Parent Recommendations</h2>
             <p class="section-subtitle fade-in-up">Hear from our parents about their experiences at FEC</p>
-            <div class="testimonials-grid">
-                <div class="testimonial-card fade-in-up">
-                    <div class="testimonial-content">
-                        <i class="fas fa-quote-left"></i>
-                        <p>FEC has provided an excellent foundation for my child. The small class sizes and individual attention have made a significant difference in their academic progress.</p>
-                    </div>
-                    <div class="testimonial-author">
-                        <strong>Daw Mya Mya</strong>
-                        <span>Parent of Primary Student</span>
-                    </div>
+            <div class="testimonial-carousel" data-testimonial-carousel>
+                <div class="testimonials-grid">
+                    @forelse ($testimonials as $testimonial)
+                        <article class="testimonial-card fade-in-up" data-testimonial-card @if ($loop->iteration > 3) hidden @endif>
+                            <div class="testimonial-content">
+                                <i class="fas fa-quote-left" aria-hidden="true"></i>
+                                <p>{{ $testimonial->quote }}</p>
+                            </div>
+                            <div class="testimonial-author">
+                                <strong>{{ $testimonial->parent_name }}</strong>
+                                <span>{{ $testimonial->student_context }}</span>
+                            </div>
+                        </article>
+                    @empty
+                        <p>No parent recommendations are available at this time.</p>
+                    @endforelse
                 </div>
-                <div class="testimonial-card fade-in-up">
-                    <div class="testimonial-content">
-                        <i class="fas fa-quote-left"></i>
-                        <p>The international curriculum at FEC is outstanding. My daughter has developed not only academically but also in confidence and character.</p>
-                    </div>
-                    <div class="testimonial-author">
-                        <strong>U Kyaw Kyaw</strong>
-                        <span>Parent of Secondary Student</span>
-                    </div>
-                </div>
-                <div class="testimonial-card fade-in-up">
-                    <div class="testimonial-content">
-                        <i class="fas fa-quote-left"></i>
-                        <p>The teachers at FEC are truly dedicated. They go above and beyond to ensure each student reaches their full potential. Highly recommended!</p>
-                    </div>
-                    <div class="testimonial-author">
-                        <strong>Daw Su Su</strong>
-                        <span>Parent of Early Years Student</span>
-                    </div>
-                </div>
+                @if ($testimonials->isNotEmpty())
+                    <nav class="testimonials-carousel-controls" aria-label="Parent recommendation navigation">
+                        <button class="testimonials-carousel-button" type="button" data-testimonial-previous aria-label="Previous recommendations" @disabled($testimonials->count() <= 3)>
+                            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Previous
+                        </button>
+                        <span class="testimonials-carousel-range" aria-live="polite" data-testimonial-range>
+                            1–{{ min(3, $testimonials->count()) }} of {{ $testimonials->count() }} recommendations
+                        </span>
+                        <button class="testimonials-carousel-button" type="button" data-testimonial-next aria-label="Next recommendations" @disabled($testimonials->count() <= 3)>
+                            Next <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                        </button>
+                    </nav>
+                @endif
             </div>
         </div>
     </section>
     @include('partials.footer')
+    <script>
+        const testimonialCarousel = document.querySelector('[data-testimonial-carousel]');
+
+        if (testimonialCarousel && testimonialCarousel.querySelector('[data-testimonial-previous]')) {
+            const testimonialCards = Array.from(testimonialCarousel.querySelectorAll('[data-testimonial-card]'));
+            const previousTestimonialsButton = testimonialCarousel.querySelector('[data-testimonial-previous]');
+            const nextTestimonialsButton = testimonialCarousel.querySelector('[data-testimonial-next]');
+            const testimonialRange = testimonialCarousel.querySelector('[data-testimonial-range]');
+            const pageSize = 3;
+            const pageCount = Math.ceil(testimonialCards.length / pageSize);
+            let currentPage = 0;
+
+            const showTestimonialPage = () => {
+                const firstCard = currentPage * pageSize;
+                const lastCard = Math.min(firstCard + pageSize, testimonialCards.length);
+
+                testimonialCards.forEach((card, index) => {
+                    card.hidden = index < firstCard || index >= lastCard;
+                });
+
+                previousTestimonialsButton.disabled = currentPage === 0;
+                nextTestimonialsButton.disabled = currentPage >= pageCount - 1;
+                testimonialRange.textContent = `${firstCard + 1}–${lastCard} of ${testimonialCards.length} recommendations`;
+            };
+
+            previousTestimonialsButton.addEventListener('click', () => {
+                if (currentPage > 0) {
+                    currentPage -= 1;
+                    showTestimonialPage();
+                }
+            });
+
+            nextTestimonialsButton.addEventListener('click', () => {
+                if (currentPage < pageCount - 1) {
+                    currentPage += 1;
+                    showTestimonialPage();
+                }
+            });
+
+            showTestimonialPage();
+        }
+    </script>
 </body>
 </html>
