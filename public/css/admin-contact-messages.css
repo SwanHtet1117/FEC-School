@@ -1,3 +1,94 @@
+.contact-message-filter-form {
+    display: grid;
+    grid-template-columns: minmax(220px, 2fr) minmax(160px, 1fr) minmax(130px, .8fr) auto;
+    align-items: end;
+    gap: 12px;
+    margin-bottom: 10px;
+    padding: 14px;
+    border: 1px solid #dfeaf4;
+    border-radius: 12px;
+    background: #f4f9fd;
+}
+
+.contact-message-filter-field {
+    display: grid;
+    min-width: 0;
+    gap: 6px;
+    color: #315d7e;
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.contact-message-filter-field input,
+.contact-message-filter-field select {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 40px;
+    padding: 8px 10px;
+    border: 1px solid #d4e0eb;
+    border-radius: 8px;
+    background: #fff;
+    color: #334b61;
+    font: inherit;
+    font-size: 13px;
+}
+
+.contact-message-filter-field input:focus,
+.contact-message-filter-field select:focus {
+    outline: none;
+    border-color: #4388bd;
+    box-shadow: 0 0 0 3px rgba(67, 136, 189, .13);
+}
+
+.contact-message-filter-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.contact-message-filter-apply,
+.contact-message-filter-clear {
+    display: inline-flex;
+    min-height: 40px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 13px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    cursor: pointer;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 650;
+    text-decoration: none !important;
+}
+
+.contact-message-filter-apply {
+    background: linear-gradient(115deg, #0f599b, #1875b4);
+    color: #fff;
+}
+
+.contact-message-filter-apply:hover {
+    background: #12466f;
+}
+
+.contact-message-filter-clear {
+    border-color: #d6e8f8;
+    background: #f3f8fd;
+    color: #15598a !important;
+}
+
+.contact-message-filter-clear:hover {
+    border-color: #a7cbe9;
+    background: #e8f3fc;
+}
+
+.contact-message-filter-result {
+    margin: 0 0 12px;
+    color: #718096;
+    font-size: 12px;
+}
+
 .contact-message-table td:first-child {
     min-width: 180px;
 }
@@ -100,7 +191,32 @@
 }
 
 @media (max-width: 768px) {
+    .contact-message-filter-form {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .contact-message-filter-search,
+    .contact-message-filter-actions {
+        grid-column: 1 / -1;
+    }
+
     .contact-message-table {
         min-width: 1050px;
+    }
+}
+
+@media (max-width: 600px) {
+    .contact-message-filter-form {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 12px;
+    }
+
+    .contact-message-filter-search,
+    .contact-message-filter-actions {
+        grid-column: auto;
+    }
+
+    .contact-message-filter-actions {
+        justify-content: flex-end;
     }
 }

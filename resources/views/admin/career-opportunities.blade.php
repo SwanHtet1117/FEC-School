@@ -41,6 +41,16 @@
                 </ul>
             </div>
         @endif
+        @if ($filterErrors->any())
+            <div class="career-management-notice warning" role="alert">
+                <strong>Some filter values are invalid.</strong>
+                <ul>
+                    @foreach ($filterErrors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
         <section class="career-management-panel career-upload-panel" aria-labelledby="career-upload-title">
             <div class="career-management-panel-heading">
@@ -104,6 +114,43 @@
                 </div>
             </div>
 
+            <form class="career-filter-form" action="{{ route('admin.careers.index') }}" method="GET">
+                <label class="career-filter-field career-filter-search">
+                    <span>Search opportunities</span>
+                    <input type="search" name="search" value="{{ $filters['search'] ?? '' }}" maxlength="100" placeholder="Job title, department, location, or description">
+                </label>
+                <label class="career-filter-field">
+                    <span>Employment type</span>
+                    <select name="employment_type">
+                        <option value="">All employment types</option>
+                        @foreach (['Full-time', 'Part-time', 'Contract'] as $employmentType)
+                            <option value="{{ $employmentType }}" @selected(($filters['employment_type'] ?? '') === $employmentType)>{{ $employmentType }}</option>
+                        @endforeach
+                    </select>
+                </label>
+                <label class="career-filter-field">
+                    <span>Status</span>
+                    <select name="status">
+                        <option value="">All statuses</option>
+                        @foreach (['Open', 'Closed'] as $status)
+                            <option value="{{ $status }}" @selected(($filters['status'] ?? '') === $status)>{{ $status }}</option>
+                        @endforeach
+                    </select>
+                </label>
+                <div class="career-filter-actions">
+                    <button class="career-management-button" type="submit">
+                        <i class="fa-solid fa-filter" aria-hidden="true"></i> Apply filters
+                    </button>
+                    @if ($hasFilters)
+                        <a class="career-cancel-button" href="{{ route('admin.careers.index') }}">Clear</a>
+                    @endif
+                </div>
+            </form>
+
+            <p class="career-filter-result" role="status">
+                Showing {{ $opportunities->count() }} of {{ $opportunityCount }} opportunities
+            </p>
+
             <div class="career-opportunity-list">
                 @forelse ($opportunities as $opportunity)
                     @php($isOpen = ! $opportunity->closes_at || $opportunity->closes_at->isToday() || $opportunity->closes_at->isFuture())
@@ -141,7 +188,15 @@
                         </div>
                     </article>
                 @empty
-                    <p class="career-management-empty">No career opportunities have been posted yet.</p>
+                    <p class="career-management-empty">
+                        @if ($filterErrors->any())
+                            Please correct the filters above to view opportunities.
+                        @elseif ($hasFilters)
+                            No opportunities match these filters.
+                        @else
+                            No career opportunities have been posted yet.
+                        @endif
+                    </p>
                 @endforelse
             </div>
         </section>

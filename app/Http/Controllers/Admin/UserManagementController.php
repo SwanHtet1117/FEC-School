@@ -5,21 +5,59 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\ActivityLogger;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
 class UserManagementController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
+        $validator = Validator::make($request->query(), [
+            'search' => ['nullable', 'string', 'max:100'],
+            'status' => ['nullable', 'in:pending,approved'],
+            'role' => ['nullable', 'in:user,admin'],
+        ]);
+        $filtersAreValid = $validator->passes();
+        $filters = $filtersAreValid ? $validator->validated() : [];
+        if ($filtersAreValid && array_key_exists('search', $filters)) {
+            $filters['search'] = trim((string) ($filters['search'] ?? ''));
+        }
+
+        $usersQuery = User::query();
+        if (! $filtersAreValid) {
+            $usersQuery->whereRaw('1 = 0');
+        } elseif (filled($filters['search'] ?? null)) {
+            $search = $filters['search'];
+            $usersQuery->where(function (Builder $query) use ($search): void {
+                $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%");
+            });
+        }
+
+        if ($filtersAreValid && filled($filters['status'] ?? null)) {
+            $usersQuery->where('is_approved', $filters['status'] === 'approved');
+        }
+
+        if ($filtersAreValid && filled($filters['role'] ?? null)) {
+            $usersQuery->where('is_admin', $filters['role'] === 'admin');
+        }
+
         return view('admin.user-management', [
-            'users' => User::query()->orderBy('is_approved')->latest()->paginate(15),
+            'users' => $usersQuery->orderBy('is_approved')->latest()->paginate(15)
+                ->appends(array_filter($filters, fn ($value): bool => filled($value))),
             'userCount' => User::count(),
             'pendingCount' => User::where('is_approved', false)->count(),
             'approvedCount' => User::where('is_approved', true)->count(),
             'adminCount' => User::where('is_admin', true)->count(),
+            'filters' => $filters,
+            'filterErrors' => $validator->errors(),
+            'hasFilters' => ! $filtersAreValid
+                || collect($filters)->contains(fn ($value): bool => filled($value)),
         ]);
     }
 

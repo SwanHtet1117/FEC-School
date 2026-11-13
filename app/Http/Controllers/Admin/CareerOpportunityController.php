@@ -5,17 +5,62 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\CareerOpportunity;
 use App\Services\ActivityLogger;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
 class CareerOpportunityController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
+        $validator = Validator::make($request->query(), [
+            'search' => ['nullable', 'string', 'max:100'],
+            'employment_type' => ['nullable', 'in:Full-time,Part-time,Contract'],
+            'status' => ['nullable', 'in:Open,Closed'],
+        ]);
+        $filtersAreValid = $validator->passes();
+        $filters = $filtersAreValid ? $validator->validated() : [];
+        if ($filtersAreValid && array_key_exists('search', $filters)) {
+            $filters['search'] = trim((string) ($filters['search'] ?? ''));
+        }
+
+        $opportunitiesQuery = CareerOpportunity::query();
+        if (! $filtersAreValid) {
+            $opportunitiesQuery->whereRaw('1 = 0');
+        } elseif (filled($filters['search'] ?? null)) {
+            $search = $filters['search'];
+            $opportunitiesQuery->where(function (Builder $query) use ($search): void {
+                $query->where('title', 'like', "%{$search}%")
+                    ->orWhere('department', 'like', "%{$search}%")
+                    ->orWhere('location', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        if ($filtersAreValid && filled($filters['employment_type'] ?? null)) {
+            $opportunitiesQuery->where('employment_type', $filters['employment_type']);
+        }
+
+        if ($filtersAreValid && ($filters['status'] ?? null) === 'Open') {
+            $opportunitiesQuery->where(function (Builder $query): void {
+                $query->whereNull('closes_at')
+                    ->orWhereDate('closes_at', '>=', today());
+            });
+        } elseif ($filtersAreValid && ($filters['status'] ?? null) === 'Closed') {
+            $opportunitiesQuery->whereNotNull('closes_at')
+                ->whereDate('closes_at', '<', today());
+        }
+
         return view('admin.career-opportunities', [
-            'opportunities' => CareerOpportunity::query()->latest()->get(),
+            'opportunities' => $opportunitiesQuery->latest()->get(),
+            'opportunityCount' => CareerOpportunity::query()->count(),
             'openCount' => CareerOpportunity::open()->count(),
+            'filters' => $filters,
+            'filterErrors' => $validator->errors(),
+            'hasFilters' => ! $filtersAreValid
+                || collect($filters)->contains(fn ($value): bool => filled($value)),
         ]);
     }
 

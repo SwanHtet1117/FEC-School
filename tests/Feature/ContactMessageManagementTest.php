@@ -132,4 +132,46 @@ class ContactMessageManagementTest extends TestCase
             ->assertSessionHas('status', 'Message deleted.');
         $this->assertDatabaseMissing('contact_messages', ['id' => $message->id]);
     }
+
+    public function test_admin_can_filter_messages_by_search_subject_and_read_status(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+        ContactMessage::create([
+            'name' => 'A Parent',
+            'email' => 'parent@example.com',
+            'subject' => 'admissions',
+            'message' => 'Please send the admission requirements.',
+        ]);
+        ContactMessage::create([
+            'name' => 'Another Parent',
+            'email' => 'another@example.com',
+            'subject' => 'admissions',
+            'message' => 'Please send the admission requirements.',
+            'is_read' => true,
+        ]);
+        ContactMessage::create([
+            'name' => 'A Job Applicant',
+            'email' => 'applicant@example.com',
+            'subject' => 'careers',
+            'message' => 'I have a question about a teaching position.',
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('admin.messages.index', [
+                'search' => 'admission requirements',
+                'subject' => 'admissions',
+                'status' => 'unread',
+            ]))
+            ->assertOk()
+            ->assertSee('A Parent')
+            ->assertDontSee('Another Parent')
+            ->assertDontSee('A Job Applicant')
+            ->assertSee('Showing 1–1 of 1 matching messages')
+            ->assertSee('Clear');
+
+        $this->get(route('admin.messages.index', ['status' => ['invalid']]))
+            ->assertOk()
+            ->assertSee('Some filter values are invalid.')
+            ->assertSee('Please correct the filters above to view messages.');
+    }
 }

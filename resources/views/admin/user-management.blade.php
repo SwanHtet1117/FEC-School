@@ -33,6 +33,16 @@
         @if ($errors->has('user'))
             <p class="user-management-notice error" role="alert">{{ $errors->first('user') }}</p>
         @endif
+        @if ($filterErrors->any())
+            <div class="user-management-notice error" role="alert">
+                <strong>Some filter values are invalid.</strong>
+                <ul>
+                    @foreach ($filterErrors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
         <section class="user-management-stats" aria-label="Account status totals">
             <div><span>Total accounts</span><strong>{{ $userCount }}</strong></div>
@@ -47,6 +57,43 @@
                     <p>Pending registrations appear first.</p>
                 </div>
             </div>
+            <form class="user-filter-form" action="{{ route('admin.users.index') }}" method="GET">
+                <label class="user-filter-field user-filter-search">
+                    <span>Search accounts</span>
+                    <input type="search" name="search" value="{{ $filters['search'] ?? '' }}" maxlength="100" placeholder="Name, email, or phone">
+                </label>
+                <label class="user-filter-field">
+                    <span>Approval status</span>
+                    <select name="status">
+                        <option value="">All statuses</option>
+                        <option value="pending" @selected(($filters['status'] ?? '') === 'pending')>Pending</option>
+                        <option value="approved" @selected(($filters['status'] ?? '') === 'approved')>Approved</option>
+                    </select>
+                </label>
+                <label class="user-filter-field">
+                    <span>Role</span>
+                    <select name="role">
+                        <option value="">All roles</option>
+                        <option value="user" @selected(($filters['role'] ?? '') === 'user')>User</option>
+                        <option value="admin" @selected(($filters['role'] ?? '') === 'admin')>Administrator</option>
+                    </select>
+                </label>
+                <div class="user-filter-actions">
+                    <button class="user-filter-apply" type="submit">
+                        <i class="fa-solid fa-filter" aria-hidden="true"></i> Apply filters
+                    </button>
+                    @if ($hasFilters)
+                        <a class="user-filter-clear" href="{{ route('admin.users.index') }}">Clear</a>
+                    @endif
+                </div>
+            </form>
+            <p class="user-filter-result" role="status">
+                @if ($users->total() === 0)
+                    Showing 0 of {{ $userCount }} accounts
+                @else
+                    Showing {{ $users->firstItem() }}–{{ $users->lastItem() }} of {{ $users->total() }} {{ $hasFilters ? 'matching' : 'total' }} accounts
+                @endif
+            </p>
             <div class="user-management-table-wrap">
                 <table class="user-management-table">
                     <thead>
@@ -60,6 +107,9 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @if ($filterErrors->any())
+                            <tr><td class="user-management-empty" colspan="6">Please correct the filters above to view accounts.</td></tr>
+                        @else
                         @forelse ($users as $user)
                             <tr>
                                 <td>
@@ -102,8 +152,17 @@
                                 </td>
                             </tr>
                         @empty
-                            <tr><td class="user-management-empty" colspan="6">No user accounts found.</td></tr>
+                            <tr>
+                                <td class="user-management-empty" colspan="6">
+                                    @if ($hasFilters)
+                                        No accounts match these filters.
+                                    @else
+                                        No user accounts found.
+                                    @endif
+                                </td>
+                            </tr>
                         @endforelse
+                        @endif
                     </tbody>
                 </table>
             </div>

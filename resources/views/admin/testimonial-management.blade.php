@@ -24,7 +24,7 @@
                 <p>Add and maintain the testimonials displayed on the Home page.</p>
             </div>
             <span class="testimonial-management-count">
-                {{ $testimonials->count() }} {{ $testimonials->count() === 1 ? 'Testimonial' : 'Testimonials' }}
+                {{ $testimonialCount }} {{ $testimonialCount === 1 ? 'Testimonial' : 'Testimonials' }}
             </span>
         </header>
 
@@ -36,6 +36,16 @@
                 <strong>Please review the following:</strong>
                 <ul>
                     @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        @if ($filterErrors->any())
+            <div class="testimonial-management-notice warning" role="alert">
+                <strong>Some filter values are invalid.</strong>
+                <ul>
+                    @foreach ($filterErrors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
@@ -82,6 +92,34 @@
                 </div>
             </div>
 
+            <form class="testimonial-filter-form" action="{{ route('admin.testimonials.index') }}" method="GET">
+                <label class="testimonial-filter-field testimonial-filter-search">
+                    <span>Search recommendations</span>
+                    <input type="search" name="search" value="{{ $filters['search'] ?? '' }}" maxlength="100" placeholder="Name, student context, or quote">
+                </label>
+                <label class="testimonial-filter-field">
+                    <span>Student context</span>
+                    <select name="student_context">
+                        <option value="">All student contexts</option>
+                        @foreach ($studentContexts as $studentContext)
+                            <option value="{{ $studentContext }}" @selected(($filters['student_context'] ?? '') === $studentContext)>{{ $studentContext }}</option>
+                        @endforeach
+                    </select>
+                </label>
+                <div class="testimonial-filter-actions">
+                    <button class="testimonial-button primary" type="submit">
+                        <i class="fa-solid fa-filter" aria-hidden="true"></i> Filter
+                    </button>
+                    @if ($hasFilters)
+                        <a class="testimonial-button secondary" href="{{ route('admin.testimonials.index') }}">Clear</a>
+                    @endif
+                </div>
+            </form>
+
+            <p class="testimonial-filter-result" role="status">
+                Showing {{ $testimonials->count() }} of {{ $testimonialCount }} recommendations
+            </p>
+
             <div class="testimonial-list">
                 @forelse ($testimonials as $testimonial)
                     <article class="testimonial-item">
@@ -107,7 +145,15 @@
                         </div>
                     </article>
                 @empty
-                    <p class="testimonial-empty">No parent recommendations have been added yet.</p>
+                    <p class="testimonial-empty">
+                        @if ($filterErrors->any())
+                            Please correct the filters above to view recommendations.
+                        @elseif ($hasFilters)
+                            No recommendations match these filters.
+                        @else
+                            No parent recommendations have been added yet.
+                        @endif
+                    </p>
                 @endforelse
             </div>
         </section>

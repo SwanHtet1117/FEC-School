@@ -68,6 +68,45 @@ class CareerOpportunityManagementTest extends TestCase
             ->assertSee('1 Open Position');
     }
 
+    public function test_admin_can_filter_career_opportunities_by_search_type_and_status(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+        $this->createOpportunity([
+            'title' => 'Primary English Teacher',
+            'department' => 'Primary School',
+            'employment_type' => 'Full-time',
+        ]);
+        $this->createOpportunity([
+            'title' => 'Primary Music Teacher',
+            'department' => 'Primary School',
+            'employment_type' => 'Full-time',
+            'closes_at' => today()->subDay(),
+        ]);
+        $this->createOpportunity([
+            'title' => 'Primary Teaching Assistant',
+            'department' => 'Primary School',
+            'employment_type' => 'Part-time',
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('admin.careers.index', [
+                'search' => 'Primary School',
+                'employment_type' => 'Full-time',
+                'status' => 'Open',
+            ]))
+            ->assertOk()
+            ->assertSee('Primary English Teacher')
+            ->assertDontSee('Primary Music Teacher')
+            ->assertDontSee('Primary Teaching Assistant')
+            ->assertSee('Showing 1 of 3 opportunities')
+            ->assertSee('Clear');
+
+        $this->get(route('admin.careers.index', ['status' => ['invalid']]))
+            ->assertOk()
+            ->assertSee('Some filter values are invalid.')
+            ->assertSee('Please correct the filters above');
+    }
+
     public function test_admin_can_delete_a_career_opportunity(): void
     {
         $admin = User::factory()->create(['is_admin' => true]);

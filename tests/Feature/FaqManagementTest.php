@@ -53,4 +53,32 @@ class FaqManagementTest extends TestCase
         $this->assertDatabaseMissing('faqs', ['id' => $faq->id]);
         $this->get('/admissions')->assertDontSee('How do I arrange a school tour?');
     }
+
+    public function test_admin_can_filter_faqs_by_question_or_answer_and_invalid_values_are_reported(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+        Faq::query()->create([
+            'question' => 'Are scholarships available?',
+            'answer' => 'Ask the admissions office about financial aid.',
+            'sort_order' => 7,
+        ]);
+        Faq::query()->create([
+            'question' => 'What are the school hours?',
+            'answer' => 'The school day begins in the morning.',
+            'sort_order' => 8,
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('admin.faqs.index', ['search' => 'financial aid']))
+            ->assertOk()
+            ->assertSee('Are scholarships available?')
+            ->assertDontSee('What are the school hours?')
+            ->assertSee('Showing 1 of 8 FAQs')
+            ->assertSee('Clear');
+
+        $this->get(route('admin.faqs.index', ['search' => ['not-a-string']]))
+            ->assertOk()
+            ->assertSee('Some filter values are invalid.')
+            ->assertSee('Please correct the filters above');
+    }
 }

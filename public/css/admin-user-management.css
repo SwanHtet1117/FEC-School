@@ -116,6 +116,97 @@
     font-size: 12px;
 }
 
+.user-filter-form {
+    display: grid;
+    grid-template-columns: minmax(220px, 2fr) minmax(150px, 1fr) minmax(140px, .9fr) auto;
+    align-items: end;
+    gap: 12px;
+    margin: 14px 18px 10px;
+    padding: 14px;
+    border: 1px solid #dfeaf4;
+    border-radius: 10px;
+    background: #f4f9fd;
+}
+
+.user-filter-field {
+    display: grid;
+    min-width: 0;
+    gap: 6px;
+    color: #315d7e;
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.user-filter-field input,
+.user-filter-field select {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 38px;
+    padding: 7px 10px;
+    border: 1px solid #d4e0eb;
+    border-radius: 7px;
+    background: #fff;
+    color: #334b61;
+    font: inherit;
+    font-size: 13px;
+}
+
+.user-filter-field input:focus,
+.user-filter-field select:focus {
+    outline: none;
+    border-color: #4388bd;
+    box-shadow: 0 0 0 3px rgba(67, 136, 189, .13);
+}
+
+.user-filter-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.user-filter-apply,
+.user-filter-clear {
+    display: inline-flex;
+    min-height: 38px;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 7px 11px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    cursor: pointer;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 650;
+    text-decoration: none !important;
+}
+
+.user-filter-apply {
+    background: linear-gradient(115deg, #0f599b, #1875b4);
+    color: #fff;
+}
+
+.user-filter-apply:hover {
+    background: #12466f;
+}
+
+.user-filter-clear {
+    border-color: #d6e8f8;
+    background: #f3f8fd;
+    color: #15598a !important;
+}
+
+.user-filter-clear:hover {
+    border-color: #a7cbe9;
+    background: #e8f3fc;
+}
+
+.user-filter-result {
+    margin: 0 18px 12px;
+    color: var(--admin-muted);
+    font-size: 12px;
+}
+
 .user-management-table-wrap {
     overflow-x: auto;
 }
@@ -255,6 +346,16 @@
         padding: 12px;
     }
 
+    .user-filter-form {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        margin: 12px;
+    }
+
+    .user-filter-search,
+    .user-filter-actions {
+        grid-column: 1 / -1;
+    }
+
     .user-management-table {
         min-width: 760px;
     }
@@ -263,5 +364,18 @@
 @media (max-width: 480px) {
     .user-management-stats {
         grid-template-columns: 1fr;
+    }
+
+    .user-filter-form {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .user-filter-search,
+    .user-filter-actions {
+        grid-column: auto;
+    }
+
+    .user-filter-actions {
+        justify-content: flex-end;
     }
 }

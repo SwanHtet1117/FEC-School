@@ -4,16 +4,43 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Faq;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
 class FaqManagementController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
+        $validator = Validator::make($request->query(), [
+            'search' => ['nullable', 'string', 'max:100'],
+        ]);
+        $filtersAreValid = $validator->passes();
+        $filters = $filtersAreValid ? $validator->validated() : [];
+        if ($filtersAreValid && array_key_exists('search', $filters)) {
+            $filters['search'] = trim((string) ($filters['search'] ?? ''));
+        }
+
+        $faqsQuery = Faq::query();
+        if (! $filtersAreValid) {
+            $faqsQuery->whereRaw('1 = 0');
+        } elseif (filled($filters['search'] ?? null)) {
+            $search = $filters['search'];
+            $faqsQuery->where(function (Builder $query) use ($search): void {
+                $query->where('question', 'like', "%{$search}%")
+                    ->orWhere('answer', 'like', "%{$search}%");
+            });
+        }
+
         return view('admin.faq-management', [
-            'faqs' => Faq::query()->orderBy('sort_order')->orderBy('id')->get(),
+            'faqs' => $faqsQuery->orderBy('sort_order')->orderBy('id')->get(),
+            'faqCount' => Faq::query()->count(),
+            'filters' => $filters,
+            'filterErrors' => $validator->errors(),
+            'hasFilters' => ! $filtersAreValid
+                || collect($filters)->contains(fn ($value): bool => filled($value)),
         ]);
     }
 

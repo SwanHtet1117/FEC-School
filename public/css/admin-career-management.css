@@ -107,6 +107,60 @@
     font-size: 13px;
 }
 
+.career-filter-form {
+    display: grid;
+    grid-template-columns: minmax(220px, 2fr) minmax(150px, 1fr) minmax(130px, .8fr) auto;
+    align-items: end;
+    gap: 12px;
+    margin-bottom: 10px;
+    padding: 14px;
+    border: 1px solid #dfeaf4;
+    border-radius: 12px;
+    background: #f4f9fd;
+}
+
+.career-filter-field {
+    display: grid;
+    min-width: 0;
+    gap: 6px;
+    color: #315d7e;
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.career-filter-field input,
+.career-filter-field select {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 40px;
+    padding: 8px 10px;
+    border: 1px solid #d4e0eb;
+    border-radius: 8px;
+    background: #fff;
+    color: #334b61;
+    font: inherit;
+    font-size: 13px;
+}
+
+.career-filter-field input:focus,
+.career-filter-field select:focus {
+    outline: none;
+    border-color: #4388bd;
+    box-shadow: 0 0 0 3px rgba(67, 136, 189, .13);
+}
+
+.career-filter-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.career-filter-result {
+    margin: 0 0 12px;
+    color: #718096;
+    font-size: 12px;
+}
+
 .career-upload-form {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -501,6 +555,15 @@
         align-items: flex-start;
         flex-direction: column;
     }
+
+    .career-filter-form {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .career-filter-search,
+    .career-filter-actions {
+        grid-column: 1 / -1;
+    }
 }
 
 @media (max-width: 600px) {
@@ -516,6 +579,20 @@
     .career-upload-form {
         grid-template-columns: minmax(0, 1fr);
         gap: 13px;
+    }
+
+    .career-filter-form {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 12px;
+    }
+
+    .career-filter-search,
+    .career-filter-actions {
+        grid-column: auto;
+    }
+
+    .career-filter-actions {
+        justify-content: flex-end;
     }
 
     .career-field-wide,

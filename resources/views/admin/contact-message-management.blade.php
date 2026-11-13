@@ -30,6 +30,16 @@
         @if (session('status'))
             <p class="user-management-notice success" role="status">{{ session('status') }}</p>
         @endif
+        @if ($filterErrors->any())
+            <div class="user-management-notice warning" role="alert">
+                <strong>Some filter values are invalid.</strong>
+                <ul>
+                    @foreach ($filterErrors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
         <section class="user-management-stats" aria-label="Message status totals">
             <div><p>Total messages</p><strong>{{ $messageCount }}</strong></div>
@@ -44,6 +54,44 @@
                     <p>Newest messages appear first.</p>
                 </div>
             </div>
+            <form class="contact-message-filter-form" action="{{ route('admin.messages.index') }}" method="GET">
+                <label class="contact-message-filter-field contact-message-filter-search">
+                    <span>Search messages</span>
+                    <input type="search" name="search" value="{{ $filters['search'] ?? '' }}" maxlength="100" placeholder="Sender, email, phone, subject, or message">
+                </label>
+                <label class="contact-message-filter-field">
+                    <span>Subject</span>
+                    <select name="subject">
+                        <option value="">All subjects</option>
+                        @foreach ($subjects as $value => $label)
+                            <option value="{{ $value }}" @selected(($filters['subject'] ?? '') === $value)>{{ $label }}</option>
+                        @endforeach
+                    </select>
+                </label>
+                <label class="contact-message-filter-field">
+                    <span>Status</span>
+                    <select name="status">
+                        <option value="">All statuses</option>
+                        <option value="unread" @selected(($filters['status'] ?? '') === 'unread')>Unread</option>
+                        <option value="read" @selected(($filters['status'] ?? '') === 'read')>Read</option>
+                    </select>
+                </label>
+                <div class="contact-message-filter-actions">
+                    <button class="contact-message-filter-apply" type="submit">
+                        <i class="fa-solid fa-filter" aria-hidden="true"></i> Apply filters
+                    </button>
+                    @if ($hasFilters)
+                        <a class="contact-message-filter-clear" href="{{ route('admin.messages.index') }}">Clear</a>
+                    @endif
+                </div>
+            </form>
+            <p class="contact-message-filter-result" role="status">
+                @if ($messages->total() === 0)
+                    Showing 0 of {{ $messageCount }} messages
+                @else
+                    Showing {{ $messages->firstItem() }}–{{ $messages->lastItem() }} of {{ $messages->total() }} {{ $hasFilters ? 'matching' : 'total' }} messages
+                @endif
+            </p>
             <div class="user-management-table-wrap">
                 <table class="user-management-table contact-message-table">
                     <thead>
@@ -57,6 +105,9 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @if ($filterErrors->any())
+                            <tr><td class="user-management-empty" colspan="6">Please correct the filters above to view messages.</td></tr>
+                        @else
                         @forelse ($messages as $contactMessage)
                             <tr class="{{ $contactMessage->is_read ? '' : 'contact-message-unread' }}">
                                 <td>
@@ -103,8 +154,17 @@
                                 </td>
                             </tr>
                         @empty
-                            <tr><td class="user-management-empty" colspan="6">No contact messages yet.</td></tr>
+                            <tr>
+                                <td class="user-management-empty" colspan="6">
+                                    @if ($hasFilters)
+                                        No messages match these filters.
+                                    @else
+                                        No contact messages yet.
+                                    @endif
+                                </td>
+                            </tr>
                         @endforelse
+                        @endif
                     </tbody>
                 </table>
             </div>

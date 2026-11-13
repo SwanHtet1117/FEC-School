@@ -39,6 +39,44 @@ class AdminUserManagementTest extends TestCase
             ->assertSee('Awaiting approval');
     }
 
+    public function test_admin_can_filter_accounts_by_search_status_and_role(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+        User::factory()->create([
+            'name' => 'Filter Pending Member',
+            'email' => 'pending-filter@example.com',
+            'is_approved' => false,
+        ]);
+        User::factory()->create([
+            'name' => 'Filter Approved Member',
+            'email' => 'approved-filter@example.com',
+            'is_approved' => true,
+        ]);
+        User::factory()->create([
+            'name' => 'Other Pending Member',
+            'email' => 'other-pending@example.com',
+            'is_approved' => false,
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('admin.users.index', [
+                'search' => 'filter',
+                'status' => 'pending',
+                'role' => 'user',
+            ]))
+            ->assertOk()
+            ->assertSee('Filter Pending Member')
+            ->assertDontSee('Filter Approved Member')
+            ->assertDontSee('Other Pending Member')
+            ->assertSee('Showing 1–1 of 1 matching accounts')
+            ->assertSee('Clear');
+
+        $this->get(route('admin.users.index', ['role' => ['invalid']]))
+            ->assertOk()
+            ->assertSee('Some filter values are invalid.')
+            ->assertSee('Please correct the filters above to view accounts.');
+    }
+
     public function test_admin_can_approve_a_pending_user(): void
     {
         $admin = User::factory()->create(['is_admin' => true]);

@@ -24,7 +24,7 @@
                 <p>Add and maintain the questions shown on the Admissions page.</p>
             </div>
             <span class="faq-management-count">
-                {{ $faqs->count() }} {{ $faqs->count() === 1 ? 'FAQ' : 'FAQs' }}
+                {{ $faqCount }} {{ $faqCount === 1 ? 'FAQ' : 'FAQs' }}
             </span>
         </header>
 
@@ -36,6 +36,16 @@
                 <strong>Please review the following:</strong>
                 <ul>
                     @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        @if ($filterErrors->any())
+            <div class="faq-management-notice warning" role="alert">
+                <strong>Some filter values are invalid.</strong>
+                <ul>
+                    @foreach ($filterErrors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
@@ -78,6 +88,25 @@
                 </div>
             </div>
 
+            <form class="faq-filter-form" action="{{ route('admin.faqs.index') }}" method="GET">
+                <label class="faq-filter-field">
+                    <span>Search FAQs</span>
+                    <input type="search" name="search" value="{{ $filters['search'] ?? '' }}" maxlength="100" placeholder="Search questions or answers">
+                </label>
+                <div class="faq-filter-actions">
+                    <button class="faq-button primary" type="submit">
+                        <i class="fa-solid fa-filter" aria-hidden="true"></i> Search
+                    </button>
+                    @if ($hasFilters)
+                        <a class="faq-button secondary" href="{{ route('admin.faqs.index') }}">Clear</a>
+                    @endif
+                </div>
+            </form>
+
+            <p class="faq-filter-result" role="status">
+                Showing {{ $faqs->count() }} of {{ $faqCount }} FAQs
+            </p>
+
             <div class="faq-list">
                 @forelse ($faqs as $faq)
                     <article class="faq-item">
@@ -102,7 +131,15 @@
                         </div>
                     </article>
                 @empty
-                    <p class="faq-empty">No FAQs have been added yet.</p>
+                    <p class="faq-empty">
+                        @if ($filterErrors->any())
+                            Please correct the filters above to view FAQs.
+                        @elseif ($hasFilters)
+                            No FAQs match this search.
+                        @else
+                            No FAQs have been added yet.
+                        @endif
+                    </p>
                 @endforelse
             </div>
         </section>

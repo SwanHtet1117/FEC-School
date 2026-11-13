@@ -57,4 +57,25 @@ class TestimonialManagementTest extends TestCase
         $this->assertDatabaseMissing('testimonials', ['id' => $testimonial->id]);
         $this->get(route('home'))->assertDontSee('U Aung Win');
     }
+
+    public function test_admin_can_filter_testimonials_by_search_and_student_context(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+
+        $this->actingAs($admin)
+            ->get(route('admin.testimonials.index', [
+                'search' => 'foundation',
+                'student_context' => 'Parent of Primary Student',
+            ]))
+            ->assertOk()
+            ->assertSee('Daw Mya Mya')
+            ->assertDontSee('U Kyaw Kyaw')
+            ->assertSee('Showing 1 of 3 recommendations')
+            ->assertSee('Clear');
+
+        $this->get(route('admin.testimonials.index', ['search' => ['not-a-string']]))
+            ->assertOk()
+            ->assertSee('Some filter values are invalid.')
+            ->assertSee('Please correct the filters above');
+    }
 }
