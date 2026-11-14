@@ -1568,6 +1568,14 @@ body {
     justify-content: space-between;
 }
 
+.news-item-image {
+    display: block;
+    width: calc(100% + 40px);
+    height: 180px;
+    margin: -20px -20px 16px;
+    object-fit: cover;
+}
+
 .news-date {
     font-size: 12px;
     font-weight: 700;
@@ -1675,6 +1683,11 @@ body {
     color: var(--primary-dark);
     font-size: 14px;
     font-weight: 700;
+}
+
+.testimonial-author strong i {
+    margin-right: 6px;
+    color: var(--primary-blue);
 }
 
 .testimonial-author span {
@@ -1916,6 +1929,7 @@ body {
 }
 
 .news-tab {
+    display: inline-block;
     padding: 12px 24px;
     background: var(--card-bg);
     border: 2px solid rgba(226, 232, 240, 0.8);
@@ -1925,6 +1939,7 @@ body {
     cursor: pointer;
     transition: var(--transition);
     font-size: 14px;
+    text-decoration: none;
 }
 
 .news-tab:hover, .news-tab.active {
@@ -1962,7 +1977,14 @@ body {
     gap: 30px;
 }
 
+.news-empty {
+    grid-column: 1 / -1;
+    margin: 0;
+    color: var(--text-muted);
+}
+
 .news-card {
+    position: relative;
     background: var(--card-bg);
     border-radius: var(--radius-md);
     overflow: hidden;
@@ -2154,6 +2176,10 @@ body {
     font-size: 19px;
     font-weight: 600;
     line-height: 1.6;
+}
+
+.post-detail-body {
+    white-space: pre-line;
 }
 
 .post-back-bottom {

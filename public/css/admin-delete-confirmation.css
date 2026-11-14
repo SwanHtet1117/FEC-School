@@ -1,0 +1,127 @@
+.admin-delete-dialog {
+    box-sizing: border-box;
+    width: min(460px, calc(100% - 32px));
+    max-width: none;
+    max-height: calc(100% - 32px);
+    margin: auto;
+    padding: 25px;
+    border: 1px solid #dce5ed;
+    border-radius: 20px;
+    background: #fff;
+    color: #26364b;
+    box-shadow: 0 24px 70px rgba(17, 35, 57, .24);
+    font: inherit;
+}
+
+.admin-delete-dialog::backdrop {
+    background: rgba(18, 32, 49, .58);
+    backdrop-filter: blur(3px);
+}
+
+.admin-delete-dialog-heading {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.admin-delete-dialog-icon {
+    display: grid;
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    place-items: center;
+    border-radius: 14px;
+    background: #fff0f1;
+    color: #b33b45;
+    font-size: 17px;
+}
+
+.admin-delete-dialog-heading h2 {
+    margin: 0;
+    color: #26364b;
+    font-size: 18px;
+}
+
+.admin-delete-dialog-heading p {
+    margin: 4px 0 0;
+    color: #718096;
+    font-size: 13px;
+}
+
+.admin-delete-dialog-description {
+    margin: 20px 0 24px;
+    color: #53647a;
+    font-size: 14px;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+}
+
+.admin-delete-dialog-description strong {
+    color: #26364b;
+}
+
+.admin-delete-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.admin-delete-dialog-cancel,
+.admin-delete-dialog-confirm {
+    display: inline-flex;
+    min-height: 42px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 9px 14px;
+    border: 1px solid;
+    border-radius: 9px;
+    cursor: pointer;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 650;
+    transition: background .18s ease, border-color .18s ease;
+}
+
+.admin-delete-dialog-cancel {
+    border-color: #dce4ee;
+    background: #fff;
+    color: #53647a;
+}
+
+.admin-delete-dialog-cancel:hover {
+    background: #f7f9fc;
+}
+
+.admin-delete-dialog-confirm {
+    border-color: #b33b45;
+    background: #b33b45;
+    color: #fff;
+}
+
+.admin-delete-dialog-confirm:hover {
+    border-color: #982f38;
+    background: #982f38;
+}
+
+.admin-delete-dialog-cancel:focus-visible,
+.admin-delete-dialog-confirm:focus-visible {
+    outline: 3px solid rgba(67, 136, 189, .35);
+    outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+    .admin-delete-dialog {
+        padding: 21px;
+        border-radius: 17px;
+    }
+
+    .admin-delete-dialog-actions {
+        flex-direction: column-reverse;
+    }
+
+    .admin-delete-dialog-cancel,
+    .admin-delete-dialog-confirm {
+        width: 100%;
+    }
+}

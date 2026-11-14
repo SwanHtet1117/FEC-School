@@ -1,0 +1,272 @@
+.public-event-calendar-section {
+    width: min(100%, 960px);
+    margin: 0 auto 60px;
+}
+
+.public-event-calendar-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+
+.public-event-calendar-heading .news-section-title {
+    margin-bottom: 6px;
+}
+
+.public-event-calendar-heading > div > p {
+    margin: 0;
+    color: #718499;
+    font-size: 14px;
+}
+
+.public-event-calendar-count {
+    flex: 0 0 auto;
+    padding: 6px 10px;
+    border: 1px solid #d6e8f5;
+    border-radius: 999px;
+    background: #edf7fd;
+    color: #28658b;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.public-event-calendar {
+    overflow: hidden;
+    border: 1px solid #e1eaf2;
+    border-radius: 15px;
+    background: #fff;
+    box-shadow: 0 10px 28px rgba(31, 65, 98, .07);
+}
+
+.public-event-calendar-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 16px;
+    border-bottom: 1px solid #e7eef4;
+    background: linear-gradient(180deg, #fff, #fbfdff);
+}
+
+.public-event-calendar-navigation {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.public-event-calendar-navigation h3 {
+    min-width: 160px;
+    margin: 0;
+    color: #183c5b;
+    font-size: 18px;
+    text-align: center;
+}
+
+.public-event-calendar-nav-button,
+.public-event-calendar-today {
+    display: inline-flex;
+    min-height: 34px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #d4e0eb;
+    border-radius: 9px;
+    background: #fff;
+    color: #536b80;
+    font-size: 12px;
+    font-weight: 650;
+    text-decoration: none;
+    transition: background .16s ease, border-color .16s ease, color .16s ease;
+}
+
+.public-event-calendar-nav-button {
+    width: 34px;
+}
+
+.public-event-calendar-today {
+    padding: 7px 11px;
+}
+
+.public-event-calendar-nav-button:hover,
+.public-event-calendar-today:hover {
+    border-color: #a7cbe9;
+    background: #edf6ff;
+    color: #15598a;
+}
+
+.public-event-calendar-nav-button:focus-visible,
+.public-event-calendar-today:focus-visible,
+.public-event-calendar-event:focus-visible {
+    outline: 3px solid #70b6e2;
+    outline-offset: 2px;
+}
+
+.public-event-calendar-scroll {
+    overflow-x: auto;
+    padding: 10px;
+}
+
+.public-event-calendar-grid {
+    display: grid;
+    min-width: 680px;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 5px;
+    padding: 7px;
+    border: 1px solid #e3edf5;
+    border-radius: 15px;
+    background: linear-gradient(145deg, #f3f8fc, #edf4f9);
+}
+
+.public-event-calendar-weekday {
+    padding: 8px 5px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #e4f0f9, #f0f6fb);
+    color: #42657f;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.public-event-calendar-weekday:nth-child(1) {
+    background: linear-gradient(135deg, #fff0f0, #fde5e7);
+    color: #a5434a;
+}
+
+.public-event-calendar-weekday:nth-child(7) {
+    background: linear-gradient(135deg, #eaf6ff, #dceffa);
+    color: #28658b;
+}
+
+.public-event-calendar-day {
+    min-height: 82px;
+    padding: 6px;
+    border: 1px solid #e5edf4;
+    border-radius: 10px;
+    background: #fff;
+    transition: border-color .16s ease, background .16s ease, box-shadow .16s ease;
+}
+
+.public-event-calendar-day.outside-month {
+    border-color: #edf1f5;
+    background: #f7f9fb;
+}
+
+.public-event-calendar-day:nth-child(7n + 8) {
+    border-color: #f3dfe1;
+    background: linear-gradient(145deg, #fffafa, #fff3f4);
+}
+
+.public-event-calendar-day:nth-child(7n + 14) {
+    border-color: #dceaf4;
+    background: linear-gradient(145deg, #f9fcff, #f0f7fc);
+}
+
+.public-event-calendar-day.today {
+    border-color: #8fc2e5;
+    background: linear-gradient(145deg, #f0f8fe, #e8f4fc);
+    box-shadow: inset 0 0 0 1px rgba(83, 163, 216, .28);
+}
+
+.public-event-calendar-day-number {
+    display: inline-grid;
+    width: 27px;
+    height: 27px;
+    place-items: center;
+    border-radius: 50%;
+    background: #f1f5f8;
+    color: #526a80;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.public-event-calendar-day:nth-child(7n + 8) .public-event-calendar-day-number {
+    background: #ffeded;
+    color: #a5434a;
+}
+
+.public-event-calendar-day:nth-child(7n + 14) .public-event-calendar-day-number {
+    background: #e6f3fb;
+    color: #28658b;
+}
+
+.public-event-calendar-day.today .public-event-calendar-day-number {
+    background: #15598a;
+    color: #fff;
+}
+
+.public-event-calendar-day.outside-month .public-event-calendar-day-number {
+    background: #eef1f4;
+    color: #a2adba;
+}
+
+.public-event-calendar-day-events {
+    display: grid;
+    gap: 5px;
+    margin-top: 6px;
+}
+
+.public-event-calendar-event {
+    display: grid;
+    gap: 3px;
+    padding: 5px 6px;
+    border: 1px solid #d2e8f6;
+    border-left: 3px solid #2582b7;
+    border-radius: 7px;
+    background: linear-gradient(135deg, #f0f8fd, #e8f4fb);
+    color: #15598a;
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1.35;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+}
+
+.public-event-calendar-event:hover {
+    border-color: #acd2eb;
+    background: #e7f3fb;
+}
+
+.public-event-calendar-event small {
+    color: #657b8c;
+    font-size: 9px;
+    font-weight: 500;
+}
+
+.public-event-calendar-empty {
+    margin: 0;
+    padding: 0 18px 14px;
+    color: #718499;
+    font-size: 13px;
+}
+
+@media (max-width: 600px) {
+    .public-event-calendar-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .public-event-calendar-toolbar {
+        padding: 10px 9px;
+    }
+
+    .public-event-calendar-navigation {
+        gap: 5px;
+    }
+
+    .public-event-calendar-navigation h3 {
+        min-width: 130px;
+        font-size: 16px;
+    }
+
+    .public-event-calendar-scroll {
+        padding: 7px;
+    }
+
+    .public-event-calendar-day {
+        min-height: 72px;
+        padding: 5px;
+    }
+}

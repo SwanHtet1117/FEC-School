@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Admin\ContactMessageManagementController;
 use App\Http\Controllers\Admin\CareerOpportunityController;
+use App\Http\Controllers\Admin\EventCalendarController;
 use App\Http\Controllers\Admin\FaqManagementController;
 use App\Http\Controllers\Admin\HeroSlideController;
+use App\Http\Controllers\Admin\PostManagementController;
 use App\Http\Controllers\Admin\SystemActivityController;
 use App\Http\Controllers\Admin\TestimonialManagementController;
 use App\Http\Controllers\Admin\UserManagementController;
@@ -15,6 +17,7 @@ use App\Models\ContactMessage;
 use App\Models\CareerOpportunity;
 use App\Models\Faq;
 use App\Models\HeroSlide;
+use App\Models\Post;
 use App\Models\SystemActivity;
 use App\Models\Testimonial;
 use App\Models\User;
@@ -24,6 +27,11 @@ Route::get('/', function () {
     return view('main.home', [
         'heroSlides' => HeroSlide::where('is_enabled', true)->ordered()->get(),
         'testimonials' => Testimonial::query()->orderBy('sort_order')->orderBy('id')->get(),
+        'latestPosts' => Post::query()
+            ->whereIn('category', ['News', 'Event'])
+            ->latest('published_at')
+            ->limit(3)
+            ->get(),
     ]);
 })->name('home');
 
@@ -41,9 +49,7 @@ Route::post('/contact', [ContactMessageController::class, 'store'])
     ->middleware('throttle:5,1')
     ->name('contact.messages.store');
 
-Route::get('/news-events', function () {
-    return view('main.news-events');
-});
+Route::get('/news-events', [PostController::class, 'newsEvents'])->name('news-events.index');
 
 Route::get('/campus-life', function () {
     return view('main.campus-life');
@@ -83,9 +89,7 @@ Route::get('/admissions', function () {
     ]);
 });
 
-Route::get('/news-events/all-posts', function () {
-    return view('main.all-posts');
-});
+Route::get('/news-events/all-posts', [PostController::class, 'all'])->name('news-events.all');
 
 Route::get('/news-events/posts/{slug}', [PostController::class, 'show'])->name('news-events.posts.show');
 
@@ -105,6 +109,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
             'activities' => SystemActivity::latest()->limit(10)->get(),
             'messageCount' => ContactMessage::count(),
             'careerCount' => CareerOpportunity::open()->count(),
+            'postCount' => Post::query()->count(),
             'faqCount' => Faq::count(),
             'testimonialCount' => Testimonial::count(),
             'userCount' => User::count(),
@@ -115,6 +120,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
     Route::get('/activities', [SystemActivityController::class, 'index'])
         ->name('admin.activities.index');
+
+    Route::get('/events/calendar', [EventCalendarController::class, 'index'])
+        ->name('admin.events.calendar');
 
     Route::get('/users', [UserManagementController::class, 'index'])->name('admin.users.index');
     Route::post('/users/{user}/approve', [UserManagementController::class, 'approve'])
@@ -137,6 +145,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         ->name('admin.careers.update');
     Route::delete('/careers/{careerOpportunity}', [CareerOpportunityController::class, 'destroy'])
         ->name('admin.careers.destroy');
+
+    Route::get('/posts', [PostManagementController::class, 'index'])->name('admin.posts.index');
+    Route::post('/posts', [PostManagementController::class, 'store'])->name('admin.posts.store');
+    Route::get('/posts/{post}/edit', [PostManagementController::class, 'edit'])->name('admin.posts.edit');
+    Route::put('/posts/{post}', [PostManagementController::class, 'update'])->name('admin.posts.update');
+    Route::delete('/posts/{post}', [PostManagementController::class, 'destroy'])->name('admin.posts.destroy');
 
     Route::get('/faqs', [FaqManagementController::class, 'index'])->name('admin.faqs.index');
     Route::post('/faqs', [FaqManagementController::class, 'store'])->name('admin.faqs.store');

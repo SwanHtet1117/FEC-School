@@ -119,24 +119,24 @@
             <h2 class="section-title fade-in-up">Latest News & Events</h2>
             <p class="section-subtitle fade-in-up">Recent updates and highlights from around campus</p>
             <div class="news-grid">
-                <div class="news-item fade-in-up">
-                    <span class="news-date">Apr 04, 2026</span>
-                    <h3>Student Enrollment</h3>
-                    <p>New academic year registration now open</p>
-                    <a href="/news-events" class="news-link">Read More</a>
-                </div>
-                <div class="news-item fade-in-up">
-                    <span class="news-date">Apr 15, 2026</span>
-                    <h3>Open Day</h3>
-                    <p>Campus tour and orientation for prospective families</p>
-                    <a href="/news-events" class="news-link">Read More</a>
-                </div>
-                <div class="news-item fade-in-up">
-                    <span class="news-date">Apr 20, 2026</span>
-                    <h3>Parent Meeting</h3>
-                    <p>Academic progress discussion with teachers</p>
-                    <a href="/news-events" class="news-link">Read More</a>
-                </div>
+                @forelse ($latestPosts as $post)
+                    <article class="news-item fade-in-up">
+                        <img class="news-item-image" src="{{ $post->image_url }}" alt="{{ $post->alt_text }}" loading="lazy">
+                        <span class="news-date">{{ $post->published_at->format('M d, Y') }} &middot; {{ $post->category }}</span>
+                        <h3>{{ $post->title }}</h3>
+                        <p>{{ $post->excerpt }}</p>
+                        <a href="{{ route('news-events.posts.show', $post->slug) }}" class="news-link">
+                            Read More <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </article>
+                @empty
+                    <p class="news-empty">New school news and events will appear here soon.</p>
+                @endforelse
+            </div>
+            <div class="view-all-link">
+                <a href="{{ route('news-events.index') }}" class="btn-view-all">
+                    View All News &amp; Events <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                </a>
             </div>
         </div>
     </section>
@@ -154,7 +154,7 @@
                                 <p>{{ $testimonial->quote }}</p>
                             </div>
                             <div class="testimonial-author">
-                                <strong>{{ $testimonial->parent_name }}</strong>
+                                <strong><i class="fas fa-user" aria-hidden="true"></i> {{ $testimonial->parent_name }}</strong>
                                 <span>{{ $testimonial->student_context }}</span>
                             </div>
                         </article>

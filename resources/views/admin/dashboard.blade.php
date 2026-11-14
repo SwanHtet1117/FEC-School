@@ -40,12 +40,12 @@
                 <span class="stat-copy"><strong>{{ $careerCount }}</strong><small>Career Opportunities</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
-            <a class="stat-card" href="{{ url('/news-events') }}">
+            <a class="stat-card" href="{{ route('admin.posts.index') }}">
                 <span class="stat-icon amber"><i class="fa-regular fa-newspaper" aria-hidden="true"></i></span>
-                <span class="stat-copy"><strong>9</strong><small>News &amp; Announcements</small></span>
+                <span class="stat-copy"><strong>{{ $postCount }}</strong><small>News, Announcements &amp; Events</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
-            <a class="stat-card" href="{{ url('/news-events') }}">
+            <a class="stat-card" href="{{ route('admin.events.calendar') }}">
                 <span class="stat-icon slate"><i class="fa-regular fa-calendar-days" aria-hidden="true"></i></span>
                 <span class="stat-copy"><strong>6</strong><small>Event Calendar</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
@@ -127,7 +127,7 @@
                                         </td>
                                         <td>{{ $activity->device }}</td>
                                         <td>{{ $activity->user_name }}</td>
-                                        <td>{{ $activity->action }}</td>
+                                        <td>@include('admin.partials.activity-action')</td>
                                         <td>{{ $activity->details }}</td>
                                         <td><span class="status-badge {{ $activity->status === 'Success' ? 'success' : 'danger' }}">{{ $activity->status }}</span></td>
                                     </tr>
@@ -160,7 +160,8 @@
                         <a href="{{ route('admin.hero.manage') }}"><i class="fa-regular fa-images" aria-hidden="true"></i> Manage Hero Images</a>
                         <a href="{{ url('/news-events') }}"><i class="fa-regular fa-image" aria-hidden="true"></i> News Images</a>
                         <a href="{{ route('admin.careers.index') }}"><i class="fa-solid fa-briefcase" aria-hidden="true"></i> Career Opportunities</a>
-                        <a href="{{ url('/news-events/all-posts') }}"><i class="fa-regular fa-newspaper" aria-hidden="true"></i> News &amp; Announcements</a>
+                        <a href="{{ route('admin.posts.index') }}"><i class="fa-regular fa-newspaper" aria-hidden="true"></i> Manage News, Announcements &amp; Events</a>
+                        <a href="{{ route('admin.events.calendar') }}"><i class="fa-regular fa-calendar-days" aria-hidden="true"></i> Manage Event Calendar</a>
                         <a href="{{ url('/gallery/photo') }}"><i class="fa-regular fa-images" aria-hidden="true"></i> Photo Gallery</a>
                         <a href="{{ url('/gallery/video') }}"><i class="fa-solid fa-circle-play" aria-hidden="true"></i> Video Gallery</a>
                         <a href="{{ route('admin.testimonials.index') }}"><i class="fa-regular fa-comment-dots" aria-hidden="true"></i> Testimonials</a>

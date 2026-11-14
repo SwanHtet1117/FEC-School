@@ -111,7 +111,7 @@
                                 </td>
                                 <td>{{ $activity->device }}</td>
                                 <td>{{ $activity->user_name }}</td>
-                                <td>{{ $activity->action }}</td>
+                                <td>@include('admin.partials.activity-action')</td>
                                 <td>{{ $activity->details }}</td>
                                 <td>
                                     <span class="status-badge {{ $activity->status === 'Success' ? 'success' : 'danger' }}">

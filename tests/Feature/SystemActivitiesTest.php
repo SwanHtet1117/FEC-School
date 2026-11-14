@@ -118,7 +118,41 @@ class SystemActivitiesTest extends TestCase
             ->assertOk()
             ->assertSee('Updated campus entrance image')
             ->assertSee('Hero image updated')
+            ->assertSee('activity-action--updated', false)
             ->assertDontSee('administrator account');
+    }
+
+    public function test_activity_actions_use_distinct_color_categories_on_both_pages(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+        $actions = [
+            'Login' => 'authentication',
+            'Career opportunity added' => 'added',
+            'Hero image updated' => 'updated',
+            'User deleted' => 'deleted',
+            'User approved' => 'approved',
+            'Hero image disabled' => 'availability',
+            'Content reviewed' => 'other',
+        ];
+
+        foreach ($actions as $action => $color) {
+            SystemActivity::create([
+                'user_name' => $admin->name,
+                'action' => $action,
+                'details' => $action,
+                'status' => 'Success',
+                'device' => 'Desktop',
+                'timezone' => 'UTC',
+            ]);
+        }
+
+        foreach ([route('admin.dashboard'), route('admin.activities.index')] as $url) {
+            $response = $this->actingAs($admin)->get($url)->assertOk();
+
+            foreach ($actions as $color) {
+                $response->assertSee("activity-action--{$color}", false);
+            }
+        }
     }
 
     public function test_admin_can_view_all_system_activities_across_pages(): void
@@ -141,6 +175,7 @@ class SystemActivitiesTest extends TestCase
             ->assertOk()
             ->assertSee('Activity Log')
             ->assertSee('Activity entry 026')
+            ->assertSee('activity-action--updated', false)
             ->assertDontSee('Activity entry 001')
             ->assertSee('Page 1 of 2');
 
