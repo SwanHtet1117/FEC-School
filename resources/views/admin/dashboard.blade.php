@@ -60,31 +60,21 @@
                 <span class="stat-copy"><strong>3</strong><small>Videos</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
+            <a class="stat-card" href="{{ url('/campus-life') }}">
+                <span class="stat-icon cyan"><i class="fa-solid fa-people-group" aria-hidden="true"></i></span>
+                <span class="stat-copy"><strong>6</strong><small>Campus Life</small></span>
+                <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
+            </a>
             <a class="stat-card" href="{{ route('admin.testimonials.index') }}">
                 <span class="stat-icon blue"><i class="fa-regular fa-comment-dots" aria-hidden="true"></i></span>
                 <span class="stat-copy"><strong>{{ $testimonialCount }}</strong><small>Testimonials</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
-            </a>
-            <a class="stat-card" href="{{ url('/campus-life') }}">
-                <span class="stat-icon cyan"><i class="fa-solid fa-people-group" aria-hidden="true"></i></span>
-                <span class="stat-copy"><strong>6</strong><small>Student Life</small></span>
-                <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
-            </a>
-            <a class="stat-card" href="{{ url('/admissions') }}">
-                <span class="stat-icon blue"><i class="fa-solid fa-user-group" aria-hidden="true"></i></span>
-                <span class="stat-copy"><strong>6</strong><small>Parents</small></span>
-                <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
-            </a>
+            </a>              
             <a class="stat-card" href="{{ route('admin.faqs.index') }}">
                 <span class="stat-icon cyan"><i class="fa-regular fa-circle-question" aria-hidden="true"></i></span>
                 <span class="stat-copy"><strong>{{ $faqCount }}</strong><small>FAQs</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
-            </a>
-            <a class="stat-card" href="{{ url('/news-events/all-posts') }}">
-                <span class="stat-icon green"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></span>
-                <span class="stat-copy"><strong>72</strong><small>Total Posts</small></span>
-                <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
-            </a>
+            </a>            
             <a class="stat-card" href="{{ route('admin.messages.index') }}">
                 <span class="stat-icon amber"><i class="fa-regular fa-envelope" aria-hidden="true"></i></span>
                 <span class="stat-copy"><strong>{{ $messageCount }}</strong><small>Messages</small></span>
@@ -98,6 +88,11 @@
             <a class="stat-card" href="{{ route('admin.users.index') }}">
                 <span class="stat-icon rose"><i class="fa-solid fa-user-clock" aria-hidden="true"></i></span>
                 <span class="stat-copy"><strong>{{ $pendingCount }}</strong><small>Pending Registrations</small></span>
+                <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
+            </a>
+            <a class="stat-card" href="{{ url('/news-events/all-posts') }}">
+                <span class="stat-icon green"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></span>
+                <span class="stat-copy"><strong>72</strong><small>Total Posts</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
         </section>
@@ -158,18 +153,16 @@
                     <div class="panel-heading"><div><h2>Quick Actions</h2><p class="system_activity">Jump to a school section</p></div></div>
                     <div class="quick-actions">
                         <a href="{{ route('admin.hero.manage') }}"><i class="fa-regular fa-images" aria-hidden="true"></i> Manage Hero Images</a>
-                        <a href="{{ url('/news-events') }}"><i class="fa-regular fa-image" aria-hidden="true"></i> News Images</a>
                         <a href="{{ route('admin.careers.index') }}"><i class="fa-solid fa-briefcase" aria-hidden="true"></i> Career Opportunities</a>
                         <a href="{{ route('admin.posts.index') }}"><i class="fa-regular fa-newspaper" aria-hidden="true"></i> Manage News, Announcements &amp; Events</a>
                         <a href="{{ route('admin.events.calendar') }}"><i class="fa-regular fa-calendar-days" aria-hidden="true"></i> Manage Event Calendar</a>
                         <a href="{{ url('/gallery/photo') }}"><i class="fa-regular fa-images" aria-hidden="true"></i> Photo Gallery</a>
                         <a href="{{ url('/gallery/video') }}"><i class="fa-solid fa-circle-play" aria-hidden="true"></i> Video Gallery</a>
-                        <a href="{{ route('admin.testimonials.index') }}"><i class="fa-regular fa-comment-dots" aria-hidden="true"></i> Testimonials</a>
-                        <a href="{{ url('/campus-life') }}"><i class="fa-solid fa-people-group" aria-hidden="true"></i> Student Life</a>
-                        <a href="{{ url('/admissions') }}"><i class="fa-solid fa-user-group" aria-hidden="true"></i> Parents</a>
+                        <a href="{{ url('/campus-life') }}"><i class="fa-solid fa-people-group" aria-hidden="true"></i> Campus Life</a>
+                        <a href="{{ route('admin.testimonials.index') }}"><i class="fa-regular fa-comment-dots" aria-hidden="true"></i> Testimonials</a>                        
                         <a href="{{ route('admin.faqs.index') }}"><i class="fa-regular fa-circle-question" aria-hidden="true"></i> FAQs</a>
-                        <a href="{{ route('admin.users.index') }}"><i class="fa-solid fa-user-shield" aria-hidden="true"></i> User Accounts</a>
                         <a href="{{ route('admin.messages.index') }}"><i class="fa-regular fa-envelope" aria-hidden="true"></i> Contact Messages</a>
+                        <a href="{{ route('admin.users.index') }}"><i class="fa-solid fa-user-shield" aria-hidden="true"></i> User Accounts</a>                        
                     </div>
                 </section>
 

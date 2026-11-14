@@ -72,28 +72,76 @@
         }
     </style>
 </head>
-<body>
+<body class="video-gallery-page">
     
     @include('partials.header')
 
-        <section class="news-events-hero fade-in-up">
+        <section class="news-events-hero video-gallery-hero fade-in-up">
             <h1 class="page-title">Video Gallery</h1>
             <p class="page-subtitle">Watch Our Stories Unfold</p>
         </section>
 
         <section class="content-section">
-            <div class="section-container">                    
+            <div class="section-container">
                 <div class="gallery-intro fade-in-up">
                     <p>Welcome to our video gallery, where we bring the vibrant life and memorable moments at FEC International School to motion. From academic achievements to cultural celebrations, sports events to community activities, watch the rich experiences that define our school community come alive.</p>
                 </div>
+
+                <div class="video-gallery-toolbar" role="group" aria-label="Video gallery filters">
+                    <label class="video-gallery-field video-gallery-search">
+                        <span>Search videos</span>
+                        <input id="videoGallerySearch" type="search" placeholder="Search by title or category">
+                    </label>
+                    <label class="video-gallery-field">
+                        <span>Category</span>
+                        <select id="videoGalleryCategory">
+                            <option value="all">All categories</option>
+                            <option value="academics">Academics</option>
+                            <option value="campus-life">Campus Life</option>
+                            <option value="events">School Events</option>
+                        </select>
+                    </label>
+                    <label class="video-gallery-field">
+                        <span>Sort by</span>
+                        <select id="videoGallerySort">
+                            <option value="featured">Featured</option>
+                            <option value="title">Title (A-Z)</option>
+                            <option value="category">Category</option>
+                            <option value="views">Most viewed</option>
+                            <option value="duration">Duration</option>
+                        </select>
+                    </label>
+                    <div class="video-gallery-field">
+                        <span>View mode</span>
+                        <div class="video-gallery-view-mode" role="group" aria-label="View mode">
+                            <button type="button" class="active" data-view-mode="grid" aria-pressed="true">
+                                <i class="fa-solid fa-grip" aria-hidden="true"></i> Grid
+                            </button>
+                            <button type="button" data-view-mode="list" aria-pressed="false">
+                                <i class="fa-solid fa-list" aria-hidden="true"></i> List
+                            </button>
+                        </div>
+                    </div>
+                    <button class="video-gallery-reset" id="videoGalleryReset" type="button">
+                        <i class="fa-solid fa-arrow-rotate-left" aria-hidden="true"></i> Reset
+                    </button>
+                </div>
+
+                <div class="video-gallery-result-count">
+                    <p id="videoGalleryCount" aria-live="polite">12 videos</p>
+                </div>
+                
+                <p class="video-gallery-empty" id="videoGalleryEmpty" hidden>
+                    No videos match your filters. Try changing your search or category.
+                </p>
             </div>
         </section>  
     
 
-    <section class="content-section light-bg">
+    <section class="content-section light-bg video-gallery-category-section" data-category="events" data-category-label="School Events">
         <div class="section-container">
             <h2 class="section-title fade-in-up">School Events</h2>
-            <div class="gallery-grid fade-in-up">
+            <div class="gallery-grid video-gallery-grid fade-in-up">
                 <div class="gallery-item">
                     <div class="video-placeholder has-video" onclick="openVideoModal(this)" data-video-id="s9xq0rOPltg" data-title="FEC School Student Activity" data-views="5,678" data-duration="Short">
                         <img class="video-thumbnail" src="https://i.ytimg.com/vi/s9xq0rOPltg/hqdefault.jpg" alt="FEC School Student Activity video thumbnail">
@@ -153,10 +201,10 @@
         </div>
     </section>
 
-    <section class="content-section">
+    <section class="content-section video-gallery-category-section" data-category="campus-life" data-category-label="Campus Life">
         <div class="section-container">
             <h2 class="section-title fade-in-up">Campus Life</h2>
-            <div class="gallery-grid fade-in-up">
+            <div class="gallery-grid video-gallery-grid fade-in-up">
                 <div class="gallery-item">
                     <div class="video-placeholder has-video" onclick="openVideoModal(this)" data-video-id="s9xq0rOPltg" data-title="FEC School Student Activity" data-views="3,456" data-duration="Short">
                         <img class="video-thumbnail" src="https://i.ytimg.com/vi/s9xq0rOPltg/hqdefault.jpg" alt="FEC School Student Activity video thumbnail">
@@ -216,10 +264,10 @@
         </div>
     </section>
 
-    <section class="content-section light-bg">
+    <section class="content-section light-bg video-gallery-category-section" data-category="academics" data-category-label="Academics">
         <div class="section-container">
             <h2 class="section-title fade-in-up">Academic Activities</h2>
-            <div class="gallery-grid fade-in-up">
+            <div class="gallery-grid video-gallery-grid fade-in-up">
                 <div class="gallery-item">
                     <div class="video-placeholder has-video" onclick="openVideoModal(this)" data-video-id="s9xq0rOPltg" data-title="FEC School Student Activity" data-views="6,234" data-duration="Short">
                         <img class="video-thumbnail" src="https://i.ytimg.com/vi/s9xq0rOPltg/hqdefault.jpg" alt="FEC School Student Activity video thumbnail">
@@ -316,6 +364,113 @@
                 document.body.style.overflow = 'auto';
             }
         });
+
+        const videoGallerySections = Array.from(document.querySelectorAll('.video-gallery-category-section'));
+        const videoGalleryCards = Array.from(document.querySelectorAll('.video-gallery-category-section .gallery-item'));
+        const videoGallerySearch = document.getElementById('videoGallerySearch');
+        const videoGalleryCategory = document.getElementById('videoGalleryCategory');
+        const videoGallerySort = document.getElementById('videoGallerySort');
+        const videoGalleryCount = document.getElementById('videoGalleryCount');
+        const videoGalleryEmpty = document.getElementById('videoGalleryEmpty');
+        const videoGalleryModeButtons = Array.from(document.querySelectorAll('[data-view-mode]'));
+
+        videoGalleryCards.forEach((card, index) => {
+            const video = card.querySelector('.video-placeholder');
+            const section = card.closest('.video-gallery-category-section');
+            const title = video.dataset.title;
+
+            card.dataset.category = section.dataset.category;
+            card.dataset.title = title;
+            card.dataset.views = String(Number(video.dataset.views.replaceAll(',', '')));
+            card.dataset.duration = video.dataset.duration;
+            card.dataset.order = String(index);
+            card.dataset.search = `${title} ${section.dataset.categoryLabel}`.toLowerCase();
+        });
+
+        function durationInSeconds(duration) {
+            const parts = duration.split(':').map(Number);
+
+            if (parts.length === 2) {
+                return parts[0] * 60 + parts[1];
+            }
+
+            if (parts.length === 3) {
+                return parts[0] * 3600 + parts[1] * 60 + parts[2];
+            }
+
+            return 0;
+        }
+
+        function compareVideoCards(first, second) {
+            switch (videoGallerySort.value) {
+                case 'title':
+                    return first.dataset.title.localeCompare(second.dataset.title);
+                case 'category':
+                    return first.dataset.category.localeCompare(second.dataset.category)
+                        || first.dataset.title.localeCompare(second.dataset.title);
+                case 'views':
+                    return Number(second.dataset.views) - Number(first.dataset.views);
+                case 'duration':
+                    return durationInSeconds(first.dataset.duration) - durationInSeconds(second.dataset.duration);
+                default:
+                    return Number(first.dataset.order) - Number(second.dataset.order);
+            }
+        }
+
+        function updateVideoGallery() {
+            const searchTerm = videoGallerySearch.value.trim().toLowerCase();
+            const selectedCategory = videoGalleryCategory.value;
+            const matchingCards = videoGalleryCards.filter((card) => {
+                const matchesCategory = selectedCategory === 'all' || card.dataset.category === selectedCategory;
+                const matchesSearch = card.dataset.search.includes(searchTerm);
+
+                return matchesCategory && matchesSearch;
+            });
+
+            videoGallerySections.forEach((section) => {
+                const sectionCards = matchingCards
+                    .filter((card) => card.closest('.video-gallery-category-section') === section)
+                    .sort(compareVideoCards);
+                const grid = section.querySelector('.video-gallery-grid');
+
+                sectionCards.forEach((card) => grid.append(card));
+                section.hidden = sectionCards.length === 0;
+            });
+
+            const videoWord = matchingCards.length === 1 ? 'video' : 'videos';
+            videoGalleryCount.textContent = `${matchingCards.length} ${videoWord}`;
+            videoGalleryEmpty.hidden = matchingCards.length > 0;
+        }
+
+        function setVideoGalleryMode(mode) {
+            document.querySelectorAll('.video-gallery-grid').forEach((grid) => {
+                grid.classList.toggle('is-list', mode === 'list');
+            });
+
+            videoGalleryModeButtons.forEach((button) => {
+                const isActive = button.dataset.viewMode === mode;
+                button.classList.toggle('active', isActive);
+                button.setAttribute('aria-pressed', String(isActive));
+            });
+        }
+
+        function resetVideoGallery() {
+            videoGallerySearch.value = '';
+            videoGalleryCategory.value = 'all';
+            videoGallerySort.value = 'featured';
+            setVideoGalleryMode('grid');
+            updateVideoGallery();
+        }
+
+        videoGallerySearch.addEventListener('input', updateVideoGallery);
+        videoGalleryCategory.addEventListener('change', updateVideoGallery);
+        videoGallerySort.addEventListener('change', updateVideoGallery);
+        document.getElementById('videoGalleryReset').addEventListener('click', resetVideoGallery);
+        videoGalleryModeButtons.forEach((button) => {
+            button.addEventListener('click', () => setVideoGalleryMode(button.dataset.viewMode));
+        });
+
+        updateVideoGallery();
     </script>
 </body>
 </html>
