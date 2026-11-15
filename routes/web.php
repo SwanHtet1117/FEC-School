@@ -1,9 +1,11 @@
 <?php
 
-use App\Http\Controllers\Admin\ContactMessageManagementController;
 use App\Http\Controllers\Admin\CareerOpportunityController;
+use App\Http\Controllers\Admin\ContactMessageManagementController;
 use App\Http\Controllers\Admin\EventCalendarController;
 use App\Http\Controllers\Admin\FaqManagementController;
+use App\Http\Controllers\Admin\GalleryPhotoController;
+use App\Http\Controllers\Admin\GalleryVideoController;
 use App\Http\Controllers\Admin\HeroSlideController;
 use App\Http\Controllers\Admin\PostManagementController;
 use App\Http\Controllers\Admin\SystemActivityController;
@@ -12,10 +14,13 @@ use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ContactMessageController;
+use App\Http\Controllers\GalleryPhotoViewController;
 use App\Http\Controllers\PostController;
-use App\Models\ContactMessage;
 use App\Models\CareerOpportunity;
+use App\Models\ContactMessage;
 use App\Models\Faq;
+use App\Models\GalleryPhoto;
+use App\Models\GalleryVideo;
 use App\Models\HeroSlide;
 use App\Models\Post;
 use App\Models\SystemActivity;
@@ -52,7 +57,13 @@ Route::post('/contact', [ContactMessageController::class, 'store'])
 Route::get('/news-events', [PostController::class, 'newsEvents'])->name('news-events.index');
 
 Route::get('/campus-life', function () {
-    return view('main.campus-life');
+    return view('main.campus-life', [
+        'campusGalleryPhotos' => GalleryPhoto::query()
+            ->where('category', 'campus-life')
+            ->ordered()
+            ->limit(8)
+            ->get(),
+    ]);
 });
 
 Route::get('/academics', function () {
@@ -76,11 +87,19 @@ Route::get('/academics/ged-igcse', function () {
 });
 
 Route::get('/gallery/photo', function () {
-    return view('main.photo-gallery');
+    return view('main.photo-gallery', [
+        'galleryPhotos' => GalleryPhoto::ordered()->get(),
+    ]);
 });
 
+Route::post('/gallery/photos/{galleryPhoto}/view', GalleryPhotoViewController::class)
+    ->middleware('throttle:120,1')
+    ->name('gallery.photos.view');
+
 Route::get('/gallery/video', function () {
-    return view('main.video-gallery');
+    return view('main.video-gallery', [
+        'videos' => GalleryVideo::ordered()->get(),
+    ]);
 });
 
 Route::get('/admissions', function () {
@@ -106,6 +125,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard', [
             'heroImageCount' => HeroSlide::count(),
+            'galleryPhotoCount' => GalleryPhoto::count(),
+            'galleryVideoCount' => GalleryVideo::count(),
             'activities' => SystemActivity::latest()->limit(10)->get(),
             'messageCount' => ContactMessage::count(),
             'careerCount' => CareerOpportunity::open()->count(),
@@ -177,4 +198,22 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         ->name('admin.hero.destroy');
     Route::post('/hero/manage/{heroSlide}/toggle', [HeroSlideController::class, 'toggle'])
         ->name('admin.hero.toggle');
+
+    Route::get('/gallery/photos', [GalleryPhotoController::class, 'index'])
+        ->name('admin.gallery.photos.index');
+    Route::post('/gallery/photos', [GalleryPhotoController::class, 'store'])
+        ->name('admin.gallery.photos.store');
+    Route::put('/gallery/photos/{galleryPhoto}', [GalleryPhotoController::class, 'update'])
+        ->name('admin.gallery.photos.update');
+    Route::delete('/gallery/photos/{galleryPhoto}', [GalleryPhotoController::class, 'destroy'])
+        ->name('admin.gallery.photos.destroy');
+
+    Route::get('/gallery/videos', [GalleryVideoController::class, 'index'])
+        ->name('admin.gallery.videos.index');
+    Route::post('/gallery/videos', [GalleryVideoController::class, 'store'])
+        ->name('admin.gallery.videos.store');
+    Route::put('/gallery/videos/{galleryVideo}', [GalleryVideoController::class, 'update'])
+        ->name('admin.gallery.videos.update');
+    Route::delete('/gallery/videos/{galleryVideo}', [GalleryVideoController::class, 'destroy'])
+        ->name('admin.gallery.videos.destroy');
 });

@@ -39,7 +39,7 @@
                         <li><i class="fas fa-check-circle"></i> Library & Resource Center</li>
                         <li><i class="fas fa-check-circle"></i> Sports Complex</li>
                     </ul>
-                    <a href="#" class="btn-campus">Explore Campus <i class="fas fa-arrow-right"></i></a>
+                    <a href="{{ url('/gallery/photo') }}?category=campus-life" class="btn-campus">Explore Campus <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
 
@@ -54,7 +54,7 @@
                         <li><i class="fas fa-check-circle"></i> Art & Music Rooms</li>
                         <li><i class="fas fa-check-circle"></i> Parent Waiting Areas</li>
                     </ul>
-                    <a href="#" class="btn-campus">Explore Campus <i class="fas fa-arrow-right"></i></a>
+                    <a href="{{ url('/gallery/photo') }}?category=campus-life" class="btn-campus">Explore Campus <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
@@ -127,21 +127,21 @@
             <h2 class="fade-in-up">Student Life & Activities</h2>
             <div class="student-life-grid">
                 <div class="student-life-card fade-in-up">
-                    <img src="{{ asset('image/secondary_student_activity_02.jpg') }}" alt="Students gathered for a school activity" class="student-life-image">
-                    <div class="student-life-content">
-                        <h4>Sports & Athletics</h4>
-                        <p>Competitive sports teams, intramural leagues, and fitness programs to keep students active and healthy.</p>
-                    </div>
-                </div>
-                <div class="student-life-card fade-in-up">
-                    <img src="{{ asset('image/all_student_activity_02.jpg') }}" alt="Students learning and working together in class" class="student-life-image">
+                    <img src="{{ asset('image/clubs&societies.jpg') }}" alt="Students learning and working together in class" class="student-life-image">
                     <div class="student-life-content">
                         <h4>Clubs & Societies</h4>
                         <p>Diverse student-led clubs including robotics, debate, environmental, and cultural organizations.</p>
                     </div>
                 </div>
                 <div class="student-life-card fade-in-up">
-                    <img src="{{ asset('image/early_student_activity_01.jpg') }}" alt="Early Years students sharing a classroom project" class="student-life-image">
+                    <img src="{{ asset('image/sports&athletics.jpg') }}" alt="Students gathered for a school activity" class="student-life-image">
+                    <div class="student-life-content">
+                        <h4>Sports & Athletics</h4>
+                        <p>Competitive sports teams, intramural leagues, and fitness programs to keep students active and healthy.</p>
+                    </div>
+                </div>
+                <div class="student-life-card fade-in-up">
+                    <img src="{{ asset('image/community_service.jpg') }}" alt="Early Years students sharing a classroom project" class="student-life-image">
                     <div class="student-life-content">
                         <h4>Community Service</h4>
                         <p>Volunteer opportunities and service learning projects that develop empathy and citizenship.</p>
@@ -152,56 +152,21 @@
 
         <!-- Gallery Section -->
         <div class="gallery-section">
-            <h2 class="fade-in-up">Campus Gallery</h2>
+            <div class="campus-gallery-heading">
+                <h2 class="fade-in-up">Campus Gallery</h2>
+                <a class="campus-gallery-view-all" href="{{ url('/gallery/photo') }}?category=campus-life">
+                    View All Campus Life <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                </a>
+            </div>
             <div class="gallery-grid">
-                <div class="gallery-item fade-in-up">
-                    <img src="{{ asset('image/fec_building_01.jpg') }}" alt="Exterior view of the FEC school campus">
-                    <div class="gallery-overlay">
-                        <i class="fas fa-search-plus"></i>
+                @foreach ($campusGalleryPhotos as $photo)
+                    <div class="gallery-item fade-in-up">
+                        <img src="{{ $photo->image_url }}" alt="{{ $photo->alt_text }}">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-search-plus" aria-hidden="true"></i>
+                        </div>
                     </div>
-                </div>
-                <div class="gallery-item fade-in-up">
-                    <img src="{{ asset('image/fec_building_02.jpg') }}" alt="FEC school building and grounds">
-                    <div class="gallery-overlay">
-                        <i class="fas fa-search-plus"></i>
-                    </div>
-                </div>
-                <div class="gallery-item fade-in-up">
-                    <img src="{{ asset('image/all_student_activity_01.jpg') }}" alt="Students gathered outdoors for a school activity">
-                    <div class="gallery-overlay">
-                        <i class="fas fa-search-plus"></i>
-                    </div>
-                </div>
-                <div class="gallery-item fade-in-up">
-                    <img src="{{ asset('image/primary_student_activity_01.jpg') }}" alt="Primary students taking part in a classroom activity">
-                    <div class="gallery-overlay">
-                        <i class="fas fa-search-plus"></i>
-                    </div>
-                </div>
-                <div class="gallery-item fade-in-up">
-                    <img src="{{ asset('image/secondary_student_activity_01.jpg') }}" alt="Secondary students studying in class">
-                    <div class="gallery-overlay">
-                        <i class="fas fa-search-plus"></i>
-                    </div>
-                </div>
-                <div class="gallery-item fade-in-up">
-                    <img src="{{ asset('image/early_student_activity_04.jpg') }}" alt="Early Years students learning with their teacher">
-                    <div class="gallery-overlay">
-                        <i class="fas fa-search-plus"></i>
-                    </div>
-                </div>
-                <div class="gallery-item fade-in-up">
-                    <img src="{{ asset('image/secondary_student_activity_02.jpg') }}" alt="Secondary students at a school gathering">
-                    <div class="gallery-overlay">
-                        <i class="fas fa-search-plus"></i>
-                    </div>
-                </div>
-                <div class="gallery-item fade-in-up">
-                    <img src="{{ asset('image/ged_student_activity_01.jpg') }}" alt="GED students participating in a school activity">
-                    <div class="gallery-overlay">
-                        <i class="fas fa-search-plus"></i>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>

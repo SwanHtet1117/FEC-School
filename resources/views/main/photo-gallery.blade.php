@@ -6,113 +6,13 @@
     <title>Photo Gallery - FEC International School</title>
     <meta name="description" content="Browse through our photo gallery showcasing school events, activities, and campus life at FEC International School.">
     <meta name="keywords" content="FEC International School, Photo Gallery, School Events, Campus Life">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/png" href="{{ asset('image/logo_01.png') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="{{ asset('js/animations.js') }}" defer></script>
 </head>
 <body class="photo-gallery-page">
-    @php
-        $galleryPhotos = [
-            [
-                'title' => 'School Gathering',
-                'category' => 'events',
-                'categoryLabel' => 'School Events',
-                'image' => 'all_student_activity_01.jpg',
-                'alt' => 'Students gathered outdoors at school',
-                'views' => 1234,
-            ],
-            [
-                'title' => 'Student Project Showcase',
-                'category' => 'events',
-                'categoryLabel' => 'School Events',
-                'image' => 'early_student_activity_01.jpg',
-                'alt' => 'Early Years students presenting a classroom project',
-                'views' => 987,
-            ],
-            [
-                'title' => 'Student Activity',
-                'category' => 'events',
-                'categoryLabel' => 'School Events',
-                'image' => 'all_student_activity_02.jpg',
-                'alt' => 'Students taking part in a classroom activity',
-                'views' => 2156,
-            ],
-            [
-                'title' => 'School Assembly',
-                'category' => 'events',
-                'categoryLabel' => 'School Events',
-                'image' => 'secondary_student_activity_02.jpg',
-                'alt' => 'Secondary students gathered for a school event',
-                'views' => 3421,
-            ],
-            [
-                'title' => 'FEC School Building',
-                'category' => 'campus-life',
-                'categoryLabel' => 'Campus Life',
-                'image' => 'fec_building_01.jpg',
-                'alt' => 'Exterior view of the FEC school building',
-                'views' => 856,
-            ],
-            [
-                'title' => 'Campus Grounds',
-                'category' => 'campus-life',
-                'categoryLabel' => 'Campus Life',
-                'image' => 'fec_building_02.jpg',
-                'alt' => 'FEC campus grounds and school building',
-                'views' => 743,
-            ],
-            [
-                'title' => 'School Campus',
-                'category' => 'campus-life',
-                'categoryLabel' => 'Campus Life',
-                'image' => 'fec_building.jpg',
-                'alt' => 'FEC International School campus',
-                'views' => 1102,
-            ],
-            [
-                'title' => 'FEC Campus Overview',
-                'category' => 'campus-life',
-                'categoryLabel' => 'Campus Life',
-                'image' => 'fec_wallpaper.jpg',
-                'alt' => 'Illustrated overview of the FEC campus and school community',
-                'views' => 634,
-            ],
-            [
-                'title' => 'Classroom Learning',
-                'category' => 'academics',
-                'categoryLabel' => 'Academic Activities',
-                'image' => 'secondary_student_activity_01.jpg',
-                'alt' => 'Secondary students working in their classroom',
-                'views' => 1567,
-            ],
-            [
-                'title' => 'Group Study Session',
-                'category' => 'academics',
-                'categoryLabel' => 'Academic Activities',
-                'image' => 'primary_student_activity_01.jpg',
-                'alt' => 'Primary students studying together in class',
-                'views' => 923,
-            ],
-            [
-                'title' => 'Early Years Classroom',
-                'category' => 'academics',
-                'categoryLabel' => 'Academic Activities',
-                'image' => 'early_student_activity_04.jpg',
-                'alt' => 'Early Years students learning with their teacher',
-                'views' => 1089,
-            ],
-            [
-                'title' => 'GED Student Activity',
-                'category' => 'academics',
-                'categoryLabel' => 'Academic Activities',
-                'image' => 'ged_student_activity_01.jpg',
-                'alt' => 'GED students participating in a school activity',
-                'views' => 756,
-            ],
-        ];
-    @endphp
-
     @include('partials.header')
 
     <section class="news-events-hero photo-gallery-hero fade-in-up">
@@ -165,21 +65,22 @@
                     @foreach ($galleryPhotos as $photo)
                         <article class="photo-gallery-card"
                             data-category="{{ $photo['category'] }}"
-                            data-title="{{ $photo['title'] }}"
-                            data-search="{{ $photo['title'] }} {{ $photo['categoryLabel'] }} {{ $photo['alt'] }}"
-                            data-views="{{ $photo['views'] }}">
+                            data-title="{{ $photo->title }}"
+                            data-search="{{ $photo->title }} {{ $photo->category_label }} {{ $photo->alt_text }}"
+                            data-views="{{ $photo->views }}"
+                            data-view-url="{{ route('gallery.photos.view', $photo) }}">
                             <button class="photo-gallery-image-button" type="button"
-                                aria-label="View {{ $photo['title'] }}"
+                                aria-label="View {{ $photo->title }}"
                                 onclick="openModal(this.closest('.photo-gallery-card'))">
-                                <img class="gallery-photo" src="{{ asset('image/'.$photo['image']) }}" alt="{{ $photo['alt'] }}" loading="lazy">
+                                <img class="gallery-photo" src="{{ $photo->image_url }}" alt="{{ $photo->alt_text }}" loading="lazy">
                             </button>
                             <div class="photo-gallery-card-content">
-                                <span class="photo-gallery-category">{{ $photo['categoryLabel'] }}</span>
-                                <h2>{{ $photo['title'] }}</h2>
+                                <span class="photo-gallery-category">{{ $photo->category_label }}</span>
+                                <h2>{{ $photo->title }}</h2>
                                 <div class="photo-gallery-card-footer">
                                     <span class="photo-gallery-views">
                                         <i class="fa-regular fa-eye" aria-hidden="true"></i>
-                                        {{ number_format($photo['views']) }} views
+                                        <span class="photo-gallery-view-count">{{ number_format($photo->views) }}</span> views
                                     </span>
                                     <button class="photo-gallery-view" type="button"
                                         onclick="openModal(this.closest('.photo-gallery-card'))">
@@ -218,6 +119,7 @@
         const gallerySort = document.getElementById('photoGallerySort');
         const galleryCount = document.getElementById('photoGalleryCount');
         const galleryEmpty = document.getElementById('photoGalleryEmpty');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
         function updateGallery() {
             const searchTerm = gallerySearch.value.trim().toLowerCase();
@@ -257,6 +159,12 @@
         gallerySort.addEventListener('change', updateGallery);
         document.getElementById('photoGalleryReset').addEventListener('click', resetGallery);
 
+        const requestedCategory = new URLSearchParams(window.location.search).get('category');
+        if (Array.from(galleryCategory.options).some((option) => option.value === requestedCategory)) {
+            galleryCategory.value = requestedCategory;
+        }
+        updateGallery();
+
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') {
                 const modal = document.getElementById('galleryModal');
@@ -271,11 +179,49 @@
             const image = element.querySelector('.gallery-photo');
             const modalImage = document.getElementById('modalImage');
 
+            recordPhotoView(element);
             modalImage.src = image.src;
             modalImage.alt = image.alt;
             document.getElementById('modalTitle').textContent = title;
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
+        }
+
+        function recordPhotoView(card) {
+            if (card.dataset.viewRequestPending === 'true') {
+                return;
+            }
+
+            card.dataset.viewRequestPending = 'true';
+            fetch(card.dataset.viewUrl, {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+                credentials: 'same-origin',
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`View count request failed with status ${response.status}.`);
+                    }
+
+                    return response.json();
+                })
+                .then(({ views }) => {
+                    card.dataset.views = String(views);
+                    card.querySelector('.photo-gallery-view-count').textContent = Number(views).toLocaleString();
+
+                    if (gallerySort.value === 'views') {
+                        updateGallery();
+                    }
+                })
+                .catch((error) => {
+                    console.error('Unable to record photo gallery view.', error);
+                })
+                .finally(() => {
+                    delete card.dataset.viewRequestPending;
+                });
         }
 
         function closeModal(event) {

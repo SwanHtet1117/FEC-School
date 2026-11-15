@@ -1,0 +1,74 @@
+.gallery-video-management .video-upload-form {
+    grid-template-columns: minmax(0, 1.2fr) minmax(150px, .8fr) minmax(0, 1fr) minmax(115px, .55fr) auto;
+}
+
+.gallery-video-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.gallery-video-preview {
+    background: #eaf1f7;
+}
+
+.gallery-video-no-thumbnail {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    gap: 8px;
+    background:
+        radial-gradient(circle at 25% 20%, rgba(89, 175, 207, .32), transparent 35%),
+        linear-gradient(135deg, #123f67, #162d4d);
+    color: rgba(255, 255, 255, .75);
+    font-size: 11px;
+    font-weight: 650;
+}
+
+.gallery-video-no-thumbnail i {
+    color: #fff;
+    font-size: 38px;
+    opacity: .8;
+}
+
+.gallery-video-edit-row {
+    grid-template-columns: minmax(0, 1fr) 82px;
+}
+
+.gallery-video-edit-row .gallery-order-field input {
+    text-align: center;
+}
+
+.gallery-video-management .gallery-photo-actions {
+    align-items: stretch;
+}
+
+.gallery-video-management .gallery-photo-actions > .gallery-button,
+.gallery-video-management .gallery-photo-actions > form {
+    flex: 1 1 0;
+}
+
+.gallery-video-management .gallery-photo-actions > form .gallery-button {
+    width: 100%;
+}
+
+@media (max-width: 1000px) {
+    .gallery-video-management .video-upload-form {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .gallery-video-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 520px) {
+    .gallery-video-management .video-upload-form,
+    .gallery-video-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .gallery-video-management .video-upload-form > .gallery-button {
+        justify-self: start;
+    }
+}

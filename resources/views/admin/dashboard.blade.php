@@ -50,14 +50,14 @@
                 <span class="stat-copy"><strong>6</strong><small>Event Calendar</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
-            <a class="stat-card" href="{{ url('/gallery/photo') }}">
+            <a class="stat-card" href="{{ route('admin.gallery.photos.index') }}">
                 <span class="stat-icon amber"><i class="fa-regular fa-images" aria-hidden="true"></i></span>
-                <span class="stat-copy"><strong>9</strong><small>Photos</small></span>
+                <span class="stat-copy"><strong>{{ $galleryPhotoCount }}</strong><small>Photos</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
-            <a class="stat-card" href="{{ url('/gallery/video') }}">
+            <a class="stat-card" href="{{ route('admin.gallery.videos.index') }}">
                 <span class="stat-icon rose"><i class="fa-solid fa-circle-play" aria-hidden="true"></i></span>
-                <span class="stat-copy"><strong>3</strong><small>Videos</small></span>
+                <span class="stat-copy"><strong>{{ $galleryVideoCount }}</strong><small>Videos</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
             <a class="stat-card" href="{{ url('/campus-life') }}">
@@ -156,8 +156,8 @@
                         <a href="{{ route('admin.careers.index') }}"><i class="fa-solid fa-briefcase" aria-hidden="true"></i> Career Opportunities</a>
                         <a href="{{ route('admin.posts.index') }}"><i class="fa-regular fa-newspaper" aria-hidden="true"></i> Manage News, Announcements &amp; Events</a>
                         <a href="{{ route('admin.events.calendar') }}"><i class="fa-regular fa-calendar-days" aria-hidden="true"></i> Manage Event Calendar</a>
-                        <a href="{{ url('/gallery/photo') }}"><i class="fa-regular fa-images" aria-hidden="true"></i> Photo Gallery</a>
-                        <a href="{{ url('/gallery/video') }}"><i class="fa-solid fa-circle-play" aria-hidden="true"></i> Video Gallery</a>
+                        <a href="{{ route('admin.gallery.photos.index') }}"><i class="fa-regular fa-images" aria-hidden="true"></i> Manage Photo Gallery</a>
+                        <a href="{{ route('admin.gallery.videos.index') }}"><i class="fa-solid fa-circle-play" aria-hidden="true"></i> Manage Video Gallery</a>
                         <a href="{{ url('/campus-life') }}"><i class="fa-solid fa-people-group" aria-hidden="true"></i> Campus Life</a>
                         <a href="{{ route('admin.testimonials.index') }}"><i class="fa-regular fa-comment-dots" aria-hidden="true"></i> Testimonials</a>                        
                         <a href="{{ route('admin.faqs.index') }}"><i class="fa-regular fa-circle-question" aria-hidden="true"></i> FAQs</a>

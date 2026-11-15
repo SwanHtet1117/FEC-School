@@ -128,7 +128,7 @@
                 </div>
 
                 <div class="video-gallery-result-count">
-                    <p id="videoGalleryCount" aria-live="polite">12 videos</p>
+                    <p id="videoGalleryCount" aria-live="polite">{{ $videos->count() }} videos</p>
                 </div>
                 
                 <p class="video-gallery-empty" id="videoGalleryEmpty" hidden>
@@ -138,194 +138,49 @@
         </section>  
     
 
-    <section class="content-section light-bg video-gallery-category-section" data-category="events" data-category-label="School Events">
-        <div class="section-container">
-            <h2 class="section-title fade-in-up">School Events</h2>
-            <div class="gallery-grid video-gallery-grid fade-in-up">
-                <div class="gallery-item">
-                    <div class="video-placeholder has-video" onclick="openVideoModal(this)" data-video-id="s9xq0rOPltg" data-title="FEC School Student Activity" data-views="5,678" data-duration="Short">
-                        <img class="video-thumbnail" src="https://i.ytimg.com/vi/s9xq0rOPltg/hqdefault.jpg" alt="FEC School Student Activity video thumbnail">
-                        <div class="video-item-info">
-                            <span class="video-item-title">FEC School Student Activity</span>
-                            <div class="video-item-meta">
-                                <span class="video-item-views"><i class="fas fa-eye"></i> 5,678</span>
-                                <span class="video-item-duration"><i class="fas fa-video"></i> Short</span>
+    @foreach ($videos->groupBy('category') as $category => $categoryVideos)
+        @php($categoryLabel = $categoryVideos->first()->category_label)
+        <section class="content-section {{ $loop->first ? 'light-bg' : '' }} video-gallery-category-section"
+            data-category="{{ $category }}" data-category-label="{{ $categoryLabel }}">
+            <div class="section-container">
+                <h2 class="section-title fade-in-up">{{ $categoryLabel }}</h2>
+                <div class="gallery-grid video-gallery-grid fade-in-up">
+                    @foreach ($categoryVideos as $video)
+                        <div class="gallery-item">
+                            <div class="video-placeholder {{ $video->youtube_id ? 'has-video' : 'video-unavailable' }}"
+                                @if ($video->youtube_id)
+                                    onclick="openVideoModal(this)" role="button" tabindex="0"
+                                    aria-label="Play {{ $video->title }}" data-video-id="{{ $video->youtube_id }}"
+                                @endif
+                                data-title="{{ $video->title }}"
+                                data-views="{{ number_format($video->views) }}"
+                                data-duration="{{ $video->duration }}">
+                                @if ($video->thumbnail_url)
+                                    <img class="video-thumbnail" src="{{ $video->thumbnail_url }}" alt="{{ $video->title }} video thumbnail">
+                                @else
+                                    <i class="fas fa-play-circle" aria-hidden="true"></i>
+                                    <span>{{ $categoryLabel }}</span>
+                                @endif
+                                <div class="video-item-info">
+                                    <span class="video-item-title">{{ $video->title }}</span>
+                                    <div class="video-item-meta">
+                                        <span class="video-item-views"><i class="fas fa-eye" aria-hidden="true"></i> {{ number_format($video->views) }}</span>
+                                        <span class="video-item-duration">
+                                            <i class="fas {{ $video->youtube_id ? 'fa-video' : 'fa-clock' }}" aria-hidden="true"></i>
+                                            {{ $video->duration }}
+                                        </span>
+                                    </div>
+                                </div>
+                                @if ($video->youtube_id)
+                                    <div class="video-play-btn"><i class="fas fa-play" aria-hidden="true"></i></div>
+                                @endif
                             </div>
                         </div>
-                        <div class="video-play-btn"><i class="fas fa-play"></i></div>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="video-placeholder" onclick="openVideoModal(this)" data-title="Science Fair Exhibition" data-views="4,321" data-duration="8:45">
-                        <i class="fas fa-play-circle"></i>
-                        <span>Event Video 2</span>
-                        <div class="video-item-info">
-                            <span class="video-item-title">Science Fair Exhibition</span>
-                            <div class="video-item-meta">
-                                <span class="video-item-views"><i class="fas fa-eye"></i> 4,321</span>
-                                <span class="video-item-duration"><i class="fas fa-clock"></i> 8:45</span>
-                            </div>
-                        </div>
-                        <div class="video-play-btn"><i class="fas fa-play"></i></div>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="video-placeholder" onclick="openVideoModal(this)" data-title="Cultural Festival" data-views="7,892" data-duration="15:20">
-                        <i class="fas fa-play-circle"></i>
-                        <span>Event Video 3</span>
-                        <div class="video-item-info">
-                            <span class="video-item-title">Cultural Festival</span>
-                            <div class="video-item-meta">
-                                <span class="video-item-views"><i class="fas fa-eye"></i> 7,892</span>
-                                <span class="video-item-duration"><i class="fas fa-clock"></i> 15:20</span>
-                            </div>
-                        </div>
-                        <div class="video-play-btn"><i class="fas fa-play"></i></div>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="video-placeholder" onclick="openVideoModal(this)" data-title="Graduation Ceremony" data-views="9,456" data-duration="25:10">
-                        <i class="fas fa-play-circle"></i>
-                        <span>Event Video 4</span>
-                        <div class="video-item-info">
-                            <span class="video-item-title">Graduation Ceremony</span>
-                            <div class="video-item-meta">
-                                <span class="video-item-views"><i class="fas fa-eye"></i> 9,456</span>
-                                <span class="video-item-duration"><i class="fas fa-clock"></i> 25:10</span>
-                            </div>
-                        </div>
-                        <div class="video-play-btn"><i class="fas fa-play"></i></div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section class="content-section video-gallery-category-section" data-category="campus-life" data-category-label="Campus Life">
-        <div class="section-container">
-            <h2 class="section-title fade-in-up">Campus Life</h2>
-            <div class="gallery-grid video-gallery-grid fade-in-up">
-                <div class="gallery-item">
-                    <div class="video-placeholder has-video" onclick="openVideoModal(this)" data-video-id="s9xq0rOPltg" data-title="FEC School Student Activity" data-views="3,456" data-duration="Short">
-                        <img class="video-thumbnail" src="https://i.ytimg.com/vi/s9xq0rOPltg/hqdefault.jpg" alt="FEC School Student Activity video thumbnail">
-                        <div class="video-item-info">
-                            <span class="video-item-title">FEC School Student Activity</span>
-                            <div class="video-item-meta">
-                                <span class="video-item-views"><i class="fas fa-eye"></i> 3,456</span>
-                                <span class="video-item-duration"><i class="fas fa-video"></i> Short</span>
-                            </div>
-                        </div>
-                        <div class="video-play-btn"><i class="fas fa-play"></i></div>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="video-placeholder" onclick="openVideoModal(this)" data-title="Student Life" data-views="2,789" data-duration="7:30">
-                        <i class="fas fa-play-circle"></i>
-                        <span>Campus Video 2</span>
-                        <div class="video-item-info">
-                            <span class="video-item-title">Student Life</span>
-                            <div class="video-item-meta">
-                                <span class="video-item-views"><i class="fas fa-eye"></i> 2,789</span>
-                                <span class="video-item-duration"><i class="fas fa-clock"></i> 7:30</span>
-                            </div>
-                        </div>
-                        <div class="video-play-btn"><i class="fas fa-play"></i></div>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="video-placeholder" onclick="openVideoModal(this)" data-title="Facilities Overview" data-views="4,123" data-duration="9:45">
-                        <i class="fas fa-play-circle"></i>
-                        <span>Campus Video 3</span>
-                        <div class="video-item-info">
-                            <span class="video-item-title">Facilities Overview</span>
-                            <div class="video-item-meta">
-                                <span class="video-item-views"><i class="fas fa-eye"></i> 4,123</span>
-                                <span class="video-item-duration"><i class="fas fa-clock"></i> 9:45</span>
-                            </div>
-                        </div>
-                        <div class="video-play-btn"><i class="fas fa-play"></i></div>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="video-placeholder" onclick="openVideoModal(this)" data-title="Extracurricular Activities" data-views="3,890" data-duration="11:20">
-                        <i class="fas fa-play-circle"></i>
-                        <span>Campus Video 4</span>
-                        <div class="video-item-info">
-                            <span class="video-item-title">Extracurricular Activities</span>
-                            <div class="video-item-meta">
-                                <span class="video-item-views"><i class="fas fa-eye"></i> 3,890</span>
-                                <span class="video-item-duration"><i class="fas fa-clock"></i> 11:20</span>
-                            </div>
-                        </div>
-                        <div class="video-play-btn"><i class="fas fa-play"></i></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="content-section light-bg video-gallery-category-section" data-category="academics" data-category-label="Academics">
-        <div class="section-container">
-            <h2 class="section-title fade-in-up">Academic Activities</h2>
-            <div class="gallery-grid video-gallery-grid fade-in-up">
-                <div class="gallery-item">
-                    <div class="video-placeholder has-video" onclick="openVideoModal(this)" data-video-id="s9xq0rOPltg" data-title="FEC School Student Activity" data-views="6,234" data-duration="Short">
-                        <img class="video-thumbnail" src="https://i.ytimg.com/vi/s9xq0rOPltg/hqdefault.jpg" alt="FEC School Student Activity video thumbnail">
-                        <div class="video-item-info">
-                            <span class="video-item-title">FEC School Student Activity</span>
-                            <div class="video-item-meta">
-                                <span class="video-item-views"><i class="fas fa-eye"></i> 6,234</span>
-                                <span class="video-item-duration"><i class="fas fa-video"></i> Short</span>
-                            </div>
-                        </div>
-                        <div class="video-play-btn"><i class="fas fa-play"></i></div>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="video-placeholder" onclick="openVideoModal(this)" data-title="Science Experiments" data-views="5,123" data-duration="12:10">
-                        <i class="fas fa-play-circle"></i>
-                        <span>Academic Video 2</span>
-                        <div class="video-item-info">
-                            <span class="video-item-title">Science Experiments</span>
-                            <div class="video-item-meta">
-                                <span class="video-item-views"><i class="fas fa-eye"></i> 5,123</span>
-                                <span class="video-item-duration"><i class="fas fa-clock"></i> 12:10</span>
-                            </div>
-                        </div>
-                        <div class="video-play-btn"><i class="fas fa-play"></i></div>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="video-placeholder" onclick="openVideoModal(this)" data-title="Art & Music Classes" data-views="4,567" data-duration="10:50">
-                        <i class="fas fa-play-circle"></i>
-                        <span>Academic Video 3</span>
-                        <div class="video-item-info">
-                            <span class="video-item-title">Art & Music Classes</span>
-                            <div class="video-item-meta">
-                                <span class="video-item-views"><i class="fas fa-eye"></i> 4,567</span>
-                                <span class="video-item-duration"><i class="fas fa-clock"></i> 10:50</span>
-                            </div>
-                        </div>
-                        <div class="video-play-btn"><i class="fas fa-play"></i></div>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="video-placeholder" onclick="openVideoModal(this)" data-title="Sports Training" data-views="5,890" data-duration="13:40">
-                        <i class="fas fa-play-circle"></i>
-                        <span>Academic Video 4</span>
-                        <div class="video-item-info">
-                            <span class="video-item-title">Sports Training</span>
-                            <div class="video-item-meta">
-                                <span class="video-item-views"><i class="fas fa-eye"></i> 5,890</span>
-                                <span class="video-item-duration"><i class="fas fa-clock"></i> 13:40</span>
-                            </div>
-                        </div>
-                        <div class="video-play-btn"><i class="fas fa-play"></i></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
+    @endforeach
 
     @include('partials.footer')
 
@@ -339,8 +194,12 @@
 
     <script>
         function openVideoModal(element) {
-            const modal = document.getElementById('videoModal');
             const videoId = element.getAttribute('data-video-id');
+            if (!videoId) {
+                return;
+            }
+
+            const modal = document.getElementById('videoModal');
             const frame = document.getElementById('videoModalFrame');
             frame.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&playsinline=1&rel=0`;
             modal.classList.add('active');
@@ -385,6 +244,15 @@
             card.dataset.duration = video.dataset.duration;
             card.dataset.order = String(index);
             card.dataset.search = `${title} ${section.dataset.categoryLabel}`.toLowerCase();
+
+            if (video.dataset.videoId) {
+                video.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        openVideoModal(video);
+                    }
+                });
+            }
         });
 
         function durationInSeconds(duration) {
