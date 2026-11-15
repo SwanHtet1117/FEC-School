@@ -3,8 +3,12 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Notifications\LoginOtpNotification;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
 class RegistrationTest extends TestCase
@@ -23,6 +27,8 @@ class RegistrationTest extends TestCase
 
     public function test_visitor_can_register_a_regular_account_pending_admin_approval(): void
     {
+        Notification::fake();
+
         $this->post('/register', [
             'first_name' => 'Ada',
             'last_name' => 'Lovelace',
@@ -32,8 +38,9 @@ class RegistrationTest extends TestCase
             'password_confirmation' => 'a-strong-password',
             'information_confirmed' => '1',
             'is_admin' => '1',
-        ])->assertRedirect(route('login'))
-            ->assertSessionHas('status', 'Your account was created and is awaiting admin approval before you can sign in.');
+        ])->assertRedirect(route('verification.notice'))
+            ->assertSessionHas('status', 'A verification link has been sent. Verify your email before signing in; admin approval is also required.')
+            ->assertSessionHas('verificationEmail', 'ada@example.com');
 
         $user = User::where('email', 'ada@example.com')->firstOrFail();
 
@@ -41,10 +48,68 @@ class RegistrationTest extends TestCase
         $this->assertSame('+95 123456789', $user->phone);
         $this->assertFalse($user->is_admin);
         $this->assertFalse($user->is_approved);
+        $this->assertNull($user->email_verified_at);
         $this->assertTrue(Hash::check('a-strong-password', $user->password));
+        Notification::assertSentTo($user, VerifyEmail::class);
         $this->assertGuest();
-        $this->get(route('login'))
-            ->assertSee('awaiting admin approval before you can sign in.');
+        $this->get(route('verification.notice'))
+            ->assertOk()
+            ->assertSee('ada@example.com');
+    }
+
+    public function test_signed_verification_link_verifies_email_without_bypassing_admin_approval(): void
+    {
+        $user = User::factory()->create([
+            'email_verified_at' => null,
+            'is_approved' => false,
+        ]);
+        $verificationUrl = URL::temporarySignedRoute(
+            'verification.verify',
+            now()->addMinutes(config('auth.verification.expire')),
+            ['id' => $user->id, 'hash' => sha1($user->getEmailForVerification())]
+        );
+
+        $this->get($verificationUrl)
+            ->assertRedirect(route('login'))
+            ->assertSessionHas('status', 'Your email address is verified. Your account is awaiting admin approval.');
+
+        $this->assertNotNull($user->fresh()->email_verified_at);
+    }
+
+    public function test_unsigned_verification_link_is_rejected(): void
+    {
+        $user = User::factory()->create(['email_verified_at' => null]);
+
+        $this->get(route('verification.verify', [
+            'id' => $user->id,
+            'hash' => sha1($user->getEmailForVerification()),
+        ]))->assertForbidden();
+
+        $this->assertNull($user->fresh()->email_verified_at);
+    }
+
+    public function test_unverified_user_cannot_sign_in_and_can_request_another_link(): void
+    {
+        Notification::fake();
+        $user = User::factory()->create([
+            'email_verified_at' => null,
+            'is_approved' => true,
+        ]);
+
+        $this->post('/login', [
+            'email' => $user->email,
+            'password' => 'password',
+        ])->assertRedirect('/login')
+            ->assertSessionHasErrors(['email' => 'Please verify your email address before signing in.']);
+
+        $this->assertGuest();
+        Notification::assertNotSentTo($user, LoginOtpNotification::class);
+
+        $this->post(route('verification.send'), ['email' => $user->email])
+            ->assertRedirect(route('verification.notice'))
+            ->assertSessionHas('status', 'If that email needs verification, a new link has been sent.');
+
+        Notification::assertSentTo($user, VerifyEmail::class);
     }
 
     public function test_registration_rejects_mismatched_passwords_and_missing_confirmation(): void
@@ -65,6 +130,7 @@ class RegistrationTest extends TestCase
 
     public function test_registered_user_can_sign_in_without_admin_access(): void
     {
+        Notification::fake();
         $user = User::factory()->create([
             'email' => 'member@example.com',
             'password' => 'a-strong-password',
@@ -74,7 +140,13 @@ class RegistrationTest extends TestCase
         $this->post('/login', [
             'email' => $user->email,
             'password' => 'a-strong-password',
-        ])->assertRedirect(route('home'));
+        ])->assertRedirect(route('login.otp'));
+
+        $notification = Notification::sent($user, LoginOtpNotification::class)->first();
+        $this->assertInstanceOf(LoginOtpNotification::class, $notification);
+
+        $this->post(route('login.otp.verify'), ['code' => $notification->code])
+            ->assertRedirect(route('home'));
 
         $this->assertAuthenticatedAs($user);
         $this->get('/admin/hero/manage')->assertForbidden();

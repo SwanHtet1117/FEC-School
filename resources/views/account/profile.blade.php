@@ -14,7 +14,7 @@
 
     <section class="auth-hero">
         <h1>My Profile</h1>
-        <p>Update your account name and email address</p>
+        <p>Update your account name, email address, and phone number</p>
     </section>
 
     <main class="auth-container account-container">
@@ -47,13 +47,33 @@
                     <label for="email">Email address</label>
                     <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}" maxlength="255" autocomplete="email" required>
                 </div>
-                <button type="submit" class="btn-auth-submit">
-                    Save profile <i class="fa-regular fa-floppy-disk" aria-hidden="true"></i>
-                </button>
+                <div class="form-group">
+                    <label for="phone">Phone number</label>
+                    <input type="tel" id="phone" name="phone" value="{{ old('phone', $user->phone) }}" maxlength="30" autocomplete="tel">
+                </div>
+                <p class="profile-form-help">Clear empties the name and phone fields only. Enter a name before saving; your email stays unchanged.</p>
+                <div class="profile-form-actions">
+                    <button type="submit" class="btn-auth-submit">
+                        Save profile <i class="fa-regular fa-floppy-disk" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="profile-form-clear" id="clear-profile-fields" aria-controls="name phone">
+                        <i class="fa-solid fa-eraser" aria-hidden="true"></i> Clear name and phone
+                    </button>
+                </div>
             </form>
         </section>
     </main>
 
     @include('partials.footer')
+    <script>
+        document.getElementById('clear-profile-fields')?.addEventListener('click', () => {
+            const nameInput = document.getElementById('name');
+            const phoneInput = document.getElementById('phone');
+
+            nameInput.value = '';
+            phoneInput.value = '';
+            nameInput.focus();
+        });
+    </script>
 </body>
 </html>

@@ -37,12 +37,14 @@ class AccountManagementTest extends TestCase
         $user = User::factory()->create([
             'name' => 'Original Name',
             'email' => 'original@example.com',
+            'phone' => '555-0101',
         ]);
 
         $this->actingAs($user)
             ->put(route('account.profile.update'), [
                 'name' => 'Updated Name',
                 'email' => 'updated@example.com',
+                'phone' => '+1 555-0102',
             ])
             ->assertRedirect(route('account.profile.edit'))
             ->assertSessionHas('status', 'Profile updated.');
@@ -51,7 +53,23 @@ class AccountManagementTest extends TestCase
             'id' => $user->id,
             'name' => 'Updated Name',
             'email' => 'updated@example.com',
+            'phone' => '+1 555-0102',
         ]);
+    }
+
+    public function test_user_can_clear_their_phone_number(): void
+    {
+        $user = User::factory()->create(['phone' => '555-0101']);
+
+        $this->actingAs($user)
+            ->put(route('account.profile.update'), [
+                'name' => $user->name,
+                'email' => $user->email,
+                'phone' => '',
+            ])
+            ->assertRedirect(route('account.profile.edit'));
+
+        $this->assertNull($user->fresh()->phone);
     }
 
     public function test_user_can_change_their_password_with_the_current_password(): void

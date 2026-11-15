@@ -4,8 +4,10 @@ namespace Tests\Feature;
 
 use App\Models\HeroSlide;
 use App\Models\User;
+use App\Notifications\LoginOtpNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -24,12 +26,18 @@ class AdminHeroToggleTest extends TestCase
 
     public function test_admin_login_redirects_to_the_admin_dashboard(): void
     {
+        Notification::fake();
         $admin = User::factory()->create(['is_admin' => true]);
 
         $this->post('/login', [
             'email' => $admin->email,
             'password' => 'password',
-        ])->assertRedirect(route('admin.dashboard'));
+        ])->assertRedirect(route('login.otp'));
+
+        $notification = Notification::sent($admin, LoginOtpNotification::class)->first();
+        $this->assertInstanceOf(LoginOtpNotification::class, $notification);
+        $this->post(route('login.otp.verify'), ['code' => $notification->code])
+            ->assertRedirect(route('admin.dashboard'));
 
         $this->get(route('admin.dashboard'))
             ->assertOk()

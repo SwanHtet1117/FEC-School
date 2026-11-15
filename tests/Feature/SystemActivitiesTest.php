@@ -5,8 +5,10 @@ namespace Tests\Feature;
 use App\Models\HeroSlide;
 use App\Models\SystemActivity;
 use App\Models\User;
+use App\Notifications\LoginOtpNotification;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class SystemActivitiesTest extends TestCase
@@ -15,6 +17,7 @@ class SystemActivitiesTest extends TestCase
 
     public function test_login_and_logout_attempts_are_recorded_with_the_request_device(): void
     {
+        Notification::fake();
         $user = User::factory()->create([
             'name' => 'Admin User',
             'is_admin' => true,
@@ -41,13 +44,18 @@ class SystemActivitiesTest extends TestCase
                 'password' => 'password',
                 'timezone' => 'Asia/Yangon',
             ])
+            ->assertRedirect(route('login.otp'));
+
+        $notification = Notification::sent($user, LoginOtpNotification::class)->first();
+        $this->assertInstanceOf(LoginOtpNotification::class, $notification);
+        $this->post(route('login.otp.verify'), ['code' => $notification->code])
             ->assertRedirect(route('admin.dashboard'));
 
         $this->assertDatabaseHas('system_activities', [
             'user_id' => $user->id,
             'user_name' => 'Admin User',
             'action' => 'Login',
-            'details' => 'Signed in',
+            'details' => 'Signed in using email OTP',
             'status' => 'Success',
             'device' => 'Desktop',
             'timezone' => 'Asia/Yangon',
@@ -116,6 +124,7 @@ class SystemActivitiesTest extends TestCase
 
     public function test_dashboard_displays_activity_time_in_the_recorded_device_timezone(): void
     {
+        Notification::fake();
         $admin = User::factory()->create(['is_admin' => true]);
         $this->travelTo(Carbon::parse('2026-11-08 12:00:00', 'UTC'));
 
@@ -123,7 +132,12 @@ class SystemActivitiesTest extends TestCase
             'email' => $admin->email,
             'password' => 'password',
             'timezone' => 'Asia/Yangon',
-        ])->assertRedirect(route('admin.dashboard'));
+        ])->assertRedirect(route('login.otp'));
+
+        $notification = Notification::sent($admin, LoginOtpNotification::class)->first();
+        $this->assertInstanceOf(LoginOtpNotification::class, $notification);
+        $this->post(route('login.otp.verify'), ['code' => $notification->code])
+            ->assertRedirect(route('admin.dashboard'));
 
         $this->actingAs($admin)
             ->get(route('admin.dashboard'))

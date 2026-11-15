@@ -21,6 +21,7 @@ class AccountController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user->getKey())],
+            'phone' => ['nullable', 'string', 'max:30'],
         ]);
 
         $user->update($validated);

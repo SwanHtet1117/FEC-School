@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/admin-dashboard.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin-user-management.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin-delete-confirmation.css') }}">
     <script src="{{ asset('js/animations.js') }}" defer></script>
 </head>
 <body class="admin-dashboard">
@@ -140,7 +141,7 @@
                                         @elseif ($user->is_admin && $adminCount <= 1)
                                             <span class="user-current-account">Last administrator</span>
                                         @else
-                                            <form action="{{ route('admin.users.destroy', $user) }}" method="POST" onsubmit="return confirm('Delete this user account? This cannot be undone.')">
+                                            <form data-delete-confirmation data-delete-type="user account" data-delete-name="{{ $user->name }}" action="{{ route('admin.users.destroy', $user) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button class="user-action-button delete" type="submit">
@@ -172,6 +173,8 @@
         </section>
     </main>
 
+    @include('admin.partials.delete-confirmation')
     @include('partials.footer')
+    <script src="{{ asset('js/admin-delete-confirmation.js') }}" defer></script>
 </body>
 </html>

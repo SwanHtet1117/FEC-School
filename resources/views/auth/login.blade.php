@@ -24,7 +24,7 @@
         <div class="auth-card">
             <div class="auth-header">
                 <h2>Welcome Back</h2>
-                <p>Sign in to your FEC International School account.</p>
+                <p>Sign in with your password, then confirm the one-time code sent to your email.</p>
             </div>
 
             @if (session('status'))
@@ -81,7 +81,9 @@
             </script>
 
             <div class="auth-footer">
+                <p><a href="{{ route('password.request') }}">Forgot your password? Reset it with an email code.</a></p>
                 <p>Don't have an account? <a href="/register">Register here</a></p>
+                <p>Need a verification link? <a href="{{ route('verification.notice') }}">Resend it here</a></p>
                 <p>Administrator access is managed separately by the site owner.</p>
             </div>
         </div>

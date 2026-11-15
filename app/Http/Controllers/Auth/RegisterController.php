@@ -37,14 +37,16 @@ class RegisterController extends Controller
             'is_approved' => false,
         ]);
 
+        $user->sendEmailVerificationNotification();
         app(ActivityLogger::class)->record(
             $request,
             'Registration',
-            'Awaiting admin approval',
+            'Awaiting email verification and admin approval',
             user: $user
         );
 
-        return redirect()->route('login')
-            ->with('status', 'Your account was created and is awaiting admin approval before you can sign in.');
+        return redirect()->route('verification.notice')
+            ->with('verificationEmail', $user->email)
+            ->with('status', 'A verification link has been sent. Verify your email before signing in; admin approval is also required.');
     }
 }

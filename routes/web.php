@@ -12,7 +12,10 @@ use App\Http\Controllers\Admin\PostManagementController;
 use App\Http\Controllers\Admin\SystemActivityController;
 use App\Http\Controllers\Admin\TestimonialManagementController;
 use App\Http\Controllers\Admin\UserManagementController;
+use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LoginOtpController;
+use App\Http\Controllers\Auth\PasswordResetOtpController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\GalleryPhotoViewController;
@@ -120,7 +123,37 @@ Route::get('/news-events/posts/{slug}', [PostController::class, 'show'])->name('
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'store'])->middleware('throttle:5,1')->name('login.store');
+Route::get('/login/otp', [LoginOtpController::class, 'show'])->name('login.otp');
+Route::post('/login/otp', [LoginOtpController::class, 'verify'])
+    ->middleware('throttle:6,1')
+    ->name('login.otp.verify');
+Route::post('/login/otp/resend', [LoginOtpController::class, 'resend'])
+    ->middleware('throttle:3,1')
+    ->name('login.otp.resend');
+Route::get('/forgot-password', [PasswordResetOtpController::class, 'create'])->name('password.request');
+Route::post('/forgot-password', [PasswordResetOtpController::class, 'send'])
+    ->middleware('throttle:5,1')
+    ->name('password.email');
+Route::get('/forgot-password/otp', [PasswordResetOtpController::class, 'showOtp'])->name('password.otp');
+Route::post('/forgot-password/otp', [PasswordResetOtpController::class, 'verify'])
+    ->middleware('throttle:6,1')
+    ->name('password.otp.verify');
+Route::post('/forgot-password/otp/resend', [PasswordResetOtpController::class, 'resend'])
+    ->middleware('throttle:3,1')
+    ->name('password.otp.resend');
+Route::get('/reset-password', [PasswordResetOtpController::class, 'showReset'])->name('password.reset');
+Route::put('/reset-password', [PasswordResetOtpController::class, 'update'])
+    ->middleware('throttle:5,1')
+    ->name('password.update');
 Route::post('/logout', [LoginController::class, 'destroy'])->middleware('auth')->name('logout');
+
+Route::get('/email/verify', [EmailVerificationController::class, 'notice'])->name('verification.notice');
+Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])
+    ->middleware(['signed', 'throttle:6,1'])
+    ->name('verification.verify');
+Route::post('/email/verification-notification', [EmailVerificationController::class, 'send'])
+    ->middleware('throttle:6,1')
+    ->name('verification.send');
 
 Route::middleware('auth')->group(function () {
     Route::get('/account/profile', [AccountController::class, 'editProfile'])->name('account.profile.edit');
@@ -206,6 +239,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
                         'Login',
                         'Logout',
                         'Registration',
+                        'Email verified',
                         'User approved',
                         'User deleted',
                         'Profile updated',

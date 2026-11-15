@@ -39,6 +39,20 @@ class AdminUserManagementTest extends TestCase
             ->assertSee('Awaiting approval');
     }
 
+    public function test_user_deletion_uses_the_confirmation_modal(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+        User::factory()->create(['name' => 'Member To Remove']);
+
+        $this->actingAs($admin)
+            ->get(route('admin.users.index'))
+            ->assertOk()
+            ->assertSee('id="adminDeleteDialog"', false)
+            ->assertSee('data-delete-type="user account"', false)
+            ->assertSee('data-delete-name="Member To Remove"', false)
+            ->assertDontSee('onsubmit="return confirm(', false);
+    }
+
     public function test_admin_can_filter_accounts_by_search_status_and_role(): void
     {
         $admin = User::factory()->create(['is_admin' => true]);

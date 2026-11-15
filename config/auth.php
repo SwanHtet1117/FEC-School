@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\User;
+
 return [
 
     /*
@@ -62,7 +64,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => env('AUTH_MODEL', User::class),
         ],
 
         // 'users' => [
@@ -97,6 +99,20 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+    ],
+
+    'verification' => [
+        'expire' => env('AUTH_VERIFICATION_EXPIRE', 60),
+    ],
+
+    'login_otp' => [
+        'expire' => env('AUTH_LOGIN_OTP_EXPIRE', 10),
+        'max_attempts' => env('AUTH_LOGIN_OTP_MAX_ATTEMPTS', 5),
+    ],
+
+    'password_reset_otp' => [
+        'expire' => env('AUTH_PASSWORD_RESET_OTP_EXPIRE', 10),
+        'max_attempts' => env('AUTH_PASSWORD_RESET_OTP_MAX_ATTEMPTS', 5),
     ],
 
     /*
