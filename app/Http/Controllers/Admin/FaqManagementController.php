@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Faq;
+use App\Services\ActivityLogger;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -49,7 +50,8 @@ class FaqManagementController extends Controller
         $validated = $this->validateFaq($request);
         $validated['sort_order'] = (int) Faq::query()->max('sort_order') + 1;
 
-        Faq::query()->create($validated);
+        $faq = Faq::query()->create($validated);
+        app(ActivityLogger::class)->record($request, 'FAQ added', $faq->question);
 
         return redirect()->route('admin.faqs.index')->with('status', 'FAQ added.');
     }
@@ -64,13 +66,16 @@ class FaqManagementController extends Controller
     public function update(Request $request, Faq $faq): RedirectResponse
     {
         $faq->update($this->validateFaq($request));
+        app(ActivityLogger::class)->record($request, 'FAQ updated', $faq->question);
 
         return redirect()->route('admin.faqs.index')->with('status', 'FAQ updated.');
     }
 
-    public function destroy(Faq $faq): RedirectResponse
+    public function destroy(Request $request, Faq $faq): RedirectResponse
     {
+        $question = $faq->question;
         $faq->delete();
+        app(ActivityLogger::class)->record($request, 'FAQ deleted', $question);
 
         return redirect()->route('admin.faqs.index')->with('status', 'FAQ deleted.');
     }

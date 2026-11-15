@@ -105,6 +105,63 @@ class ContactMessageManagementTest extends TestCase
             ->assertSee('<strong>1</strong><small>Messages</small>', false);
     }
 
+    public function test_admin_dashboard_notification_menu_shows_pending_items(): void
+    {
+        $admin = User::factory()->create([
+            'is_admin' => true,
+            'is_approved' => true,
+        ]);
+        User::factory()->create(['is_approved' => false]);
+        ContactMessage::create([
+            'name' => 'A Parent',
+            'email' => 'parent@example.com',
+            'subject' => 'general',
+            'message' => 'Could you contact me?',
+            'is_read' => false,
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('admin.dashboard'))
+            ->assertOk()
+            ->assertSee('aria-label="Notifications, 2 pending"', false)
+            ->assertSee('Pending registrations')
+            ->assertSee('Unread contact messages')
+            ->assertSee(route('admin.users.index'))
+            ->assertSee(route('admin.messages.index'));
+    }
+
+    public function test_admin_notification_menu_appears_on_other_pages_when_logged_in(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+        ContactMessage::create([
+            'name' => 'A Parent',
+            'email' => 'parent@example.com',
+            'subject' => 'general',
+            'message' => 'Could you contact me?',
+            'is_read' => false,
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('contact'))
+            ->assertOk()
+            ->assertSee('aria-label="Notifications, 1 pending"', false)
+            ->assertSee('Unread contact messages')
+            ->assertSee(route('admin.messages.index'));
+    }
+
+    public function test_logged_in_non_admin_sees_notification_menu_without_admin_items(): void
+    {
+        $user = User::factory()->create(['is_admin' => false]);
+
+        $this->actingAs($user)
+            ->get(route('contact'))
+            ->assertOk()
+            ->assertSee('aria-label="Notifications, 0 pending"', false)
+            ->assertSee("You're all caught up.")
+            ->assertDontSee('Pending registrations')
+            ->assertDontSee('Unread contact messages');
+    }
+
     public function test_admin_can_review_messages_mark_read_and_delete_them(): void
     {
         $admin = User::factory()->create(['is_admin' => true]);

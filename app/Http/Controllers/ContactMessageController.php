@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactMessage;
+use App\Services\ActivityLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -19,6 +20,7 @@ class ContactMessageController extends Controller
         ]);
 
         ContactMessage::create($validated);
+        app(ActivityLogger::class)->record($request, 'Contact message received', $validated['subject']);
 
         return redirect()->route('contact')->with('status', 'Your message has been sent. We will be in touch soon.');
     }

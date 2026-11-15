@@ -64,6 +64,56 @@ class SystemActivitiesTest extends TestCase
         ]);
     }
 
+    public function test_dashboard_chart_breaks_down_gallery_content_and_account_activities(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+        $member = User::factory()->create();
+        $activityDay = now()->subDays(2)->startOfDay();
+
+        foreach ([
+            [$admin, 'Failed', 'Invalid credentials', $activityDay->copy()->addHours(8), 'Login'],
+            [$member, 'Success', 'Signed out', $activityDay->copy()->addHours(9), 'Logout'],
+            [$admin, 'Success', 'Photo added', $activityDay->copy()->addHours(10), 'Gallery photo added'],
+            [$admin, 'Success', 'Video updated', $activityDay->copy()->addHours(11), 'Gallery video updated'],
+            [$admin, 'Success', 'Post updated', $activityDay->copy()->addHours(12), 'Post updated'],
+            [$admin, 'Success', 'FAQ added', $activityDay->copy()->addHours(13), 'FAQ added'],
+            [$member, 'Success', 'Message received', $activityDay->copy()->addHours(14), 'Contact message received'],
+        ] as [$user, $status, $details, $createdAt, $action]) {
+            $activity = SystemActivity::create([
+                'user_id' => $user->id,
+                'user_name' => $user->name,
+                'action' => $action,
+                'details' => $details,
+                'status' => $status,
+                'device' => 'Desktop',
+                'timezone' => 'UTC',
+            ]);
+            $activity->forceFill(['created_at' => $createdAt])->save();
+        }
+
+        $this->actingAs($admin)
+            ->get(route('admin.dashboard'))
+            ->assertOk()
+            ->assertViewHas('activityChartSeries', function (array $series): bool {
+                $totals = collect($series)
+                    ->mapWithKeys(fn (array $item): array => [$item['key'] => $item['total']])
+                    ->all();
+
+                return $totals === [
+                    'photo_gallery' => 1,
+                    'video_gallery' => 1,
+                    'posts_content' => 2,
+                    'accounts' => 2,
+                    'other' => 1,
+                ];
+            })
+            ->assertSee('All User Activity')
+            ->assertSee('Photo gallery')
+            ->assertSee('Video gallery')
+            ->assertSee('user-activity-chart-line photo_gallery')
+            ->assertSee('user-activity-chart-line video_gallery');
+    }
+
     public function test_dashboard_displays_activity_time_in_the_recorded_device_timezone(): void
     {
         $admin = User::factory()->create(['is_admin' => true]);

@@ -90,11 +90,13 @@
                 <span class="stat-copy"><strong>{{ $pendingCount }}</strong><small>Pending Registrations</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
+            <!--
             <a class="stat-card" href="{{ url('/news-events/all-posts') }}">
                 <span class="stat-icon green"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></span>
                 <span class="stat-copy"><strong>{{ $totalContentCount }}</strong><small>Total Posts</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
+            -->
         </section>
 
         <div class="dashboard-columns">
@@ -114,11 +116,10 @@
                             </thead>
                             <tbody>
                                 @forelse ($activities as $activity)
-                                    @php($activityTime = $activity->created_at->setTimezone($activity->timezone))
                                     <tr>
                                         <td>
-                                            <strong>{{ $activityTime->format('h:i A') }}</strong>
-                                            <p>{{ $activityTime->format('M d, Y') }} · {{ $activity->timezone }}</p>
+                                            <strong>{{ $activity->created_at->setTimezone($activity->timezone)->format('h:i A') }}</strong>
+                                            <p>{{ $activity->created_at->setTimezone($activity->timezone)->format('M d, Y') }} · {{ $activity->timezone }}</p>
                                         </td>
                                         <td>{{ $activity->device }}</td>
                                         <td>{{ $activity->user_name }}</td>
@@ -134,36 +135,73 @@
                     </div>
                 </section>
 
-                <section class="panel performance-panel">
+                <section class="panel user-activity-panel">
                     <div class="panel-heading">
-                        <div><h2>Department Performance</h2><p class="system_activity">Content activity by department</p></div>
-                        <label class="period-select">This month <i class="fa-solid fa-chevron-down" aria-hidden="true"></i></label>
+                        <div>
+                            <h2>All User Activity</h2>
+                            <p class="system_activity">Daily activity by category across all users</p>
+                        </div>
+                        <span class="user-activity-chart-period">Last 30 days</span>
                     </div>
-                    <div class="performance-grid">
-                        <div class="performance-item"><div><span>Science Department</span><strong>82%</strong></div><div class="progress-track"><span class="progress-green" style="width: 82%"></span></div></div>
-                        <div class="performance-item"><div><span>Mathematics</span><strong>95%</strong></div><div class="progress-track"><span class="progress-blue" style="width: 95%"></span></div></div>
-                        <div class="performance-item"><div><span>Language Arts</span><strong>68%</strong></div><div class="progress-track"><span class="progress-cyan" style="width: 68%"></span></div></div>
-                        <div class="performance-item"><div><span>Social Studies</span><strong>76%</strong></div><div class="progress-track"><span class="progress-amber" style="width: 76%"></span></div></div>
+                    <div class="user-activity-chart-legend" aria-label="Activity totals by category">
+                        @foreach ($activityChartSeries as $series)
+                            <span>
+                                <i class="user-activity-chart-key {{ $series['key'] }}" aria-hidden="true"></i>
+                                {{ $series['label'] }} <strong>{{ number_format($series['total']) }}</strong>
+                            </span>
+                        @endforeach
+                    </div>
+                    <div class="user-activity-chart-scroll">
+                        <svg class="user-activity-chart" viewBox="0 0 720 260" role="img" aria-labelledby="activity-chart-title activity-chart-description">
+                            <title id="activity-chart-title">User activity by category over the last 30 days</title>
+                            <desc id="activity-chart-description">Daily counts of photo gallery, video gallery, content, account, and other activities across all users.</desc>
+                            @foreach ($activityChartGridLines as $gridLine)
+                                <line class="user-activity-chart-grid-line" x1="48" y1="{{ $gridLine['y'] }}" x2="702" y2="{{ $gridLine['y'] }}"></line>
+                                <text class="user-activity-chart-axis-label" x="40" y="{{ $gridLine['y'] + 4 }}" text-anchor="end">{{ $gridLine['value'] }}</text>
+                            @endforeach
+                            @foreach ($activityChartSeries as $series)
+                                <polyline class="user-activity-chart-line {{ $series['key'] }}" points="{{ $series['points'] }}"></polyline>
+                            @endforeach
+                            @foreach ($activityChartXLabels as $label)
+                                <text class="user-activity-chart-axis-label" x="{{ $label['x'] }}" y="246" text-anchor="middle">{{ $label['label'] }}</text>
+                            @endforeach
+                        </svg>
                     </div>
                 </section>
             </div>
 
             <aside class="dashboard-side-column">
-                <section class="panel quick-actions-panel">
-                    <div class="panel-heading"><div><h2>Quick Actions</h2><p class="system_activity">Jump to a school section</p></div></div>
-                    <div class="quick-actions">
-                        <a href="{{ route('admin.hero.manage') }}"><i class="fa-regular fa-images" aria-hidden="true"></i> Manage Hero Images</a>
-                        <a href="{{ route('admin.careers.index') }}"><i class="fa-solid fa-briefcase" aria-hidden="true"></i> Career Opportunities</a>
-                        <a href="{{ route('admin.posts.index') }}"><i class="fa-regular fa-newspaper" aria-hidden="true"></i> Manage News, Announcements &amp; Events</a>
-                        <a href="{{ route('admin.events.calendar') }}"><i class="fa-regular fa-calendar-days" aria-hidden="true"></i> Manage Event Calendar</a>
-                        <a href="{{ route('admin.gallery.photos.index') }}"><i class="fa-regular fa-images" aria-hidden="true"></i> Manage Photo Gallery</a>
-                        <a href="{{ route('admin.gallery.videos.index') }}"><i class="fa-solid fa-circle-play" aria-hidden="true"></i> Manage Video Gallery</a>
-                        <a href="{{ url('/campus-life') }}"><i class="fa-solid fa-people-group" aria-hidden="true"></i> Campus Life</a>
-                        <a href="{{ route('admin.testimonials.index') }}"><i class="fa-regular fa-comment-dots" aria-hidden="true"></i> Testimonials</a>                        
-                        <a href="{{ route('admin.faqs.index') }}"><i class="fa-regular fa-circle-question" aria-hidden="true"></i> FAQs</a>
-                        <a href="{{ route('admin.messages.index') }}"><i class="fa-regular fa-envelope" aria-hidden="true"></i> Contact Messages</a>
-                        <a href="{{ route('admin.users.index') }}"><i class="fa-solid fa-user-shield" aria-hidden="true"></i> User Accounts</a>                        
+                <section class="panel content-distribution-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>Admin Content Distribution</h2>
+                            <p class="system_activity">All managed content by type</p>
+                        </div>
+                        <span class="content-distribution-total">{{ number_format($totalContentCount) }} total</span>
                     </div>
+                    <figure class="content-distribution-figure">
+                        <div class="content-distribution-chart"
+                            style="background: {{ $chartBackground }}"
+                            role="img"
+                            aria-label="Pie chart of {{ $totalContentCount }} admin-managed content records">
+                        </div>
+                        <figcaption>
+                            <ul class="content-distribution-legend">
+                                @foreach ($contentDistribution as $item)
+                                    <li>
+                                        <span class="content-distribution-label">
+                                            <span class="content-distribution-swatch" style="--content-color: {{ $item['color'] }}" aria-hidden="true"></span>
+                                            {{ $item['label'] }}
+                                        </span>
+                                        <span class="content-distribution-value">
+                                            <strong>{{ number_format($item['count']) }}</strong>
+                                            <small>{{ $totalContentCount > 0 ? number_format($item['count'] / $totalContentCount * 100, 1) : '0.0' }}%</small>
+                                        </span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </figcaption>
+                    </figure>
                 </section>
 
                 <section class="panel alerts-panel">

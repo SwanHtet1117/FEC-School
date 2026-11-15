@@ -48,7 +48,9 @@ class AdminPostManagementTest extends TestCase
             ->assertSee(
                 '<span class="stat-copy"><strong>'.$totalContentCount.'</strong><small>Total Posts</small></span>',
                 false
-            );
+            )
+            ->assertSee('Admin Content Distribution')
+            ->assertSee('conic-gradient(', false);
     }
 
     public function test_admin_can_create_a_post_and_publish_it_on_the_public_pages(): void

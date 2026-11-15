@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\ContactMessage;
+use App\Services\ActivityLogger;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -68,17 +69,24 @@ class ContactMessageManagementController extends Controller
         ]);
     }
 
-    public function toggleRead(ContactMessage $contactMessage): RedirectResponse
+    public function toggleRead(Request $request, ContactMessage $contactMessage): RedirectResponse
     {
         $contactMessage->update(['is_read' => ! $contactMessage->is_read]);
+        app(ActivityLogger::class)->record(
+            $request,
+            $contactMessage->is_read ? 'Contact message marked as read' : 'Contact message marked as unread',
+            $contactMessage->subject
+        );
 
         return redirect()->route('admin.messages.index')
             ->with('status', $contactMessage->is_read ? 'Message marked as read.' : 'Message marked as unread.');
     }
 
-    public function destroy(ContactMessage $contactMessage): RedirectResponse
+    public function destroy(Request $request, ContactMessage $contactMessage): RedirectResponse
     {
+        $subject = $contactMessage->subject;
         $contactMessage->delete();
+        app(ActivityLogger::class)->record($request, 'Contact message deleted', $subject);
 
         return redirect()->route('admin.messages.index')->with('status', 'Message deleted.');
     }

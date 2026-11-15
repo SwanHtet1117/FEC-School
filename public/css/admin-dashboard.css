@@ -441,6 +441,112 @@ p.system_activity {
     font-size: 10px;
 }
 
+.user-activity-chart-period {
+    flex: 0 0 auto;
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: #eef4fa;
+    color: #36536f;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.user-activity-chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 22px;
+    margin: -2px 0 12px;
+    color: #526175;
+    font-size: 13px;
+}
+
+.user-activity-chart-legend > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.user-activity-chart-legend strong {
+    color: #27394f;
+}
+
+.user-activity-chart-key {
+    width: 18px;
+    height: 3px;
+    border-radius: 4px;
+    background: #2563eb;
+}
+
+.user-activity-chart-key.photo_gallery {
+    background: #0f9f8f;
+}
+
+.user-activity-chart-line.photo_gallery {
+    stroke: #0f9f8f;
+}
+
+.user-activity-chart-key.video_gallery {
+    background: #805ad5;
+}
+
+.user-activity-chart-line.video_gallery {
+    stroke: #805ad5;
+}
+
+.user-activity-chart-key.posts_content {
+    background: #2563eb;
+}
+
+.user-activity-chart-line.posts_content {
+    stroke: #2563eb;
+}
+
+.user-activity-chart-key.accounts {
+    background: #e59b2e;
+}
+
+.user-activity-chart-line.accounts {
+    stroke: #e59b2e;
+}
+
+.user-activity-chart-key.other {
+    background: #e35d6a;
+}
+
+.user-activity-chart-line.other {
+    stroke: #e35d6a;
+}
+
+.user-activity-chart-scroll {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.user-activity-chart {
+    display: block;
+    width: 100%;
+    min-width: 560px;
+    height: auto;
+}
+
+.user-activity-chart-grid-line {
+    stroke: #e8eef5;
+    stroke-width: 1;
+}
+
+.user-activity-chart-axis-label {
+    fill: #8290a3;
+    font-family: inherit;
+    font-size: 11px;
+}
+
+.user-activity-chart-line {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 3;
+}
+
 .alerts-panel .panel-heading,
 .events-panel .panel-heading,
 .storage-panel .panel-heading {
@@ -927,6 +1033,90 @@ body.admin-dashboard-home {
     color: #174e7a;
 }
 
+.content-distribution-panel .panel-heading {
+    align-items: flex-start;
+}
+
+.content-distribution-total {
+    flex: 0 0 auto;
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: #eef4fa;
+    color: #36536f;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.content-distribution-figure {
+    display: grid;
+    justify-items: center;
+    gap: 18px;
+    margin: 0;
+}
+
+.content-distribution-chart {
+    width: min(190px, 100%);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px rgba(15, 23, 42, .08), 0 8px 20px rgba(15, 23, 42, .08);
+}
+
+.content-distribution-figure figcaption {
+    width: 100%;
+}
+
+.content-distribution-legend {
+    display: grid;
+    gap: 3px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.content-distribution-legend li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid #eef2f6;
+}
+
+.content-distribution-label {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: 8px;
+    color: #42536a;
+    font-size: 12px;
+    font-weight: 550;
+}
+
+.content-distribution-swatch {
+    width: 10px;
+    height: 10px;
+    flex: 0 0 10px;
+    border-radius: 3px;
+    background: var(--content-color);
+}
+
+.content-distribution-value {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.content-distribution-value strong {
+    color: #27394f;
+    font-size: 13px;
+}
+
+.content-distribution-value small {
+    color: #8290a3;
+    font-size: 11px;
+}
+
 .admin-dashboard-home .alert {
     margin-top: 9px;
     padding: 12px 13px;
@@ -1006,7 +1196,7 @@ body.admin-dashboard-home {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .admin-dashboard-home .quick-actions-panel {
+    .admin-dashboard-home .content-distribution-panel {
         grid-row: span 2;
     }
 }
@@ -1069,7 +1259,7 @@ body.admin-dashboard-home {
         grid-template-columns: minmax(0, 1fr);
     }
 
-    .admin-dashboard-home .quick-actions-panel {
+    .admin-dashboard-home .content-distribution-panel {
         grid-row: auto;
     }
 

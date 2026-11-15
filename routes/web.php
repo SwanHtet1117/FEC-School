@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\CareerOpportunityController;
 use App\Http\Controllers\Admin\ContactMessageManagementController;
 use App\Http\Controllers\Admin\EventCalendarController;
@@ -121,6 +122,13 @@ Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'store'])->middleware('throttle:5,1')->name('login.store');
 Route::post('/logout', [LoginController::class, 'destroy'])->middleware('auth')->name('logout');
 
+Route::middleware('auth')->group(function () {
+    Route::get('/account/profile', [AccountController::class, 'editProfile'])->name('account.profile.edit');
+    Route::put('/account/profile', [AccountController::class, 'updateProfile'])->name('account.profile.update');
+    Route::get('/account/settings', [AccountController::class, 'editSettings'])->name('account.settings.edit');
+    Route::put('/account/settings/password', [AccountController::class, 'updatePassword'])->name('account.settings.update');
+});
+
 Route::get('/register', [RegisterController::class, 'create'])->name('register');
 Route::post('/register', [RegisterController::class, 'store'])
     ->middleware('throttle:5,1')
@@ -132,12 +140,137 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         $galleryPhotoCount = GalleryPhoto::count();
         $galleryVideoCount = GalleryVideo::count();
         $messageCount = ContactMessage::count();
+        $pendingCount = User::where('is_approved', false)->count();
         $careerCount = CareerOpportunity::open()->count();
         $totalCareerCount = CareerOpportunity::count();
         $postCount = Post::query()->count();
         $eventPostCount = Post::query()->where('category', 'Event')->count();
         $faqCount = Faq::count();
         $testimonialCount = Testimonial::count();
+        $contentDistribution = [
+            ['label' => 'Hero Images', 'count' => $heroImageCount, 'color' => '#2563eb'],
+            ['label' => 'News, Announcements & Events', 'count' => $postCount, 'color' => '#f59e0b'],
+            ['label' => 'Photo Gallery', 'count' => $galleryPhotoCount, 'color' => '#10b981'],
+            ['label' => 'Video Gallery', 'count' => $galleryVideoCount, 'color' => '#ef4444'],
+            ['label' => 'FAQs', 'count' => $faqCount, 'color' => '#8b5cf6'],
+            ['label' => 'Contact Messages', 'count' => $messageCount, 'color' => '#06b6d4'],
+            ['label' => 'Career Opportunities', 'count' => $totalCareerCount, 'color' => '#f97316'],
+            ['label' => 'Testimonials', 'count' => $testimonialCount, 'color' => '#64748b'],
+        ];
+        $totalContentCount = array_sum(array_column($contentDistribution, 'count'));
+        $chartStops = [];
+        $chartStart = 0;
+        foreach ($contentDistribution as $index => $item) {
+            $chartEnd = $totalContentCount > 0
+                ? ($index === array_key_last($contentDistribution)
+                    ? 100
+                    : $chartStart + ($item['count'] / $totalContentCount * 100))
+                : 0;
+            $chartStops[] = "{$item['color']} {$chartStart}% {$chartEnd}%";
+            $chartStart = $chartEnd;
+        }
+        $chartBackground = $totalContentCount > 0
+            ? 'conic-gradient('.implode(', ', $chartStops).')'
+            : '#e8edf4';
+
+        $activityChartEnd = now()->endOfDay();
+        $activityChartStart = $activityChartEnd->copy()->startOfDay()->subDays(29);
+        $activityChartCategories = [
+            'photo_gallery' => 'Photo gallery',
+            'video_gallery' => 'Video gallery',
+            'posts_content' => 'Posts & content',
+            'accounts' => 'Accounts',
+            'other' => 'Other',
+        ];
+        $activitiesByDate = SystemActivity::query()
+            ->whereBetween('created_at', [$activityChartStart, $activityChartEnd])
+            ->get(['created_at', 'action'])
+            ->groupBy(fn (SystemActivity $activity): string => $activity->created_at->toDateString());
+        $userActivityChart = [];
+
+        for ($day = 0; $day < 30; $day++) {
+            $date = $activityChartStart->copy()->addDays($day);
+            $activitiesForDay = $activitiesByDate->get($date->toDateString(), collect());
+            $activityCounts = array_fill_keys(array_keys($activityChartCategories), 0);
+
+            foreach ($activitiesForDay as $activity) {
+                $category = match (true) {
+                    str_starts_with($activity->action, 'Gallery photo ') => 'photo_gallery',
+                    str_starts_with($activity->action, 'Gallery video ') => 'video_gallery',
+                    str_starts_with($activity->action, 'Post '),
+                    str_starts_with($activity->action, 'Hero image '),
+                    str_starts_with($activity->action, 'Career opportunity '),
+                    str_starts_with($activity->action, 'Parent recommendation '),
+                    str_starts_with($activity->action, 'FAQ ') => 'posts_content',
+                    in_array($activity->action, [
+                        'Login',
+                        'Logout',
+                        'Registration',
+                        'User approved',
+                        'User deleted',
+                        'Profile updated',
+                        'Password updated',
+                    ], true) => 'accounts',
+                    default => 'other',
+                };
+                $activityCounts[$category]++;
+            }
+
+            $userActivityChart[] = [
+                'date' => $date->toDateString(),
+                'label' => $date->format('M j'),
+                'counts' => $activityCounts,
+            ];
+        }
+
+        $activityChartMax = max(1, max(array_map(
+            static fn (array $day): int => max($day['counts']),
+            $userActivityChart
+        )));
+        $activityChartWidth = 720;
+        $activityChartHeight = 260;
+        $activityChartLeft = 48;
+        $activityChartTop = 18;
+        $activityChartPlotWidth = $activityChartWidth - $activityChartLeft - 18;
+        $activityChartPlotHeight = $activityChartHeight - $activityChartTop - 38;
+        $activityChartSeries = [];
+        $activityChartXLabels = [];
+
+        foreach ($activityChartCategories as $key => $label) {
+            $points = [];
+            $total = 0;
+
+            foreach ($userActivityChart as $index => &$day) {
+                $x = round($activityChartLeft + ($index / 29 * $activityChartPlotWidth), 2);
+                $value = $day['counts'][$key];
+                $y = round(
+                    $activityChartTop + $activityChartPlotHeight - ($value / $activityChartMax * $activityChartPlotHeight),
+                    2
+                );
+                $points[] = "{$x},{$y}";
+                $total += $value;
+
+                if ($key === array_key_first($activityChartCategories) && ($index % 6 === 0 || $index === 29)) {
+                    $activityChartXLabels[] = ['x' => $x, 'label' => $day['label']];
+                }
+            }
+            unset($day);
+
+            $activityChartSeries[] = [
+                'key' => $key,
+                'label' => $label,
+                'total' => $total,
+                'points' => implode(' ', $points),
+            ];
+        }
+
+        $activityChartGridLines = [];
+        foreach (array_unique([0, (int) ceil($activityChartMax / 2), $activityChartMax]) as $value) {
+            $activityChartGridLines[] = [
+                'value' => $value,
+                'y' => round($activityChartTop + $activityChartPlotHeight - ($value / $activityChartMax * $activityChartPlotHeight), 2),
+            ];
+        }
 
         return view('admin.dashboard', [
             'heroImageCount' => $heroImageCount,
@@ -148,18 +281,16 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
             'careerCount' => $careerCount,
             'postCount' => $postCount,
             'eventPostCount' => $eventPostCount,
-            'totalContentCount' => $heroImageCount
-                + $postCount
-                + $galleryPhotoCount
-                + $galleryVideoCount
-                + $faqCount
-                + $messageCount
-                + $totalCareerCount
-                + $testimonialCount,
+            'contentDistribution' => $contentDistribution,
+            'totalContentCount' => $totalContentCount,
+            'chartBackground' => $chartBackground,
+            'activityChartSeries' => $activityChartSeries,
+            'activityChartGridLines' => $activityChartGridLines,
+            'activityChartXLabels' => $activityChartXLabels,
             'faqCount' => $faqCount,
             'testimonialCount' => $testimonialCount,
             'userCount' => User::count(),
-            'pendingCount' => User::where('is_approved', false)->count(),
+            'pendingCount' => $pendingCount,
             'adminCount' => User::where('is_admin', true)->count(),
         ]);
     })->name('admin.dashboard');

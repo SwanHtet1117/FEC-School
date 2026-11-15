@@ -49,10 +49,8 @@
             </ul>
             <div class="auth-buttons">
                 @auth
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button type="submit" class="btn-login">Sign out</button>
-                    </form>
+                    @include('partials.notification-menu')
+                    @include('partials.account-menu')
                 @else
                     <a href="{{ route('login') }}" class="btn-login">Login</a>
                 @endauth
@@ -94,10 +92,8 @@
         </ul>
         <div class="mobile-auth-buttons">
             @auth
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button type="submit" class="btn-login">Sign out</button>
-                </form>
+                @include('partials.notification-menu')
+                @include('partials.account-menu')
             @else
                 <a href="{{ route('login') }}" onclick="toggleMobileMenu()" class="btn-login">Login</a>
             @endauth
@@ -137,4 +133,80 @@
             const dropdown = element.nextElementSibling;
             dropdown.classList.toggle('active');
         }
+
+        document.querySelectorAll('[data-account-menu]').forEach((menu) => {
+            const toggle = menu.querySelector('.account-menu-toggle');
+
+            toggle.addEventListener('click', () => {
+                const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+
+                document.querySelectorAll('[data-notification-menu].open').forEach((openMenu) => {
+                    openMenu.classList.remove('open');
+                    openMenu.querySelector('.notification-menu-toggle').setAttribute('aria-expanded', 'false');
+                });
+                document.querySelectorAll('[data-account-menu].open').forEach((openMenu) => {
+                    openMenu.classList.remove('open');
+                    openMenu.querySelector('.account-menu-toggle').setAttribute('aria-expanded', 'false');
+                });
+
+                if (!isOpen) {
+                    menu.classList.add('open');
+                    toggle.setAttribute('aria-expanded', 'true');
+                }
+            });
+        });
+
+        document.querySelectorAll('[data-notification-menu]').forEach((menu) => {
+            const toggle = menu.querySelector('.notification-menu-toggle');
+
+            toggle.addEventListener('click', () => {
+                const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+
+                document.querySelectorAll('[data-notification-menu].open').forEach((openMenu) => {
+                    openMenu.classList.remove('open');
+                    openMenu.querySelector('.notification-menu-toggle').setAttribute('aria-expanded', 'false');
+                });
+                document.querySelectorAll('[data-account-menu].open').forEach((openMenu) => {
+                    openMenu.classList.remove('open');
+                    openMenu.querySelector('.account-menu-toggle').setAttribute('aria-expanded', 'false');
+                });
+
+                if (!isOpen) {
+                    menu.classList.add('open');
+                    toggle.setAttribute('aria-expanded', 'true');
+                }
+            });
+        });
+
+        document.addEventListener('click', (clickEvent) => {
+            document.querySelectorAll('[data-account-menu].open').forEach((menu) => {
+                if (!menu.contains(clickEvent.target)) {
+                    menu.classList.remove('open');
+                    menu.querySelector('.account-menu-toggle').setAttribute('aria-expanded', 'false');
+                }
+            });
+            document.querySelectorAll('[data-notification-menu].open').forEach((menu) => {
+                if (!menu.contains(clickEvent.target)) {
+                    menu.classList.remove('open');
+                    menu.querySelector('.notification-menu-toggle').setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+
+        document.addEventListener('keydown', (keyEvent) => {
+            if (keyEvent.key === 'Escape') {
+                document.querySelectorAll('[data-account-menu].open').forEach((menu) => {
+                    menu.classList.remove('open');
+                    const toggle = menu.querySelector('.account-menu-toggle');
+                    toggle.setAttribute('aria-expanded', 'false');
+                    toggle.focus();
+                });
+                document.querySelectorAll('[data-notification-menu].open').forEach((menu) => {
+                    menu.classList.remove('open');
+                    const toggle = menu.querySelector('.notification-menu-toggle');
+                    toggle.setAttribute('aria-expanded', 'false');
+                    toggle.focus();
+                });
+            }
+        });
     </script>
