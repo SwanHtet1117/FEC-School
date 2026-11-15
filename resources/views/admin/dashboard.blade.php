@@ -47,7 +47,7 @@
             </a>
             <a class="stat-card" href="{{ route('admin.events.calendar') }}">
                 <span class="stat-icon slate"><i class="fa-regular fa-calendar-days" aria-hidden="true"></i></span>
-                <span class="stat-copy"><strong>6</strong><small>Event Calendar</small></span>
+                <span class="stat-copy"><strong>{{ $eventPostCount }}</strong><small>Event Calendar</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
             <a class="stat-card" href="{{ route('admin.gallery.photos.index') }}">
@@ -92,7 +92,7 @@
             </a>
             <a class="stat-card" href="{{ url('/news-events/all-posts') }}">
                 <span class="stat-icon green"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></span>
-                <span class="stat-copy"><strong>72</strong><small>Total Posts</small></span>
+                <span class="stat-copy"><strong>{{ $totalContentCount }}</strong><small>Total Posts</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
         </section>

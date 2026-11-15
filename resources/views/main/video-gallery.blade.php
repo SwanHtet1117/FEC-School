@@ -6,6 +6,7 @@
     <title>Video Gallery - FEC International School</title>
     <meta name="description" content="Browse through our video gallery showcasing school events, activities, and campus life at FEC International School.">
     <meta name="keywords" content="FEC International School, Video Gallery, School Events, Campus Life">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/png" href="{{ asset('image/logo_01.png') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -151,9 +152,10 @@
                                 @if ($video->youtube_id)
                                     onclick="openVideoModal(this)" role="button" tabindex="0"
                                     aria-label="Play {{ $video->title }}" data-video-id="{{ $video->youtube_id }}"
+                                    data-view-url="{{ route('gallery.videos.view', $video) }}"
                                 @endif
                                 data-title="{{ $video->title }}"
-                                data-views="{{ number_format($video->views) }}"
+                                data-views="{{ $video->views }}"
                                 data-duration="{{ $video->duration }}">
                                 @if ($video->thumbnail_url)
                                     <img class="video-thumbnail" src="{{ $video->thumbnail_url }}" alt="{{ $video->title }} video thumbnail">
@@ -164,7 +166,10 @@
                                 <div class="video-item-info">
                                     <span class="video-item-title">{{ $video->title }}</span>
                                     <div class="video-item-meta">
-                                        <span class="video-item-views"><i class="fas fa-eye" aria-hidden="true"></i> {{ number_format($video->views) }}</span>
+                                        <span class="video-item-views">
+                                            <i class="fas fa-eye" aria-hidden="true"></i>
+                                            <span class="video-item-view-count">{{ number_format($video->views) }}</span> views
+                                        </span>
                                         <span class="video-item-duration">
                                             <i class="fas {{ $video->youtube_id ? 'fa-video' : 'fa-clock' }}" aria-hidden="true"></i>
                                             {{ $video->duration }}
@@ -193,17 +198,58 @@
     </div>
 
     <script>
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
         function openVideoModal(element) {
             const videoId = element.getAttribute('data-video-id');
             if (!videoId) {
                 return;
             }
 
+            recordVideoView(element);
             const modal = document.getElementById('videoModal');
             const frame = document.getElementById('videoModalFrame');
             frame.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&playsinline=1&rel=0`;
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
+        }
+
+        function recordVideoView(video) {
+            if (video.dataset.viewRequestPending === 'true') {
+                return;
+            }
+
+            video.dataset.viewRequestPending = 'true';
+            fetch(video.dataset.viewUrl, {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+                credentials: 'same-origin',
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`View count request failed with status ${response.status}.`);
+                    }
+
+                    return response.json();
+                })
+                .then(({ views }) => {
+                    video.dataset.views = String(views);
+                    video.closest('.gallery-item').dataset.views = String(views);
+                    video.querySelector('.video-item-view-count').textContent = Number(views).toLocaleString();
+
+                    if (videoGallerySort.value === 'views') {
+                        updateVideoGallery();
+                    }
+                })
+                .catch((error) => {
+                    console.error('Unable to record video gallery view.', error);
+                })
+                .finally(() => {
+                    delete video.dataset.viewRequestPending;
+                });
         }
 
         function closeVideoModal(event) {
@@ -240,7 +286,7 @@
 
             card.dataset.category = section.dataset.category;
             card.dataset.title = title;
-            card.dataset.views = String(Number(video.dataset.views.replaceAll(',', '')));
+            card.dataset.views = video.dataset.views;
             card.dataset.duration = video.dataset.duration;
             card.dataset.order = String(index);
             card.dataset.search = `${title} ${section.dataset.categoryLabel}`.toLowerCase();

@@ -11,6 +11,42 @@ class AdminEventCalendarTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_admin_dashboard_shows_the_total_number_of_event_posts(): void
+    {
+        foreach (range(1, 7) as $number) {
+            Post::query()->create([
+                'slug' => "dashboard-event-count-{$number}",
+                'title' => "Dashboard Event Count {$number}",
+                'category' => 'Event',
+                'published_at' => '2026-11-18',
+                'image_path' => 'fec_building.jpg',
+                'alt_text' => 'FEC school building',
+                'excerpt' => 'An event used to verify the dashboard count.',
+                'body' => 'Dashboard event count test content.',
+            ]);
+        }
+        Post::query()->create([
+            'slug' => 'dashboard-news-count',
+            'title' => 'Dashboard News Count',
+            'category' => 'News',
+            'published_at' => '2026-11-18',
+            'image_path' => 'fec_building.jpg',
+            'alt_text' => 'FEC school building',
+            'excerpt' => 'A news post not included in the event count.',
+            'body' => 'Dashboard news count test content.',
+        ]);
+
+        $eventPostCount = Post::query()->where('category', 'Event')->count();
+
+        $this->actingAs(User::factory()->create(['is_admin' => true]))
+            ->get(route('admin.dashboard'))
+            ->assertOk()
+            ->assertSee(
+                '<span class="stat-copy"><strong>'.$eventPostCount.'</strong><small>Event Calendar</small></span>',
+                false
+            );
+    }
+
     public function test_admin_calendar_only_shows_events_for_the_selected_month(): void
     {
         $admin = User::factory()->create(['is_admin' => true]);

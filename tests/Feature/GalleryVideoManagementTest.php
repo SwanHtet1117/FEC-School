@@ -22,12 +22,39 @@ class GalleryVideoManagementTest extends TestCase
 
     public function test_existing_videos_are_displayed_on_the_public_gallery(): void
     {
+        $video = GalleryVideo::query()->whereNotNull('youtube_id')->firstOrFail();
+
         $this->get('/gallery/video')
             ->assertOk()
             ->assertSee('12 videos')
             ->assertSee('Science Fair Exhibition')
             ->assertSee('data-video-id="s9xq0rOPltg"', false)
+            ->assertSee('data-view-url="'.route('gallery.videos.view', $video).'"', false)
             ->assertDontSee('data-video-id="undefined"', false);
+    }
+
+    public function test_opening_a_playable_video_increments_its_view_count(): void
+    {
+        $video = GalleryVideo::query()->whereNotNull('youtube_id')->firstOrFail();
+        $expectedViews = $video->views + 1;
+
+        $this->postJson(route('gallery.videos.view', $video))
+            ->assertOk()
+            ->assertJson(['views' => $expectedViews]);
+
+        $this->assertSame($expectedViews, $video->fresh()->views);
+        $this->get('/gallery/video')
+            ->assertOk()
+            ->assertSee(number_format($expectedViews).' views');
+    }
+
+    public function test_placeholder_video_cannot_increment_a_view_count(): void
+    {
+        $video = GalleryVideo::query()->whereNull('youtube_id')->firstOrFail();
+
+        $this->postJson(route('gallery.videos.view', $video))->assertNotFound();
+
+        $this->assertSame($video->views, $video->fresh()->views);
     }
 
     public function test_admin_can_add_edit_and_delete_a_gallery_video(): void

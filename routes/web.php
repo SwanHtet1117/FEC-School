@@ -15,6 +15,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\GalleryPhotoViewController;
+use App\Http\Controllers\GalleryVideoViewController;
 use App\Http\Controllers\PostController;
 use App\Models\CareerOpportunity;
 use App\Models\ContactMessage;
@@ -102,6 +103,10 @@ Route::get('/gallery/video', function () {
     ]);
 });
 
+Route::post('/gallery/videos/{galleryVideo}/view', GalleryVideoViewController::class)
+    ->middleware('throttle:120,1')
+    ->name('gallery.videos.view');
+
 Route::get('/admissions', function () {
     return view('main.admission-overview', [
         'faqs' => Faq::query()->orderBy('sort_order')->orderBy('id')->get(),
@@ -123,16 +128,36 @@ Route::post('/register', [RegisterController::class, 'store'])
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
+        $heroImageCount = HeroSlide::count();
+        $galleryPhotoCount = GalleryPhoto::count();
+        $galleryVideoCount = GalleryVideo::count();
+        $messageCount = ContactMessage::count();
+        $careerCount = CareerOpportunity::open()->count();
+        $totalCareerCount = CareerOpportunity::count();
+        $postCount = Post::query()->count();
+        $eventPostCount = Post::query()->where('category', 'Event')->count();
+        $faqCount = Faq::count();
+        $testimonialCount = Testimonial::count();
+
         return view('admin.dashboard', [
-            'heroImageCount' => HeroSlide::count(),
-            'galleryPhotoCount' => GalleryPhoto::count(),
-            'galleryVideoCount' => GalleryVideo::count(),
+            'heroImageCount' => $heroImageCount,
+            'galleryPhotoCount' => $galleryPhotoCount,
+            'galleryVideoCount' => $galleryVideoCount,
             'activities' => SystemActivity::latest()->limit(10)->get(),
-            'messageCount' => ContactMessage::count(),
-            'careerCount' => CareerOpportunity::open()->count(),
-            'postCount' => Post::query()->count(),
-            'faqCount' => Faq::count(),
-            'testimonialCount' => Testimonial::count(),
+            'messageCount' => $messageCount,
+            'careerCount' => $careerCount,
+            'postCount' => $postCount,
+            'eventPostCount' => $eventPostCount,
+            'totalContentCount' => $heroImageCount
+                + $postCount
+                + $galleryPhotoCount
+                + $galleryVideoCount
+                + $faqCount
+                + $messageCount
+                + $totalCareerCount
+                + $testimonialCount,
+            'faqCount' => $faqCount,
+            'testimonialCount' => $testimonialCount,
             'userCount' => User::count(),
             'pendingCount' => User::where('is_approved', false)->count(),
             'adminCount' => User::where('is_admin', true)->count(),

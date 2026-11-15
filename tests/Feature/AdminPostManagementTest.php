@@ -2,7 +2,14 @@
 
 namespace Tests\Feature;
 
+use App\Models\CareerOpportunity;
+use App\Models\ContactMessage;
+use App\Models\Faq;
+use App\Models\GalleryPhoto;
+use App\Models\GalleryVideo;
+use App\Models\HeroSlide;
 use App\Models\Post;
+use App\Models\Testimonial;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -12,6 +19,37 @@ use Tests\TestCase;
 class AdminPostManagementTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function test_admin_dashboard_shows_the_aggregate_content_count(): void
+    {
+        Post::query()->create([
+            'slug' => 'dashboard-post-count-test',
+            'title' => 'Dashboard Post Count Test',
+            'category' => 'News',
+            'published_at' => '2026-11-15',
+            'image_path' => 'fec_building.jpg',
+            'alt_text' => 'FEC school building',
+            'excerpt' => 'A post used to verify the dashboard count.',
+            'body' => 'Dashboard count test content.',
+        ]);
+
+        $totalContentCount = HeroSlide::query()->count()
+            + Post::query()->count()
+            + GalleryPhoto::query()->count()
+            + GalleryVideo::query()->count()
+            + Faq::query()->count()
+            + ContactMessage::query()->count()
+            + CareerOpportunity::query()->count()
+            + Testimonial::query()->count();
+
+        $this->actingAs(User::factory()->create(['is_admin' => true]))
+            ->get(route('admin.dashboard'))
+            ->assertOk()
+            ->assertSee(
+                '<span class="stat-copy"><strong>'.$totalContentCount.'</strong><small>Total Posts</small></span>',
+                false
+            );
+    }
 
     public function test_admin_can_create_a_post_and_publish_it_on_the_public_pages(): void
     {
