@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/admin-dashboard.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin-content-approval.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin-gallery-photo-management.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin-gallery-video-management.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin-delete-confirmation.css') }}">
@@ -136,6 +137,9 @@
                             @endif
                             <span class="gallery-photo-category">{{ $video->category_label }}</span>
                         </div>
+                        <div class="content-approval-badge {{ $video->is_approved ? 'approved' : 'pending' }}">
+                            {{ $video->is_approved ? 'Approved' : 'Pending review' }}
+                        </div>
                         <form id="edit-gallery-video-{{ $video->id }}" class="gallery-photo-edit" action="{{ route('admin.gallery.videos.update', $video) }}" method="POST">
                             @csrf
                             @method('PUT')
@@ -170,6 +174,12 @@
                             <button class="gallery-button primary" type="submit" form="edit-gallery-video-{{ $video->id }}">
                                 <i class="fa-regular fa-floppy-disk" aria-hidden="true"></i> Save changes
                             </button>
+                            @unless ($video->is_approved)
+                                <form action="{{ route('admin.gallery.videos.approve', $video) }}" method="POST">
+                                    @csrf
+                                    <button class="gallery-button primary" type="submit"><i class="fa-solid fa-check" aria-hidden="true"></i> Approve</button>
+                                </form>
+                            @endunless
                             <form data-delete-confirmation data-delete-type="video" data-delete-name="{{ $video->title }}" action="{{ route('admin.gallery.videos.destroy', $video) }}" method="POST">
                                 @csrf
                                 @method('DELETE')

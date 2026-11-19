@@ -27,6 +27,7 @@ class LoginController extends Controller
         ]);
 
         if (! Auth::validate($credentials)) {
+            $request->attributes->set('login_failed', true);
             app(ActivityLogger::class)->record(
                 $request,
                 'Login',

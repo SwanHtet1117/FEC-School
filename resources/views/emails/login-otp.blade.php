@@ -23,7 +23,14 @@
                             <p style="margin: 24px 0; text-align: center;">
                                 <span style="display: inline-block; padding: 12px 24px; border-radius: 8px; background-color: #f0f5fb; color: #173b67; font-size: 30px; font-weight: bold; letter-spacing: 8px;">{{ $code }}</span>
                             </p>
-                            <p>This code expires in {{ $expiresInMinutes }} minutes and can only be used once.</p>
+                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin: 20px 0; border-collapse: collapse; background-color: #fff7e6; border-left: 4px solid #e49b0f;">
+                                <tr>
+                                    <td style="padding: 12px 16px; color: #704b00; font-size: 15px;">
+                                        <strong>Expires in <span style="padding: 2px 6px; border-radius: 4px; background-color: #ffe3a3; color: #553900;">{{ $expiresInMinutes }} minutes</span></strong>
+                                        <br>This code can only be used once.
+                                    </td>
+                                </tr>
+                            </table>
                             <p>If you did not try to sign in, you can ignore this email.</p>
                             <p style="margin: 28px 0 0; color: #667085; font-size: 14px;">FEC International School</p>
                         </td>

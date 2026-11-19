@@ -6,7 +6,7 @@
                 <span class="contact-info"><i class="fas fa-envelope"></i> kzhlaing@familyeducationcentury-fec.edu.mm</span>
             </div>
             <div class="social-icons">
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.facebook.com/profile.php?id=61588251461489"><i class="fab fa-facebook-f"></i></a>
                 <a href="#"><i class="fab fa-twitter"></i></a>
                 <a href="#"><i class="fab fa-instagram"></i></a>
             </div>

@@ -333,6 +333,41 @@ body {
     color: var(--primary-dark);
 }
 
+.notification-menu-item.account-notification-item {
+    align-items: flex-start;
+}
+
+.notification-menu-item.account-notification-item > span {
+    display: grid;
+    gap: 3px;
+}
+
+.notification-menu-item.account-notification-item > span strong {
+    color: var(--primary-dark);
+    font-size: 12px;
+}
+
+.notification-menu-item.account-notification-item > span small {
+    color: var(--text-muted);
+    font-size: 11px;
+    font-weight: 400;
+}
+
+.notification-menu-all {
+    display: block;
+    padding: 9px 12px;
+    border-top: 1px solid rgba(226, 232, 240, 0.9);
+    color: var(--primary-blue);
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+}
+
+.notification-menu-all:hover {
+    background: rgba(29, 78, 216, 0.08);
+}
+
 .notification-menu-empty {
     margin: 0;
     padding: 16px 12px;
@@ -4281,6 +4316,45 @@ body {
 .auth-header p {
     font-size: 14px;
     color: var(--text-muted);
+}
+
+.auth-header .otp-expiration-notice {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: fit-content;
+    max-width: 100%;
+    margin: 16px auto 0;
+    padding: 10px 14px;
+    border: 1px solid #f3d28b;
+    border-radius: var(--radius-sm);
+    background: #fff7e6;
+    color: #704b00;
+    font-weight: 600;
+}
+
+.otp-expiration-notice i {
+    color: #b7791f;
+}
+
+.otp-expiration-notice strong {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 4px;
+    background: #ffe3a3;
+    color: #553900;
+    font-weight: 800;
+}
+
+.otp-expiration-notice.is-expired {
+    border-color: #f1b8bd;
+    background: #fff0f1;
+    color: #a82f39;
+}
+
+.otp-expiration-notice.is-expired i {
+    color: #a82f39;
 }
 
 .auth-login-error {

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/admin-dashboard.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin-hero-management.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin-delete-confirmation.css') }}">
     <script src="{{ asset('js/animations.js') }}" defer></script>
 </head>
 <body class="admin-dashboard">
@@ -29,7 +30,7 @@
 
         <p class="hero-management-notice" role="note">
             <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
-            Use Enable or Disable to control which images appear on the homepage. At least one image and one enabled image must remain.
+            User-submitted images stay private until approved. At least one approved image and one enabled image must remain.
         </p>
         @if (session('status'))
             <p class="hero-management-notice success" role="status">{{ session('status') }}</p>
@@ -107,7 +108,7 @@
 
             <div class="hero-slide-list" id="hero-slide-list">
                 @foreach ($slides as $slide)
-                    <article class="hero-slide-card" data-search="{{ strtolower($slide->alt_text . ' ' . basename($slide->image_url)) }}" data-order="{{ $slide->sort_order }}" data-status="{{ $slide->is_enabled ? 'enabled' : 'disabled' }}">
+                    <article class="hero-slide-card" data-search="{{ strtolower($slide->alt_text . ' ' . basename($slide->image_url)) }}" data-order="{{ $slide->sort_order }}" data-status="{{ $slide->is_approved && $slide->is_enabled ? 'enabled' : 'disabled' }}">
                         <div class="hero-slide-preview">
                             <img src="{{ $slide->image_url }}" alt="{{ $slide->alt_text }}">
                             <span class="hero-slide-order">#{{ $loop->iteration }}</span>
@@ -132,20 +133,38 @@
                                     <i class="fa-regular fa-floppy-disk" aria-hidden="true"></i> Save changes
                                 </button>
                             </form>
+                            @if ($slide->user)
+                                <p class="hero-management-notice">
+                                    Submitted by {{ $slide->user->name }} ({{ $slide->user->email }})
+                                </p>
+                            @endif
                             <div class="hero-slide-controls">
-                                <span class="hero-slide-status {{ $slide->is_enabled ? 'enabled' : 'disabled' }}">
-                                    <i class="fa-solid {{ $slide->is_enabled ? 'fa-circle-check' : 'fa-circle-minus' }}" aria-hidden="true"></i>
-                                    {{ $slide->is_enabled ? 'Enabled on homepage' : 'Disabled on homepage' }}
+                                <span class="hero-slide-status {{ $slide->is_approved ? ($slide->is_enabled ? 'enabled' : 'disabled') : ($slide->rejected_at ? 'rejected' : 'disabled') }}">
+                                    <i class="fa-solid {{ $slide->is_approved ? ($slide->is_enabled ? 'fa-circle-check' : 'fa-circle-minus') : ($slide->rejected_at ? 'fa-circle-xmark' : 'fa-clock') }}" aria-hidden="true"></i>
+                                    {{ $slide->is_approved ? ($slide->is_enabled ? 'Enabled on homepage' : 'Disabled on homepage') : ($slide->rejected_at ? 'Rejected - awaiting user revision' : 'Awaiting approval') }}
                                 </span>
                                 <div class="hero-slide-actions">
-                                    <form class="hero-slide-toggle" action="{{ route('admin.hero.toggle', $slide) }}" method="POST">
-                                        @csrf
-                                        <button class="hero-button {{ $slide->is_enabled ? 'danger' : 'success' }}" type="submit">
-                                            <i class="fa-solid {{ $slide->is_enabled ? 'fa-toggle-off' : 'fa-toggle-on' }}" aria-hidden="true"></i>
-                                            {{ $slide->is_enabled ? 'Disable' : 'Enable' }}
-                                        </button>
-                                    </form>
-                                    <form class="hero-slide-delete" action="{{ route('admin.hero.destroy', $slide) }}" method="POST" onsubmit="return confirm('Delete this hero image? This cannot be undone.')">
+                                    @unless ($slide->is_approved)
+                                        <form action="{{ route('admin.hero.approve', $slide) }}" method="POST">
+                                            @csrf
+                                            <button class="hero-button primary" type="submit"><i class="fa-solid fa-check" aria-hidden="true"></i> Approve</button>
+                                        </form>
+                                        @if ($slide->user_id && ! $slide->rejected_at)
+                                            <form action="{{ route('admin.hero.reject', $slide) }}" method="POST">
+                                                @csrf
+                                                <button class="hero-button danger" type="submit"><i class="fa-solid fa-xmark" aria-hidden="true"></i> Reject</button>
+                                            </form>
+                                        @endif
+                                    @else
+                                        <form class="hero-slide-toggle" action="{{ route('admin.hero.toggle', $slide) }}" method="POST">
+                                            @csrf
+                                            <button class="hero-button {{ $slide->is_enabled ? 'danger' : 'success' }}" type="submit">
+                                                <i class="fa-solid {{ $slide->is_enabled ? 'fa-toggle-off' : 'fa-toggle-on' }}" aria-hidden="true"></i>
+                                                {{ $slide->is_enabled ? 'Disable' : 'Enable' }}
+                                            </button>
+                                        </form>
+                                    @endunless
+                                    <form class="hero-slide-delete" data-delete-confirmation data-delete-type="hero image" data-delete-name="{{ $slide->alt_text }}" action="{{ route('admin.hero.destroy', $slide) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button class="hero-button danger" type="submit">
@@ -162,6 +181,8 @@
             <p class="hero-filter-empty" id="hero-filter-empty" hidden>No hero images match your search.</p>
         </section>
     </main>
+
+    @include('admin.partials.delete-confirmation')
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -205,5 +226,6 @@
     </script>
 
     @include('partials.footer')
+    <script src="{{ asset('js/admin-delete-confirmation.js') }}" defer></script>
 </body>
 </html>

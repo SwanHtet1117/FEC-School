@@ -23,7 +23,7 @@
                     <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Admin Dashboard
                 </a>
                 <h1>User Management</h1>
-                <p>Review new registrations, approve accounts, or remove users.</p>
+                <p>Review registrations, approve accounts, promote administrators, or remove users.</p>
             </div>
             <span class="user-management-count">{{ $userCount }} {{ $userCount === 1 ? 'Account' : 'Accounts' }}</span>
         </header>
@@ -132,6 +132,15 @@
                                                 @csrf
                                                 <button class="user-action-button approve" type="submit">
                                                     <i class="fa-solid fa-check" aria-hidden="true"></i> Approve
+                                                </button>
+                                            </form>
+                                        @endif
+
+                                        @if (! $user->is_admin && $user->is_approved)
+                                            <form action="{{ route('admin.users.promote', $user) }}" method="POST">
+                                                @csrf
+                                                <button class="user-action-button promote" type="submit">
+                                                    <i class="fa-solid fa-user-shield" aria-hidden="true"></i> Promote to admin
                                                 </button>
                                             </form>
                                         @endif

@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use App\Notifications\LoginOtpNotification;
-use Illuminate\Auth\Notifications\VerifyEmail;
+use App\Notifications\VerifyEmailNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
@@ -50,7 +50,7 @@ class RegistrationTest extends TestCase
         $this->assertFalse($user->is_approved);
         $this->assertNull($user->email_verified_at);
         $this->assertTrue(Hash::check('a-strong-password', $user->password));
-        Notification::assertSentTo($user, VerifyEmail::class);
+        Notification::assertSentTo($user, VerifyEmailNotification::class);
         $this->assertGuest();
         $this->get(route('verification.notice'))
             ->assertOk()
@@ -109,7 +109,7 @@ class RegistrationTest extends TestCase
             ->assertRedirect(route('verification.notice'))
             ->assertSessionHas('status', 'If that email needs verification, a new link has been sent.');
 
-        Notification::assertSentTo($user, VerifyEmail::class);
+        Notification::assertSentTo($user, VerifyEmailNotification::class);
     }
 
     public function test_registration_rejects_mismatched_passwords_and_missing_confirmation(): void
@@ -146,7 +146,7 @@ class RegistrationTest extends TestCase
         $this->assertInstanceOf(LoginOtpNotification::class, $notification);
 
         $this->post(route('login.otp.verify'), ['code' => $notification->code])
-            ->assertRedirect(route('home'));
+            ->assertRedirect(route('account.dashboard'));
 
         $this->assertAuthenticatedAs($user);
         $this->get('/admin/hero/manage')->assertForbidden();

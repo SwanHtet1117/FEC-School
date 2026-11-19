@@ -31,6 +31,35 @@ class GalleryPhotoManagementTest extends TestCase
             ->assertSee('12 photos');
     }
 
+    public function test_photo_and_campus_galleries_show_newest_photos_first(): void
+    {
+        $olderPhoto = GalleryPhoto::create([
+            'title' => 'Older Campus Photo',
+            'category' => 'campus-life',
+            'image_path' => 'older-campus.jpg',
+            'alt_text' => 'Older campus photo',
+            'sort_order' => 0,
+        ]);
+        $olderPhoto->forceFill(['created_at' => now()->subDays(2)])->saveQuietly();
+
+        $newestPhoto = GalleryPhoto::create([
+            'title' => 'Newest Campus Photo',
+            'category' => 'campus-life',
+            'image_path' => 'newest-campus.jpg',
+            'alt_text' => 'Newest campus photo',
+            'sort_order' => 100,
+        ]);
+        $newestPhoto->forceFill(['created_at' => now()->addDay()])->saveQuietly();
+
+        $this->get('/gallery/photo')
+            ->assertOk()
+            ->assertViewHas('galleryPhotos', fn ($photos): bool => $photos->first()->is($newestPhoto));
+
+        $this->get('/campus-life')
+            ->assertOk()
+            ->assertViewHas('campusGalleryPhotos', fn ($photos): bool => $photos->first()->is($newestPhoto));
+    }
+
     public function test_opening_a_gallery_photo_increments_its_view_count(): void
     {
         $photo = GalleryPhoto::ordered()->firstOrFail();

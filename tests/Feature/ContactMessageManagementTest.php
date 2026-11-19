@@ -156,7 +156,7 @@ class ContactMessageManagementTest extends TestCase
         $this->actingAs($user)
             ->get(route('contact'))
             ->assertOk()
-            ->assertSee('aria-label="Notifications, 0 pending"', false)
+            ->assertSee('aria-label="Notifications, 0 submission updates"', false)
             ->assertSee("You're all caught up.")
             ->assertDontSee('Pending registrations')
             ->assertDontSee('Unread contact messages');

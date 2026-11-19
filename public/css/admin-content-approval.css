@@ -1,0 +1,28 @@
+.content-approval-badge {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    margin: 10px 0;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.content-approval-badge.approved {
+    color: #17613d;
+    background: #e6f5ec;
+}
+
+.content-approval-badge.pending {
+    color: #825416;
+    background: #fff3d8;
+}
+
+.gallery-photo-actions > form {
+    margin: 0;
+}
+
+.post-row-actions > form {
+    margin: 0;
+}

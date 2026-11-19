@@ -23,7 +23,7 @@
             <div class="footer-col">
                 <h4>Social Media</h4>
                 <div class="social-links">
-                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i> Facebook</a>
+                    <a href="https://www.facebook.com/profile.php?id=61588251461489" class="social-icon"><i class="fab fa-facebook-f"></i> Facebook</a>
                     <a href="#" class="social-icon"><i class="fab fa-twitter"></i> Twitter</a>
                     <a href="#" class="social-icon"><i class="fab fa-instagram"></i> Instagram</a>
                 </div>

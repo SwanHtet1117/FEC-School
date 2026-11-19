@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class GalleryVideo extends Model
 {
@@ -20,6 +21,8 @@ class GalleryVideo extends Model
         'duration',
         'views',
         'sort_order',
+        'user_id',
+        'is_approved',
     ];
 
     protected function casts(): array
@@ -27,7 +30,13 @@ class GalleryVideo extends Model
         return [
             'views' => 'integer',
             'sort_order' => 'integer',
+            'is_approved' => 'boolean',
         ];
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function scopeOrdered(Builder $query): Builder

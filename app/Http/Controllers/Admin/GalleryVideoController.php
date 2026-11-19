@@ -43,6 +43,31 @@ class GalleryVideoController extends Controller
         return redirect()->route('admin.gallery.videos.index')->with('status', 'Video updated.');
     }
 
+    public function approve(
+        Request $request,
+        GalleryVideo $galleryVideo,
+        ActivityLogger $activityLogger
+    ): RedirectResponse {
+        if ($galleryVideo->is_approved) {
+            return redirect()->route('admin.gallery.videos.index')
+                ->withErrors(['video' => 'This video has already been approved.']);
+        }
+
+        $galleryVideo->update(['is_approved' => true]);
+        $activityLogger->record($request, 'Gallery video approved', $galleryVideo->title);
+        if ($galleryVideo->user) {
+            $activityLogger->record(
+                $request,
+                'Gallery video approved by admin',
+                $galleryVideo->title,
+                user: $galleryVideo->user
+            );
+        }
+
+        return redirect()->route('admin.gallery.videos.index')
+            ->with('status', 'Video approved and published.');
+    }
+
     public function destroy(Request $request, GalleryVideo $galleryVideo): RedirectResponse
     {
         $title = $galleryVideo->title;

@@ -38,7 +38,7 @@
                     <a href="/about" class="section-link">Read More <i class="fas fa-arrow-right"></i></a>
                 </div>
                 <div class="about-image fade-in-right">
-                    <img src="{{ asset('image/fec_building.jpg') }}" alt="FEC School Building">
+                    <img src="{{ asset('image/fec_building_01.jpg') }}" alt="FEC School Building">
                 </div>
             </div>
         </div>

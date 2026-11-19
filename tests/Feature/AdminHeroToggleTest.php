@@ -167,6 +167,20 @@ class AdminHeroToggleTest extends TestCase
         Storage::disk('public')->assertMissing($path);
     }
 
+    public function test_hero_image_delete_uses_the_admin_confirmation_modal(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+
+        $this->actingAs($admin)
+            ->get('/admin/hero/manage')
+            ->assertOk()
+            ->assertSee('id="adminDeleteDialog"', false)
+            ->assertSee('data-delete-confirmation', false)
+            ->assertSee('data-delete-type="hero image"', false)
+            ->assertSee('admin-delete-confirmation.js')
+            ->assertDontSee('onsubmit="return confirm(', false);
+    }
+
     public function test_admin_cannot_delete_the_last_enabled_slide(): void
     {
         $admin = User::factory()->create(['is_admin' => true]);

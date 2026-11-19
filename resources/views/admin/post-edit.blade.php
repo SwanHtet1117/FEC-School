@@ -37,6 +37,14 @@
             </div>
         @endif
 
+        @if ($post->user)
+            <div class="post-management-notice">
+                <strong>User submission</strong>
+                <span>Submitted by {{ $post->user->name }} ({{ $post->user->email }})</span>
+                <span>Approval status: {{ $post->is_approved ? 'Approved' : 'Awaiting review' }}</span>
+            </div>
+        @endif
+
         <section class="post-management-panel" aria-labelledby="post-edit-title">
             <div class="post-panel-heading">
                 <span class="post-panel-icon"><i class="fa-regular fa-pen-to-square" aria-hidden="true"></i></span>

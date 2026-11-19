@@ -5,6 +5,7 @@
         str_contains($normalizedAction, 'added') => 'added',
         str_contains($normalizedAction, 'updated') => 'updated',
         str_contains($normalizedAction, 'deleted') => 'deleted',
+        str_contains($normalizedAction, 'rejected') => 'deleted',
         str_contains($normalizedAction, 'approved') => 'approved',
         str_contains($normalizedAction, 'enabled'),
         str_contains($normalizedAction, 'disabled') => 'availability',

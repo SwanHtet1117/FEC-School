@@ -36,7 +36,8 @@ class AdminUserManagementTest extends TestCase
             ->get(route('admin.users.index'))
             ->assertOk()
             ->assertSeeInOrder(['Pending Member', 'Approved Member'])
-            ->assertSee('Awaiting approval');
+            ->assertSee('Awaiting approval')
+            ->assertSee('Promote to admin');
     }
 
     public function test_user_deletion_uses_the_confirmation_modal(): void
@@ -111,6 +112,59 @@ class AdminUserManagementTest extends TestCase
             'details' => 'New Member',
             'status' => 'Success',
         ]);
+    }
+
+    public function test_admin_can_promote_an_approved_user_to_administrator(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+        $user = User::factory()->create([
+            'name' => 'Promoted Member',
+            'is_approved' => true,
+            'is_admin' => false,
+        ]);
+
+        $this->actingAs($admin)
+            ->post(route('admin.users.promote', $user))
+            ->assertRedirect(route('admin.users.index'))
+            ->assertSessionHas('status', 'Promoted Member was promoted to administrator.');
+
+        $this->assertTrue($user->fresh()->is_admin);
+        $this->assertTrue($user->fresh()->is_approved);
+        $this->assertDatabaseHas('system_activities', [
+            'user_id' => $admin->id,
+            'action' => 'User promoted to administrator',
+            'details' => 'Promoted Member',
+            'status' => 'Success',
+        ]);
+    }
+
+    public function test_admin_cannot_promote_a_pending_user_until_approved(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+        $user = User::factory()->create([
+            'is_approved' => false,
+            'is_admin' => false,
+        ]);
+
+        $this->actingAs($admin)
+            ->post(route('admin.users.promote', $user))
+            ->assertRedirect(route('admin.users.index'))
+            ->assertSessionHasErrors('user');
+
+        $this->assertFalse($user->fresh()->is_admin);
+        $this->assertFalse($user->fresh()->is_approved);
+    }
+
+    public function test_non_admin_cannot_promote_a_user(): void
+    {
+        $user = User::factory()->create(['is_approved' => true]);
+        $target = User::factory()->create(['is_approved' => true]);
+
+        $this->actingAs($user)
+            ->post(route('admin.users.promote', $target))
+            ->assertForbidden();
+
+        $this->assertFalse($target->fresh()->is_admin);
     }
 
     public function test_admin_can_delete_a_regular_user(): void

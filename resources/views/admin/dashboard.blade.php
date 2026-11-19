@@ -30,9 +30,13 @@
         </div>
 
         <section class="stats-grid" aria-label="School content overview">
-            <a class="stat-card" href="{{ url('/admin/hero/manage') }}">
+            <a class="stat-card has-approval-counts" href="{{ url('/admin/hero/manage') }}">
                 <span class="stat-icon blue"><i class="fa-regular fa-image" aria-hidden="true"></i></span>
                 <span class="stat-copy"><strong>{{ $heroImageCount }}</strong><small>Hero Images</small></span>
+                <span class="stat-approval-counts">
+                    <span class="stat-pending-count"><strong>Pending</strong> {{ number_format($pendingHeroApprovalCount) }}</span>
+                    <span class="stat-approved-count"><strong>Approved</strong> {{ number_format($approvedHeroCount) }}</span>
+                </span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
             <a class="stat-card" href="{{ route('admin.careers.index') }}">
@@ -40,9 +44,13 @@
                 <span class="stat-copy"><strong>{{ $careerCount }}</strong><small>Career Opportunities</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
-            <a class="stat-card" href="{{ route('admin.posts.index') }}">
+            <a class="stat-card has-approval-counts" href="{{ route('admin.posts.index') }}">
                 <span class="stat-icon amber"><i class="fa-regular fa-newspaper" aria-hidden="true"></i></span>
                 <span class="stat-copy"><strong>{{ $postCount }}</strong><small>News, Announcements &amp; Events</small></span>
+                <span class="stat-approval-counts">
+                    <span class="stat-pending-count"><strong>Pending</strong> {{ number_format($pendingPostApprovalCount) }}</span>
+                    <span class="stat-approved-count"><strong>Approved</strong> {{ number_format($approvedPostCount) }}</span>
+                </span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
             <a class="stat-card" href="{{ route('admin.events.calendar') }}">
@@ -50,14 +58,22 @@
                 <span class="stat-copy"><strong>{{ $eventPostCount }}</strong><small>Event Calendar</small></span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
-            <a class="stat-card" href="{{ route('admin.gallery.photos.index') }}">
+            <a class="stat-card has-approval-counts" href="{{ route('admin.gallery.photos.index') }}">
                 <span class="stat-icon amber"><i class="fa-regular fa-images" aria-hidden="true"></i></span>
                 <span class="stat-copy"><strong>{{ $galleryPhotoCount }}</strong><small>Photos</small></span>
+                <span class="stat-approval-counts">
+                    <span class="stat-pending-count"><strong>Pending</strong> {{ number_format($pendingPhotoApprovalCount) }}</span>
+                    <span class="stat-approved-count"><strong>Approved</strong> {{ number_format($approvedPhotoCount) }}</span>
+                </span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
-            <a class="stat-card" href="{{ route('admin.gallery.videos.index') }}">
+            <a class="stat-card has-approval-counts" href="{{ route('admin.gallery.videos.index') }}">
                 <span class="stat-icon rose"><i class="fa-solid fa-circle-play" aria-hidden="true"></i></span>
                 <span class="stat-copy"><strong>{{ $galleryVideoCount }}</strong><small>Videos</small></span>
+                <span class="stat-approval-counts">
+                    <span class="stat-pending-count"><strong>Pending</strong> {{ number_format($pendingVideoApprovalCount) }}</span>
+                    <span class="stat-approved-count"><strong>Approved</strong> {{ number_format($approvedVideoCount) }}</span>
+                </span>
                 <i class="fa-solid fa-arrow-up-right-from-square stat-link" aria-hidden="true"></i>
             </a>
             <a class="stat-card" href="{{ url('/campus-life') }}">
@@ -168,6 +184,35 @@
                         </svg>
                     </div>
                 </section>
+
+                <section class="panel other-issues-panel" aria-labelledby="admin-other-issues-title">
+                    <div class="panel-heading">
+                        <div>
+                            <h2 id="admin-other-issues-title">Other Issues</h2>
+                            <p class="system_activity">Failed activity records from the last 30 days</p>
+                        </div>
+                        <span class="other-issues-count">{{ number_format($failedActivityCount) }}</span>
+                    </div>
+                    <div class="other-issues-list">
+                        @forelse ($failedActivities as $activity)
+                            <a class="other-issue-item" href="{{ route('admin.activities.index', ['status' => 'Failed']) }}">
+                                <span class="other-issue-copy">
+                                    <strong>{{ $activity->action }} · {{ $activity->user_name }}</strong>
+                                    <small>
+                                        {{ $activity->details }} ·
+                                        {{ $activity->created_at->copy()->setTimezone($activity->timezone)->format('M d, Y · h:i A') }}
+                                    </small>
+                                </span>
+                                <span class="status-badge danger">Failed</span>
+                            </a>
+                        @empty
+                            <p class="other-issues-empty">No failed activities were recorded in the last 30 days.</p>
+                        @endforelse
+                    </div>
+                    <a class="text-link other-issues-view-all" href="{{ route('admin.activities.index', ['status' => 'Failed']) }}">
+                        View failed activity records <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+                </section>
             </div>
 
             <aside class="dashboard-side-column">
@@ -177,13 +222,16 @@
                             <h2>Admin Content Distribution</h2>
                             <p class="system_activity">All managed content by type</p>
                         </div>
-                        <span class="content-distribution-total">{{ number_format($totalContentCount) }} total</span>
                     </div>
                     <figure class="content-distribution-figure">
                         <div class="content-distribution-chart"
                             style="background: {{ $chartBackground }}"
                             role="img"
                             aria-label="Pie chart of {{ $totalContentCount }} admin-managed content records">
+                            <div class="content-distribution-chart-center" aria-hidden="true">
+                                <strong>{{ number_format($totalContentCount) }}</strong>
+                                <span>Total</span>
+                            </div>
                         </div>
                         <figcaption>
                             <ul class="content-distribution-legend">
@@ -205,10 +253,39 @@
                 </section>
 
                 <section class="panel alerts-panel">
-                    <div class="panel-heading"><div><h2>System Alerts</h2><p class="system_activity">Items that may need attention</p></div></div>
-                    <div class="alert alert-danger"><strong><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Critical</strong><span>Server backup failed · 2 hours ago</span></div>
-                    <div class="alert alert-warning"><strong><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i> Warning</strong><span>5 teachers haven't submitted grades.</span></div>
-                    <div class="alert alert-info"><strong><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Info</strong><span>System maintenance scheduled tonight.</span></div>
+                    <div class="panel-heading">
+                        <div>
+                            <h2>Pending User Submissions</h2>
+                            <p class="system_activity">Content waiting for administrator review</p>
+                        </div>
+                    </div>
+                    @if ($pendingPhotoApprovalCount > 0)
+                        <a class="alert alert-warning pending-approval-alert" href="{{ route('admin.gallery.photos.index') }}">
+                            <strong><i class="fa-regular fa-images" aria-hidden="true"></i> {{ $pendingPhotoApprovalCount }} pending photo {{ $pendingPhotoApprovalCount === 1 ? 'submission' : 'submissions' }}</strong>
+                            <span>Review user-submitted gallery photos</span>
+                        </a>
+                    @endif
+                    @if ($pendingHeroApprovalCount > 0)
+                        <a class="alert alert-warning pending-approval-alert" href="{{ route('admin.hero.manage') }}">
+                            <strong><i class="fa-regular fa-images" aria-hidden="true"></i> {{ $pendingHeroApprovalCount }} pending hero image {{ $pendingHeroApprovalCount === 1 ? 'submission' : 'submissions' }}</strong>
+                            <span>Review user-submitted homepage hero images</span>
+                        </a>
+                    @endif
+                    @if ($pendingVideoApprovalCount > 0)
+                        <a class="alert alert-warning pending-approval-alert" href="{{ route('admin.gallery.videos.index') }}">
+                            <strong><i class="fa-solid fa-circle-play" aria-hidden="true"></i> {{ $pendingVideoApprovalCount }} pending video {{ $pendingVideoApprovalCount === 1 ? 'submission' : 'submissions' }}</strong>
+                            <span>Review user-submitted gallery videos</span>
+                        </a>
+                    @endif
+                    @if ($pendingPostApprovalCount > 0)
+                        <a class="alert alert-warning pending-approval-alert" href="{{ route('admin.posts.index') }}">
+                            <strong><i class="fa-regular fa-newspaper" aria-hidden="true"></i> {{ $pendingPostApprovalCount }} pending News/Event {{ $pendingPostApprovalCount === 1 ? 'post' : 'posts' }}</strong>
+                            <span>Review user-submitted News and Events</span>
+                        </a>
+                    @endif
+                    @if ($pendingPhotoApprovalCount + $pendingVideoApprovalCount + $pendingPostApprovalCount + $pendingHeroApprovalCount === 0)
+                        <div class="alert alert-info"><strong><i class="fa-solid fa-circle-check" aria-hidden="true"></i> All caught up</strong><span>No user content is waiting for approval.</span></div>
+                    @endif
                 </section>
 
                 <section class="panel events-panel">

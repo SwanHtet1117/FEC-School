@@ -6,7 +6,7 @@
     <span>Category <span class="post-required" aria-hidden="true">*</span></span>
     <select name="category" required>
         <option value="">Select a category</option>
-        @foreach (['News', 'Announcement', 'Event'] as $category)
+        @foreach (($post?->user_id ? ['News', 'Event'] : ['News', 'Announcement', 'Event']) as $category)
             <option value="{{ $category }}" @selected(old('category', $post?->category ?? request()->query('category')) === $category)>{{ $category }}</option>
         @endforeach
     </select>

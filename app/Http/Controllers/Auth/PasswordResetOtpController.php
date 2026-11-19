@@ -52,9 +52,13 @@ class PasswordResetOtpController extends Controller
         }
 
         $challenge = PasswordResetOtp::query()->find($request->session()->get('password_reset_otp_id'));
+        $remainingSeconds = $challenge
+            ? max(0, (int) ceil(now()->diffInSeconds($challenge->expires_at, false)))
+            : max(0, (int) config('auth.password_reset_otp.expire', 10) * 60);
 
         return view('auth.password-reset-otp', [
-            'expired' => $challenge?->expires_at->isPast() ?? false,
+            'expired' => $challenge ? $remainingSeconds === 0 : false,
+            'remainingSeconds' => $remainingSeconds,
         ]);
     }
 

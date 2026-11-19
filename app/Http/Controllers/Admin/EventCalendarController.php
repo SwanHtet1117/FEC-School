@@ -24,6 +24,7 @@ class EventCalendarController extends Controller
         $monthEnd = $month->copy()->endOfMonth();
         $events = Post::query()
             ->where('category', 'Event')
+            ->where('is_approved', true)
             ->whereBetween('published_at', [$month->toDateString(), $monthEnd->toDateString()])
             ->orderBy('published_at')
             ->orderBy('title')

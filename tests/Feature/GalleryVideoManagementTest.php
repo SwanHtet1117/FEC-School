@@ -33,6 +33,31 @@ class GalleryVideoManagementTest extends TestCase
             ->assertDontSee('data-video-id="undefined"', false);
     }
 
+    public function test_video_gallery_shows_newest_videos_first(): void
+    {
+        $olderVideo = GalleryVideo::create([
+            'title' => 'Older test video',
+            'category' => 'events',
+            'youtube_id' => 'OldVideo123',
+            'duration' => '2:00',
+            'sort_order' => 0,
+        ]);
+        $olderVideo->forceFill(['created_at' => now()->subDays(2)])->saveQuietly();
+
+        $newestVideo = GalleryVideo::create([
+            'title' => 'Newest test video',
+            'category' => 'events',
+            'youtube_id' => 'NewVideo123',
+            'duration' => '2:00',
+            'sort_order' => 100,
+        ]);
+        $newestVideo->forceFill(['created_at' => now()->addDay()])->saveQuietly();
+
+        $this->get('/gallery/video')
+            ->assertOk()
+            ->assertViewHas('videos', fn ($videos): bool => $videos->first()->is($newestVideo));
+    }
+
     public function test_opening_a_playable_video_increments_its_view_count(): void
     {
         $video = GalleryVideo::query()->whereNotNull('youtube_id')->firstOrFail();

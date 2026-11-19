@@ -450,6 +450,11 @@
     color: #596779;
 }
 
+.hero-slide-status.rejected {
+    background: #fff0f1;
+    color: #b42332;
+}
+
 .hero-slide-toggle {
     display: flex;
     align-items: center;

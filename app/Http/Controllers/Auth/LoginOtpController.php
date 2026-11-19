@@ -26,8 +26,11 @@ class LoginOtpController extends Controller
                 ->withErrors(['email' => 'Your sign-in code is no longer available. Please sign in again.']);
         }
 
+        $remainingSeconds = max(0, (int) ceil(now()->diffInSeconds($challenge->expires_at, false)));
+
         return view('auth.login-otp', [
-            'expired' => $challenge->expires_at->isPast(),
+            'expired' => $remainingSeconds === 0,
+            'remainingSeconds' => $remainingSeconds,
         ]);
     }
 
@@ -138,7 +141,7 @@ class LoginOtpController extends Controller
 
         return $user->is_admin
             ? redirect()->route('admin.dashboard')
-            : redirect()->route('home');
+            : redirect()->route('account.dashboard');
     }
 
     public function resend(Request $request): RedirectResponse

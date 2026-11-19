@@ -9,7 +9,7 @@ class GalleryVideoViewController extends Controller
 {
     public function __invoke(GalleryVideo $galleryVideo): JsonResponse
     {
-        abort_unless($galleryVideo->youtube_id, 404);
+        abort_unless($galleryVideo->is_approved && $galleryVideo->youtube_id, 404);
 
         $galleryVideo->increment('views');
         $galleryVideo->refresh();

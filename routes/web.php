@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\AccountContentController;
+use App\Http\Controllers\AccountHeroSlideController;
 use App\Http\Controllers\Admin\CareerOpportunityController;
 use App\Http\Controllers\Admin\ContactMessageManagementController;
 use App\Http\Controllers\Admin\EventCalendarController;
@@ -11,6 +13,7 @@ use App\Http\Controllers\Admin\HeroSlideController;
 use App\Http\Controllers\Admin\PostManagementController;
 use App\Http\Controllers\Admin\SystemActivityController;
 use App\Http\Controllers\Admin\TestimonialManagementController;
+use App\Http\Controllers\Admin\UserContentRequestController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\LoginController;
@@ -35,11 +38,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('main.home', [
-        'heroSlides' => HeroSlide::where('is_enabled', true)->ordered()->get(),
+        'heroSlides' => HeroSlide::query()
+            ->where('is_approved', true)
+            ->where('is_enabled', true)
+            ->ordered()
+            ->get(),
         'testimonials' => Testimonial::query()->orderBy('sort_order')->orderBy('id')->get(),
         'latestPosts' => Post::query()
+            ->where('is_approved', true)
             ->whereIn('category', ['News', 'Event'])
             ->latest('published_at')
+            ->latest('id')
             ->limit(3)
             ->get(),
     ]);
@@ -64,8 +73,10 @@ Route::get('/news-events', [PostController::class, 'newsEvents'])->name('news-ev
 Route::get('/campus-life', function () {
     return view('main.campus-life', [
         'campusGalleryPhotos' => GalleryPhoto::query()
+            ->where('is_approved', true)
             ->where('category', 'campus-life')
-            ->ordered()
+            ->orderByDesc('created_at')
+            ->orderByDesc('id')
             ->limit(8)
             ->get(),
     ]);
@@ -93,7 +104,11 @@ Route::get('/academics/ged-igcse', function () {
 
 Route::get('/gallery/photo', function () {
     return view('main.photo-gallery', [
-        'galleryPhotos' => GalleryPhoto::ordered()->get(),
+        'galleryPhotos' => GalleryPhoto::query()
+            ->where('is_approved', true)
+            ->orderByDesc('created_at')
+            ->orderByDesc('id')
+            ->get(),
     ]);
 });
 
@@ -103,7 +118,11 @@ Route::post('/gallery/photos/{galleryPhoto}/view', GalleryPhotoViewController::c
 
 Route::get('/gallery/video', function () {
     return view('main.video-gallery', [
-        'videos' => GalleryVideo::ordered()->get(),
+        'videos' => GalleryVideo::query()
+            ->where('is_approved', true)
+            ->orderByDesc('created_at')
+            ->orderByDesc('id')
+            ->get(),
     ]);
 });
 
@@ -122,7 +141,7 @@ Route::get('/news-events/all-posts', [PostController::class, 'all'])->name('news
 Route::get('/news-events/posts/{slug}', [PostController::class, 'show'])->name('news-events.posts.show');
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
-Route::post('/login', [LoginController::class, 'store'])->middleware('throttle:5,1')->name('login.store');
+Route::post('/login', [LoginController::class, 'store'])->middleware('throttle:login')->name('login.store');
 Route::get('/login/otp', [LoginOtpController::class, 'show'])->name('login.otp');
 Route::post('/login/otp', [LoginOtpController::class, 'verify'])
     ->middleware('throttle:6,1')
@@ -156,6 +175,45 @@ Route::post('/email/verification-notification', [EmailVerificationController::cl
     ->name('verification.send');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/account/dashboard', [AccountController::class, 'dashboard'])->name('account.dashboard');
+    Route::get('/account/activities', [AccountController::class, 'activities'])
+        ->name('account.activities.index');
+    Route::get('/account/content/hero-images', [AccountHeroSlideController::class, 'index'])
+        ->name('account.content.hero');
+    Route::post('/account/content/hero-images', [AccountHeroSlideController::class, 'store'])
+        ->name('account.content.hero.store');
+    Route::get('/account/content/hero-images/{heroSlide}/preview', [AccountHeroSlideController::class, 'preview'])
+        ->name('account.content.hero.preview');
+    Route::put('/account/content/hero-images/{heroSlide}', [AccountHeroSlideController::class, 'update'])
+        ->name('account.content.hero.update');
+    Route::delete('/account/content/hero-images/{heroSlide}', [AccountHeroSlideController::class, 'destroy'])
+        ->name('account.content.hero.destroy');
+    Route::get('/account/content/photos', [AccountContentController::class, 'photos'])->name('account.content.photos');
+    Route::post('/account/content/photos', [AccountContentController::class, 'storePhoto'])
+        ->name('account.content.photos.store');
+    Route::get('/account/content/photos/{photo}/preview', [AccountContentController::class, 'photoPreview'])
+        ->name('account.content.photos.preview');
+    Route::put('/account/content/photos/{photo}', [AccountContentController::class, 'updatePhoto'])
+        ->name('account.content.photos.update');
+    Route::delete('/account/content/photos/{photo}', [AccountContentController::class, 'destroyPhoto'])
+        ->name('account.content.photos.destroy');
+    Route::get('/account/content/videos', [AccountContentController::class, 'videos'])->name('account.content.videos');
+    Route::post('/account/content/videos', [AccountContentController::class, 'storeVideo'])
+        ->name('account.content.videos.store');
+    Route::put('/account/content/videos/{video}', [AccountContentController::class, 'updateVideo'])
+        ->name('account.content.videos.update');
+    Route::delete('/account/content/videos/{video}', [AccountContentController::class, 'destroyVideo'])
+        ->name('account.content.videos.destroy');
+    Route::get('/account/content/news-events', [AccountContentController::class, 'posts'])
+        ->name('account.content.posts');
+    Route::post('/account/content/news-events', [AccountContentController::class, 'storePost'])
+        ->name('account.content.posts.store');
+    Route::get('/account/content/news-events/{post}/preview', [AccountContentController::class, 'postPreview'])
+        ->name('account.content.posts.preview');
+    Route::put('/account/content/news-events/{post}', [AccountContentController::class, 'updatePost'])
+        ->name('account.content.posts.update');
+    Route::delete('/account/content/news-events/{post}', [AccountContentController::class, 'destroyPost'])
+        ->name('account.content.posts.destroy');
     Route::get('/account/profile', [AccountController::class, 'editProfile'])->name('account.profile.edit');
     Route::put('/account/profile', [AccountController::class, 'updateProfile'])->name('account.profile.update');
     Route::get('/account/settings', [AccountController::class, 'editSettings'])->name('account.settings.edit');
@@ -170,13 +228,35 @@ Route::post('/register', [RegisterController::class, 'store'])
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
         $heroImageCount = HeroSlide::count();
+        $pendingHeroApprovalCount = HeroSlide::query()
+            ->whereNotNull('user_id')
+            ->where('is_approved', false)
+            ->whereNull('rejected_at')
+            ->count();
+        $approvedHeroCount = HeroSlide::query()->where('is_approved', true)->count();
         $galleryPhotoCount = GalleryPhoto::count();
+        $approvedPhotoCount = GalleryPhoto::query()->where('is_approved', true)->count();
         $galleryVideoCount = GalleryVideo::count();
+        $approvedVideoCount = GalleryVideo::query()->where('is_approved', true)->count();
+        $pendingPhotoApprovalCount = GalleryPhoto::query()
+            ->whereNotNull('user_id')
+            ->where('is_approved', false)
+            ->count();
+        $pendingVideoApprovalCount = GalleryVideo::query()
+            ->whereNotNull('user_id')
+            ->where('is_approved', false)
+            ->count();
         $messageCount = ContactMessage::count();
         $pendingCount = User::where('is_approved', false)->count();
         $careerCount = CareerOpportunity::open()->count();
         $totalCareerCount = CareerOpportunity::count();
         $postCount = Post::query()->count();
+        $pendingPostApprovalCount = Post::query()
+            ->whereNotNull('user_id')
+            ->where('is_approved', false)
+            ->whereIn('category', ['News', 'Event'])
+            ->count();
+        $approvedPostCount = Post::query()->where('is_approved', true)->count();
         $eventPostCount = Post::query()->where('category', 'Event')->count();
         $faqCount = Faq::count();
         $testimonialCount = Testimonial::count();
@@ -208,6 +288,15 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
         $activityChartEnd = now()->endOfDay();
         $activityChartStart = $activityChartEnd->copy()->startOfDay()->subDays(29);
+        $failedActivitiesQuery = SystemActivity::query()
+            ->where('status', 'Failed')
+            ->whereBetween('created_at', [$activityChartStart, $activityChartEnd]);
+        $failedActivityCount = (clone $failedActivitiesQuery)->count();
+        $failedActivities = (clone $failedActivitiesQuery)
+            ->orderByDesc('created_at')
+            ->orderByDesc('id')
+            ->limit(5)
+            ->get(['action', 'details', 'user_name', 'created_at', 'timezone']);
         $activityChartCategories = [
             'photo_gallery' => 'Photo gallery',
             'video_gallery' => 'Video gallery',
@@ -310,6 +399,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
             'heroImageCount' => $heroImageCount,
             'galleryPhotoCount' => $galleryPhotoCount,
             'galleryVideoCount' => $galleryVideoCount,
+            'pendingPhotoApprovalCount' => $pendingPhotoApprovalCount,
+            'approvedPhotoCount' => $approvedPhotoCount,
+            'pendingHeroApprovalCount' => $pendingHeroApprovalCount,
+            'approvedHeroCount' => $approvedHeroCount,
+            'pendingVideoApprovalCount' => $pendingVideoApprovalCount,
+            'approvedVideoCount' => $approvedVideoCount,
+            'pendingPostApprovalCount' => $pendingPostApprovalCount,
+            'approvedPostCount' => $approvedPostCount,
             'activities' => SystemActivity::latest()->limit(10)->get(),
             'messageCount' => $messageCount,
             'careerCount' => $careerCount,
@@ -321,6 +418,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
             'activityChartSeries' => $activityChartSeries,
             'activityChartGridLines' => $activityChartGridLines,
             'activityChartXLabels' => $activityChartXLabels,
+            'failedActivityCount' => $failedActivityCount,
+            'failedActivities' => $failedActivities,
             'faqCount' => $faqCount,
             'testimonialCount' => $testimonialCount,
             'userCount' => User::count(),
@@ -332,12 +431,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/activities', [SystemActivityController::class, 'index'])
         ->name('admin.activities.index');
 
+    Route::get('/requests', [UserContentRequestController::class, 'index'])
+        ->name('admin.requests.index');
+
     Route::get('/events/calendar', [EventCalendarController::class, 'index'])
         ->name('admin.events.calendar');
 
     Route::get('/users', [UserManagementController::class, 'index'])->name('admin.users.index');
     Route::post('/users/{user}/approve', [UserManagementController::class, 'approve'])
         ->name('admin.users.approve');
+    Route::post('/users/{user}/promote', [UserManagementController::class, 'promote'])
+        ->name('admin.users.promote');
     Route::delete('/users/{user}', [UserManagementController::class, 'destroy'])
         ->name('admin.users.destroy');
 
@@ -361,6 +465,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::post('/posts', [PostManagementController::class, 'store'])->name('admin.posts.store');
     Route::get('/posts/{post}/edit', [PostManagementController::class, 'edit'])->name('admin.posts.edit');
     Route::put('/posts/{post}', [PostManagementController::class, 'update'])->name('admin.posts.update');
+    Route::post('/posts/{post}/approve', [PostManagementController::class, 'approve'])
+        ->name('admin.posts.approve');
     Route::delete('/posts/{post}', [PostManagementController::class, 'destroy'])->name('admin.posts.destroy');
 
     Route::get('/faqs', [FaqManagementController::class, 'index'])->name('admin.faqs.index');
@@ -388,6 +494,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         ->name('admin.hero.destroy');
     Route::post('/hero/manage/{heroSlide}/toggle', [HeroSlideController::class, 'toggle'])
         ->name('admin.hero.toggle');
+    Route::post('/hero/manage/{heroSlide}/approve', [HeroSlideController::class, 'approve'])
+        ->name('admin.hero.approve');
+    Route::post('/hero/manage/{heroSlide}/reject', [HeroSlideController::class, 'reject'])
+        ->name('admin.hero.reject');
 
     Route::get('/gallery/photos', [GalleryPhotoController::class, 'index'])
         ->name('admin.gallery.photos.index');
@@ -395,6 +505,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         ->name('admin.gallery.photos.store');
     Route::put('/gallery/photos/{galleryPhoto}', [GalleryPhotoController::class, 'update'])
         ->name('admin.gallery.photos.update');
+    Route::post('/gallery/photos/{galleryPhoto}/approve', [GalleryPhotoController::class, 'approve'])
+        ->name('admin.gallery.photos.approve');
     Route::delete('/gallery/photos/{galleryPhoto}', [GalleryPhotoController::class, 'destroy'])
         ->name('admin.gallery.photos.destroy');
 
@@ -404,6 +516,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         ->name('admin.gallery.videos.store');
     Route::put('/gallery/videos/{galleryVideo}', [GalleryVideoController::class, 'update'])
         ->name('admin.gallery.videos.update');
+    Route::post('/gallery/videos/{galleryVideo}/approve', [GalleryVideoController::class, 'approve'])
+        ->name('admin.gallery.videos.approve');
     Route::delete('/gallery/videos/{galleryVideo}', [GalleryVideoController::class, 'destroy'])
         ->name('admin.gallery.videos.destroy');
 });

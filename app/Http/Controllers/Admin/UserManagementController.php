@@ -79,6 +79,40 @@ class UserManagementController extends Controller
         return redirect()->route('admin.users.index')->with('status', "{$user->name}'s account was approved.");
     }
 
+    public function promote(Request $request, User $user, ActivityLogger $activityLogger): RedirectResponse
+    {
+        $result = DB::transaction(function () use ($user): array {
+            $target = User::query()->lockForUpdate()->findOrFail($user->getKey());
+
+            if ($target->is_admin) {
+                return ['status' => 'already_admin'];
+            }
+
+            if (! $target->is_approved) {
+                return ['status' => 'pending'];
+            }
+
+            $target->is_admin = true;
+            $target->save();
+
+            return ['status' => 'promoted', 'name' => $target->name];
+        });
+
+        if ($result['status'] !== 'promoted') {
+            $message = $result['status'] === 'pending'
+                ? 'Approve this account before promoting it to administrator.'
+                : 'This account is already an administrator.';
+
+            return redirect()->route('admin.users.index')
+                ->withErrors(['user' => $message]);
+        }
+
+        $activityLogger->record($request, 'User promoted to administrator', $result['name']);
+
+        return redirect()->route('admin.users.index')
+            ->with('status', "{$result['name']} was promoted to administrator.");
+    }
+
     public function destroy(Request $request, User $user, ActivityLogger $activityLogger): RedirectResponse
     {
         if ($request->user()->is($user)) {

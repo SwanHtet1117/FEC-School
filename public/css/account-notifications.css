@@ -1,0 +1,94 @@
+.account-submission-notifications {
+    margin-bottom: 20px;
+}
+
+.account-dashboard .stat-copy strong {
+    font-size: 15px;
+}
+
+.submission-update-count {
+    display: inline-grid;
+    min-width: 28px;
+    height: 28px;
+    place-items: center;
+    border-radius: 50%;
+    background: #eaf2fb;
+    color: var(--fec-logo-blue);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.submission-update-list {
+    display: grid;
+}
+
+.submission-update-item {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 4px;
+    border-bottom: 1px solid #edf0f4;
+    color: var(--text-main);
+    text-decoration: none;
+}
+
+.submission-update-item:last-child {
+    border-bottom: 0;
+}
+
+.submission-update-item:hover {
+    background: #f8fafc;
+}
+
+.submission-update-icon {
+    display: grid;
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    place-items: center;
+    border-radius: 50%;
+    background: #eaf2fb;
+    color: var(--fec-logo-blue);
+}
+
+.submission-update-copy {
+    display: grid;
+    min-width: 0;
+    flex: 1;
+    gap: 3px;
+}
+
+.submission-update-copy strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.submission-update-copy small {
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.status-badge.pending {
+    background: #fff6df;
+    color: #8c6610;
+}
+
+.submission-update-empty {
+    margin: 0;
+    padding: 12px 4px;
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+@media (max-width: 560px) {
+    .submission-update-item {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .submission-update-item .status-badge {
+        margin-left: 48px;
+    }
+}

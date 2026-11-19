@@ -9,6 +9,13 @@
             <a href="{{ route('admin.dashboard') }}">
                 <i class="fa-solid fa-gauge-high" aria-hidden="true"></i> Dashboard
             </a>
+            <a href="{{ route('admin.requests.index') }}">
+                <i class="fa-solid fa-user-clock" aria-hidden="true"></i> View Requests
+            </a>
+        @else
+            <a href="{{ route('account.dashboard') }}">
+                <i class="fa-solid fa-gauge-high" aria-hidden="true"></i> Dashboard
+            </a>
         @endif
         <a href="{{ route('account.profile.edit') }}">
             <i class="fa-regular fa-user" aria-hidden="true"></i> Profile

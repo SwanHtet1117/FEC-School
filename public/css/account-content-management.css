@@ -1,0 +1,101 @@
+.account-content-management .account-content-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    width: fit-content;
+    margin: 12px 0 0;
+    padding: 7px 10px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.account-content-status.approved {
+    color: #17613d;
+    background: #e6f5ec;
+}
+
+.account-content-status.pending {
+    color: #825416;
+    background: #fff3d8;
+}
+
+.account-content-management .gallery-photo-actions {
+    flex-wrap: wrap;
+}
+
+.account-content-management .gallery-photo-actions form {
+    margin: 0;
+}
+
+.account-content-management .post-management-heading {
+    align-items: center;
+}
+
+.account-post-list {
+    display: grid;
+    gap: 12px;
+}
+
+.account-post-item {
+    overflow: hidden;
+    border: 1px solid #e1e7ef;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.account-post-item > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 20px;
+    cursor: pointer;
+    list-style: none;
+}
+
+.account-post-item > summary::-webkit-details-marker {
+    display: none;
+}
+
+.account-post-item > summary::after {
+    content: "+";
+    color: #53647a;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.account-post-item[open] > summary::after {
+    content: "−";
+}
+
+.account-post-item > summary > span:first-child {
+    display: grid;
+    gap: 5px;
+}
+
+.account-post-item > summary small {
+    color: #68778b;
+}
+
+.account-post-item > .post-form {
+    padding: 0 20px 20px;
+}
+
+.account-content-management .post-field input,
+.account-content-management .post-field select,
+.account-content-management .post-field textarea {
+    max-width: 100%;
+}
+
+@media (max-width: 640px) {
+    .account-post-item > summary {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        padding: 15px;
+    }
+
+    .account-post-item > .post-form {
+        padding: 0 15px 15px;
+    }
+}

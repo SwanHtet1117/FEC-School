@@ -9,6 +9,8 @@ class GalleryPhotoViewController extends Controller
 {
     public function __invoke(GalleryPhoto $galleryPhoto): JsonResponse
     {
+        abort_unless($galleryPhoto->is_approved, 404);
+
         $galleryPhoto->increment('views');
         $galleryPhoto->refresh();
 

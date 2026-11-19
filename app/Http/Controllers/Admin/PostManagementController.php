@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Services\ActivityLogger;
+use App\Services\ModeratedContentStorage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use RuntimeException;
@@ -22,7 +22,7 @@ class PostManagementController extends Controller
             'search' => ['nullable', 'string', 'max:100'],
             'category' => ['nullable', 'in:News,Announcement,Event'],
         ]);
-        $postsQuery = Post::query();
+        $postsQuery = Post::query()->with('user');
 
         if (filled($filters['search'] ?? null)) {
             $search = trim($filters['search']);
@@ -41,6 +41,7 @@ class PostManagementController extends Controller
             'posts' => $postsQuery->latest('published_at')->paginate(15)->withQueryString(),
             'postCount' => Post::query()->count(),
             'categoryCounts' => Post::query()
+                ->where('is_approved', true)
                 ->selectRaw('category, count(*) as total')
                 ->groupBy('category')
                 ->pluck('total', 'category'),
@@ -68,18 +69,21 @@ class PostManagementController extends Controller
         ]);
     }
 
-    public function update(Request $request, Post $post): RedirectResponse
-    {
-        $validated = $this->validatePost($request);
+    public function update(
+        Request $request,
+        Post $post,
+        ModeratedContentStorage $storage
+    ): RedirectResponse {
+        $validated = $this->validatePost($request, $post);
         $previousImagePath = $post->image_path;
-        $imagePath = $this->storeImage($request);
+        $imagePath = $this->storeUpdatedImage($request, $post->is_approved, $storage);
         $validated['slug'] = $this->uniqueSlug($validated['title'], $post);
         $validated['image_path'] = $imagePath ?? $previousImagePath;
         unset($validated['image']);
 
         $post->update($validated);
-        if ($imagePath !== null && str_starts_with($previousImagePath, 'posts/')) {
-            $this->deleteUploadedImage($previousImagePath);
+        if ($imagePath !== null && $storage->isManagedUpload($previousImagePath)) {
+            $storage->delete($previousImagePath);
         }
 
         app(ActivityLogger::class)->record($request, 'Post updated', $post->title);
@@ -87,25 +91,63 @@ class PostManagementController extends Controller
         return redirect()->route('admin.posts.index')->with('status', 'Post updated.');
     }
 
-    public function destroy(Request $request, Post $post): RedirectResponse
-    {
+    public function approve(
+        Request $request,
+        Post $post,
+        ModeratedContentStorage $storage,
+        ActivityLogger $activityLogger
+    ): RedirectResponse {
+        if ($post->is_approved) {
+            return redirect()->route('admin.posts.index')
+                ->withErrors(['post' => 'This post has already been approved.']);
+        }
+
+        $previousImagePath = $post->image_path;
+        $post->update([
+            'image_path' => $storage->publishPending($previousImagePath, 'posts'),
+            'is_approved' => true,
+        ]);
+        if ($previousImagePath !== $post->image_path) {
+            $storage->delete($previousImagePath);
+        }
+
+        $activityLogger->record($request, 'Post approved', $post->title);
+        if ($post->user) {
+            $activityLogger->record(
+                $request,
+                'Post approved by admin',
+                $post->title,
+                user: $post->user
+            );
+        }
+
+        return redirect()->route('admin.posts.index')->with('status', 'Post approved and published.');
+    }
+
+    public function destroy(
+        Request $request,
+        Post $post,
+        ModeratedContentStorage $storage
+    ): RedirectResponse {
         $imagePath = $post->image_path;
         $title = $post->title;
         $post->delete();
 
-        if (str_starts_with($imagePath, 'posts/')) {
-            $this->deleteUploadedImage($imagePath);
-        }
+        $storage->delete($imagePath);
         app(ActivityLogger::class)->record($request, 'Post deleted', $title);
 
         return redirect()->route('admin.posts.index')->with('status', 'Post deleted.');
     }
 
-    private function validatePost(Request $request): array
+    private function validatePost(Request $request, ?Post $post = null): array
     {
+        $categories = $post?->user_id
+            ? ['News', 'Event']
+            : self::CATEGORIES;
+
         return $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'category' => ['required', 'in:'.implode(',', self::CATEGORIES)],
+            'category' => ['required', 'in:'.implode(',', $categories)],
             'published_at' => ['required', 'date'],
             'excerpt' => ['required', 'string', 'max:500'],
             'body' => ['required', 'string', 'max:20000'],
@@ -130,6 +172,25 @@ class PostManagementController extends Controller
         return $path;
     }
 
+    private function storeUpdatedImage(
+        Request $request,
+        bool $approved,
+        ModeratedContentStorage $storage
+    ): ?string {
+        if (! $request->hasFile('image')) {
+            return null;
+        }
+
+        $path = $approved
+            ? $request->file('image')->store('posts', 'public')
+            : $storage->storePending($request->file('image'), 'posts');
+        if ($path === false) {
+            throw new RuntimeException('The replacement post image could not be uploaded.');
+        }
+
+        return $path;
+    }
+
     private function uniqueSlug(string $title, ?Post $post = null): string
     {
         $baseSlug = Str::slug($title) ?: 'post';
@@ -147,13 +208,6 @@ class PostManagementController extends Controller
             }
 
             $slug = $baseSlug.'-'.$suffix++;
-        }
-    }
-
-    private function deleteUploadedImage(string $path): void
-    {
-        if (! Storage::disk('public')->delete($path)) {
-            throw new RuntimeException('The post image could not be removed from storage.');
         }
     }
 }

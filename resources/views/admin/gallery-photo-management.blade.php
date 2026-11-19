@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/admin-dashboard.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin-content-approval.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin-gallery-photo-management.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin-delete-confirmation.css') }}">
 </head>
@@ -128,6 +129,9 @@
                             <img src="{{ $photo->image_url }}" alt="{{ $photo->alt_text }}">
                             <span class="gallery-photo-category">{{ $photo->category_label }}</span>
                         </div>
+                        <div class="content-approval-badge {{ $photo->is_approved ? 'approved' : 'pending' }}">
+                            {{ $photo->is_approved ? 'Approved' : 'Pending review' }}
+                        </div>
                         <form id="edit-gallery-photo-{{ $photo->id }}" class="gallery-photo-edit" action="{{ route('admin.gallery.photos.update', $photo) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
@@ -162,6 +166,12 @@
                             <button class="gallery-button primary" type="submit" form="edit-gallery-photo-{{ $photo->id }}">
                                 <i class="fa-regular fa-floppy-disk" aria-hidden="true"></i> Save changes
                             </button>
+                            @unless ($photo->is_approved)
+                                <form action="{{ route('admin.gallery.photos.approve', $photo) }}" method="POST">
+                                    @csrf
+                                    <button class="gallery-button primary" type="submit"><i class="fa-solid fa-check" aria-hidden="true"></i> Approve</button>
+                                </form>
+                            @endunless
                             <form data-delete-confirmation data-delete-type="photo" data-delete-name="{{ $photo->title }}" action="{{ route('admin.gallery.photos.destroy', $photo) }}" method="POST">
                                 @csrf
                                 @method('DELETE')

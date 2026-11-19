@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\HeroSlide;
 use App\Services\ActivityLogger;
+use App\Services\ModeratedContentStorage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use RuntimeException;
 
@@ -17,7 +17,7 @@ class HeroSlideController extends Controller
     public function index(): View
     {
         return view('admin.hero-management', [
-            'slides' => HeroSlide::ordered()->get(),
+            'slides' => HeroSlide::query()->with('user')->ordered()->get(),
         ]);
     }
 
@@ -38,14 +38,19 @@ class HeroSlideController extends Controller
             'alt_text' => $validated['alt_text'],
             'sort_order' => (HeroSlide::max('sort_order') ?? -1) + 1,
             'is_enabled' => true,
+            'is_approved' => true,
+            'rejected_at' => null,
         ]);
         app(ActivityLogger::class)->record($request, 'Hero image added', $validated['alt_text']);
 
         return redirect()->route('admin.hero.manage')->with('status', 'Hero image added.');
     }
 
-    public function update(Request $request, HeroSlide $heroSlide): RedirectResponse
-    {
+    public function update(
+        Request $request,
+        HeroSlide $heroSlide,
+        ModeratedContentStorage $storage
+    ): RedirectResponse {
         $validated = $request->validate([
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
             'alt_text' => ['required', 'string', 'max:255'],
@@ -54,7 +59,9 @@ class HeroSlideController extends Controller
 
         $previousPath = $heroSlide->image_path;
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('hero-slides', 'public');
+            $path = $heroSlide->is_approved
+                ? $request->file('image')->store('hero-slides', 'public')
+                : $storage->storePending($request->file('image'), 'hero-slides');
             if ($path === false) {
                 throw new RuntimeException('The replacement hero image could not be uploaded.');
             }
@@ -68,24 +75,30 @@ class HeroSlideController extends Controller
             'sort_order' => $validated['sort_order'],
         ]);
 
-        if (isset($validated['image_path']) && $this->isUploadedImage($previousPath)) {
-            $this->deleteUploadedImage($previousPath);
+        if (isset($validated['image_path'])) {
+            $storage->delete($previousPath);
         }
         app(ActivityLogger::class)->record($request, 'Hero image updated', $validated['alt_text']);
 
         return redirect()->route('admin.hero.manage')->with('status', 'Hero image updated.');
     }
 
-    public function destroy(Request $request, HeroSlide $heroSlide): RedirectResponse
-    {
+    public function destroy(
+        Request $request,
+        HeroSlide $heroSlide,
+        ModeratedContentStorage $storage
+    ): RedirectResponse {
         $imagePath = $heroSlide->image_path;
         $description = $heroSlide->alt_text;
         $deleted = DB::transaction(function () use ($heroSlide): bool {
             $slides = HeroSlide::query()->lockForUpdate()->get();
             $slide = $slides->firstWhere('id', $heroSlide->getKey());
 
-            if (! $slide || $slides->count() <= 1
-                || ($slide->is_enabled && $slides->where('is_enabled', true)->count() <= 1)) {
+            $approvedSlides = $slides->where('is_approved', true);
+            if (! $slide || ($slide->is_approved && (
+                $approvedSlides->count() <= 1
+                || ($slide->is_enabled && $approvedSlides->where('is_enabled', true)->count() <= 1)
+            ))) {
                 return false;
             }
 
@@ -99,9 +112,7 @@ class HeroSlideController extends Controller
                 ->withErrors(['hero_slide' => 'Keep at least one image and one enabled image in the slideshow.']);
         }
 
-        if ($this->isUploadedImage($imagePath)) {
-            $this->deleteUploadedImage($imagePath);
-        }
+        $storage->delete($imagePath);
         app(ActivityLogger::class)->record($request, 'Hero image deleted', $description);
 
         return redirect()->route('admin.hero.manage')->with('status', 'Hero image deleted.');
@@ -109,11 +120,19 @@ class HeroSlideController extends Controller
 
     public function toggle(Request $request, HeroSlide $heroSlide): RedirectResponse
     {
+        if (! $heroSlide->is_approved) {
+            return redirect()->route('admin.hero.manage')
+                ->withErrors(['hero_slide' => 'Approve this image before changing its homepage visibility.']);
+        }
+
         $enabled = DB::transaction(function () use ($heroSlide): ?bool {
             $slides = HeroSlide::query()->lockForUpdate()->get();
             $slide = $slides->firstWhere('id', $heroSlide->getKey());
 
-            if (! $slide || ($slide->is_enabled && $slides->where('is_enabled', true)->count() <= 1)) {
+            if (! $slide || ($slide->is_enabled && $slides
+                ->where('is_approved', true)
+                ->where('is_enabled', true)
+                ->count() <= 1)) {
                 return null;
             }
 
@@ -139,15 +158,68 @@ class HeroSlideController extends Controller
         );
     }
 
-    private function isUploadedImage(string $path): bool
-    {
-        return str_starts_with($path, 'hero-slides/');
+    public function approve(
+        Request $request,
+        HeroSlide $heroSlide,
+        ModeratedContentStorage $storage,
+        ActivityLogger $activityLogger
+    ): RedirectResponse {
+        if ($heroSlide->is_approved) {
+            return redirect()->route('admin.hero.manage')
+                ->withErrors(['hero_slide' => 'This hero image has already been approved.']);
+        }
+
+        $previousPath = $heroSlide->image_path;
+        $heroSlide->update([
+            'image_path' => $storage->publishPending($previousPath, 'hero-slides'),
+            'sort_order' => (HeroSlide::query()->where('is_approved', true)->max('sort_order') ?? -1) + 1,
+            'is_enabled' => true,
+            'is_approved' => true,
+            'rejected_at' => null,
+        ]);
+        if ($previousPath !== $heroSlide->image_path) {
+            $storage->delete($previousPath);
+        }
+
+        $activityLogger->record($request, 'Hero image approved', $heroSlide->alt_text);
+        if ($heroSlide->user) {
+            $activityLogger->record(
+                $request,
+                'Hero image approved by admin',
+                $heroSlide->alt_text,
+                user: $heroSlide->user
+            );
+        }
+
+        return redirect()->route('admin.hero.manage')->with('status', 'Hero image approved and published.');
     }
 
-    private function deleteUploadedImage(string $path): void
-    {
-        if (! Storage::disk('public')->delete($path)) {
-            throw new RuntimeException('The hero image file could not be removed from storage.');
+    public function reject(
+        Request $request,
+        HeroSlide $heroSlide,
+        ActivityLogger $activityLogger
+    ): RedirectResponse {
+        if (! $heroSlide->user_id || $heroSlide->is_approved || $heroSlide->rejected_at) {
+            return redirect()->route('admin.hero.manage')
+                ->withErrors(['hero_slide' => 'Only submissions awaiting review can be rejected.']);
         }
+
+        $heroSlide->update([
+            'is_approved' => false,
+            'is_enabled' => false,
+            'rejected_at' => now(),
+        ]);
+
+        $activityLogger->record($request, 'Hero image rejected', $heroSlide->alt_text);
+        if ($heroSlide->user) {
+            $activityLogger->record(
+                $request,
+                'Hero image rejected by admin',
+                $heroSlide->alt_text,
+                user: $heroSlide->user
+            );
+        }
+
+        return redirect()->route('admin.hero.manage')->with('status', 'Hero image rejected.');
     }
 }

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/admin-dashboard.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin-content-approval.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin-post-management.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin-delete-confirmation.css') }}">
 </head>
@@ -31,7 +32,7 @@
                 </a>
                 <span class="post-management-count">
                     <strong>{{ $postCount }}</strong>
-                    {{ $postCount === 1 ? 'Published post' : 'Published posts' }}
+                    {{ $postCount === 1 ? 'Post' : 'Posts' }}
                 </span>
             </div>
         </header>
@@ -98,8 +99,8 @@
             <div class="post-panel-heading">
                 <span class="post-panel-icon"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span>
                 <div>
-                    <h2 id="post-list-title">Published posts</h2>
-                    <p>Search, filter, and update the content currently available on the public site.</p>
+                    <h2 id="post-list-title">Posts and submissions</h2>
+                    <p>Review pending submissions and manage posts on the public site.</p>
                 </div>
             </div>
 
@@ -131,7 +132,9 @@
                         <tr>
                             <th scope="col">Post</th>
                             <th scope="col">Category</th>
+                            <th scope="col">Submitted by</th>
                             <th scope="col">Date</th>
+                            <th scope="col">Approval</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
@@ -143,9 +146,24 @@
                                     <small>{{ \Illuminate\Support\Str::limit($post->excerpt, 140) }}</small>
                                 </td>
                                 <td><span class="post-category {{ \Illuminate\Support\Str::slug($post->category) }}">{{ $post->category }}</span></td>
+                                <td>
+                                    @if ($post->user)
+                                        <strong>{{ $post->user->name }}</strong>
+                                        <small>{{ $post->user->email }}</small>
+                                    @else
+                                        <strong>School Admin</strong>
+                                    @endif
+                                </td>
                                 <td>{{ $post->published_at->format('M d, Y') }}</td>
+                                <td><span class="content-approval-badge {{ $post->is_approved ? 'approved' : 'pending' }}">{{ $post->is_approved ? 'Approved' : 'Pending review' }}</span></td>
                                 <td>
                                     <div class="post-row-actions">
+                                        @unless ($post->is_approved)
+                                            <form action="{{ route('admin.posts.approve', $post) }}" method="POST">
+                                                @csrf
+                                                <button class="post-button primary" type="submit"><i class="fa-solid fa-check" aria-hidden="true"></i> Approve</button>
+                                            </form>
+                                        @endunless
                                         <a class="post-button secondary" href="{{ route('admin.posts.edit', $post) }}">
                                             <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i> Edit
                                         </a>
@@ -160,7 +178,7 @@
                                 </td>
                             </tr>
                         @empty
-                            <tr><td class="post-empty" colspan="4">No posts match your filters.</td></tr>
+                            <tr><td class="post-empty" colspan="6">No posts match your filters.</td></tr>
                         @endforelse
                     </tbody>
                 </table>

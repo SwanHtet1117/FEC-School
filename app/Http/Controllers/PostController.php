@@ -22,6 +22,7 @@ class PostController extends Controller
         $calendarMonth = Carbon::parse($monthValue.'-01')->startOfMonth();
         $calendarEvents = Post::query()
             ->where('category', 'Event')
+            ->where('is_approved', true)
             ->whereBetween('published_at', [
                 $calendarMonth->toDateString(),
                 $calendarMonth->copy()->endOfMonth()->toDateString(),
@@ -31,9 +32,12 @@ class PostController extends Controller
             ->get();
 
         return view('main.news-events', [
-            'news' => Post::query()->where('category', 'News')->latest('published_at')->limit(3)->get(),
-            'announcements' => Post::query()->where('category', 'Announcement')->latest('published_at')->limit(3)->get(),
-            'events' => Post::query()->where('category', 'Event')->latest('published_at')->limit(3)->get(),
+            'news' => Post::query()->where('is_approved', true)->where('category', 'News')
+                ->latest('published_at')->latest('id')->limit(3)->get(),
+            'announcements' => Post::query()->where('is_approved', true)->where('category', 'Announcement')
+                ->latest('published_at')->latest('id')->limit(3)->get(),
+            'events' => Post::query()->where('is_approved', true)->where('category', 'Event')
+                ->latest('published_at')->latest('id')->limit(3)->get(),
             'calendarMonth' => $calendarMonth,
             'calendarDays' => EventCalendar::days($calendarMonth, $calendarEvents),
             'calendarEventCount' => $calendarEvents->count(),
@@ -47,8 +51,10 @@ class PostController extends Controller
         abort_if($category !== null && ! in_array($category, ['News', 'Announcement', 'Event'], true), 404);
 
         $posts = Post::query()
+            ->where('is_approved', true)
             ->when($category, fn ($query) => $query->where('category', $category))
             ->latest('published_at')
+            ->latest('id')
             ->get();
 
         return view('main.all-posts', [
@@ -59,7 +65,7 @@ class PostController extends Controller
 
     public function show(string $slug): View
     {
-        $post = Post::query()->where('slug', $slug)->firstOrFail();
+        $post = Post::query()->where('is_approved', true)->where('slug', $slug)->firstOrFail();
 
         return view('main.post-detail', ['post' => $post]);
     }

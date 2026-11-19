@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Notifications\Concerns\EmbedsFecLogo;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
@@ -9,6 +10,7 @@ use Illuminate\Notifications\Notification;
 class PasswordResetOtpNotification extends Notification
 {
     use Queueable;
+    use EmbedsFecLogo;
 
     public function __construct(
         public readonly string $code,
@@ -26,12 +28,12 @@ class PasswordResetOtpNotification extends Notification
             'name' => $notifiable->name,
             'code' => $this->code,
             'expiresInMinutes' => $this->expiresInMinutes,
-            'logoUrl' => asset('image/logo_01.png'),
+            'logoUrl' => $this->fecLogoUrl(),
         ];
 
-        return (new MailMessage)
+        return $this->embedFecLogo((new MailMessage)
             ->subject('Your FEC password reset code')
             ->view('emails.password-reset-otp', $viewData)
-            ->text('emails.password-reset-otp-text', $viewData);
+            ->text('emails.password-reset-otp-text', $viewData));
     }
 }

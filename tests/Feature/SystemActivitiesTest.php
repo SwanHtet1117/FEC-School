@@ -115,7 +115,15 @@ class SystemActivitiesTest extends TestCase
                     'other' => 1,
                 ];
             })
+            ->assertViewHas('failedActivityCount', 1)
+            ->assertViewHas('failedActivities', function ($activities): bool {
+                return $activities->count() === 1
+                    && $activities->first()->details === 'Invalid credentials';
+            })
             ->assertSee('All User Activity')
+            ->assertSee('Other Issues')
+            ->assertSee('Failed activity records from the last 30 days')
+            ->assertSee('Invalid credentials')
             ->assertSee('Photo gallery')
             ->assertSee('Video gallery')
             ->assertSee('user-activity-chart-line photo_gallery')

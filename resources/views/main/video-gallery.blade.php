@@ -105,7 +105,7 @@
                     <label class="video-gallery-field">
                         <span>Sort by</span>
                         <select id="videoGallerySort">
-                            <option value="featured">Featured</option>
+                            <option value="newest">Newest first</option>
                             <option value="title">Title (A-Z)</option>
                             <option value="category">Category</option>
                             <option value="views">Most viewed</option>
@@ -371,7 +371,7 @@
         function resetVideoGallery() {
             videoGallerySearch.value = '';
             videoGalleryCategory.value = 'all';
-            videoGallerySort.value = 'featured';
+            videoGallerySort.value = 'newest';
             setVideoGalleryMode('grid');
             updateVideoGallery();
         }

@@ -50,7 +50,24 @@ class AdminPostManagementTest extends TestCase
                 false
             )
             ->assertSee('Admin Content Distribution')
-            ->assertSee('conic-gradient(', false);
+            ->assertSee('conic-gradient(', false)
+            ->assertSee('content-distribution-chart-center')
+            ->assertSee('<span>Total</span>', false)
+            ->assertViewHas('totalContentCount', $totalContentCount)
+            ->assertViewHas('contentDistribution', function (array $distribution) use ($totalContentCount): bool {
+                $counts = collect($distribution)->pluck('count', 'label');
+
+                return $counts->all() === [
+                    'Hero Images' => HeroSlide::query()->count(),
+                    'News, Announcements & Events' => Post::query()->count(),
+                    'Photo Gallery' => GalleryPhoto::query()->count(),
+                    'Video Gallery' => GalleryVideo::query()->count(),
+                    'FAQs' => Faq::query()->count(),
+                    'Contact Messages' => ContactMessage::query()->count(),
+                    'Career Opportunities' => CareerOpportunity::query()->count(),
+                    'Testimonials' => Testimonial::query()->count(),
+                ] && $counts->sum() === $totalContentCount;
+            });
     }
 
     public function test_admin_can_create_a_post_and_publish_it_on_the_public_pages(): void
@@ -142,6 +159,53 @@ class AdminPostManagementTest extends TestCase
         $this->get(route('news-events.posts.show', 'campus-open-house'))->assertNotFound();
     }
 
+    public function test_admin_can_edit_a_user_news_submission_without_changing_pending_status(): void
+    {
+        Storage::fake('public');
+        $admin = User::factory()->create(['is_admin' => true]);
+        $member = User::factory()->create([
+            'name' => 'Member Submitter',
+            'email' => 'member@example.com',
+        ]);
+        $post = Post::query()->create([
+            'slug' => 'member-submitted-news',
+            'title' => 'Member Submitted News',
+            'category' => 'News',
+            'published_at' => '2027-01-15',
+            'image_path' => 'pending-content/posts/member-news.png',
+            'alt_text' => 'Member news image',
+            'excerpt' => 'Original member summary.',
+            'body' => 'Original member content.',
+            'location' => null,
+            'department' => null,
+            'user_id' => $member->id,
+            'is_approved' => false,
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('admin.posts.edit', $post))
+            ->assertOk()
+            ->assertSee('Member Submitter')
+            ->assertSee('member@example.com')
+            ->assertSee('Awaiting review');
+
+        $this->put(route('admin.posts.update', $post), [
+            'title' => 'Admin Edited Member News',
+            'category' => 'Event',
+            'published_at' => '2027-01-16',
+            'excerpt' => 'Admin corrected summary.',
+            'body' => 'Admin corrected content.',
+            'alt_text' => 'Corrected member image',
+            'location' => 'FEC Hall',
+            'department' => '',
+        ])->assertRedirect(route('admin.posts.index'));
+
+        $post->refresh();
+        $this->assertSame('Admin Edited Member News', $post->title);
+        $this->assertSame('Event', $post->category);
+        $this->assertFalse($post->is_approved);
+    }
+
     public function test_news_events_page_shows_only_the_three_latest_posts_in_each_category(): void
     {
         foreach (['News', 'Announcement', 'Event'] as $category) {
@@ -159,7 +223,18 @@ class AdminPostManagementTest extends TestCase
             }
         }
 
-        $response = $this->get(route('news-events.index'))->assertOk();
+        $response = $this->get(route('news-events.index'))
+            ->assertOk()
+            ->assertViewHas('news', fn ($posts): bool => $posts->take(3)->pluck('title')->all() === [
+                'News Latest Test 4',
+                'News Latest Test 3',
+                'News Latest Test 2',
+            ])
+            ->assertViewHas('events', fn ($posts): bool => $posts->take(3)->pluck('title')->all() === [
+                'Event Latest Test 4',
+                'Event Latest Test 3',
+                'Event Latest Test 2',
+            ]);
 
         foreach (['News', 'Announcement', 'Event'] as $category) {
             foreach ([2, 3, 4] as $number) {
@@ -167,6 +242,15 @@ class AdminPostManagementTest extends TestCase
             }
             $response->assertDontSee("{$category} Latest Test 1");
         }
+
+        $this->get(route('news-events.all', ['category' => 'News']))
+            ->assertOk()
+            ->assertSeeInOrder([
+                'News Latest Test 4',
+                'News Latest Test 3',
+                'News Latest Test 2',
+                'News Latest Test 1',
+            ]);
     }
 
     public function test_news_events_page_displays_the_selected_month_event_calendar(): void

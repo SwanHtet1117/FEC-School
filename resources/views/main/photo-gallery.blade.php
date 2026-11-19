@@ -47,7 +47,7 @@
                     <label class="photo-gallery-field">
                         <span>Sort by</span>
                         <select id="photoGallerySort">
-                            <option value="featured">Featured</option>
+                            <option value="newest">Newest first</option>
                             <option value="title">Title (A-Z)</option>
                             <option value="views">Most viewed</option>
                         </select>
@@ -150,7 +150,7 @@
         function resetGallery() {
             gallerySearch.value = '';
             galleryCategory.value = 'all';
-            gallerySort.value = 'featured';
+            gallerySort.value = 'newest';
             updateGallery();
         }
 

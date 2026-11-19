@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="{{ asset('js/animations.js') }}" defer></script>
+    <script src="{{ asset('js/otp-countdown.js') }}" defer></script>
 </head>
 <body>
     @include('partials.header')
@@ -22,7 +23,13 @@
         <div class="auth-card">
             <div class="auth-header">
                 <h2>Enter Your One-Time Code</h2>
-                <p>We sent a six-digit code to the email address on your account. The code expires after {{ (int) config('auth.login_otp.expire', 10) }} minutes.</p>
+                <p>We sent a six-digit code to the email address on your account.</p>
+                @unless ($expired)
+                    <p class="otp-expiration-notice" role="timer" aria-live="off" data-otp-countdown data-otp-countdown-seconds="{{ $remainingSeconds }}">
+                        <i class="fas fa-clock" aria-hidden="true"></i>
+                        <span><span data-otp-countdown-label>Code expires in</span> <strong data-otp-countdown-display>{{ sprintf('%02d:%02d', intdiv($remainingSeconds, 60), $remainingSeconds % 60) }}</strong></span>
+                    </p>
+                @endunless
             </div>
 
             @if (session('status'))
@@ -30,7 +37,7 @@
             @endif
 
             @if ($errors->any())
-                <div class="alert alert-danger" role="alert">
+                <div class="alert alert-danger auth-login-error" role="alert">
                     @foreach ($errors->all() as $error)
                         <p>{{ $error }}</p>
                     @endforeach
@@ -40,7 +47,7 @@
             @if ($expired)
                 <p class="registration-status" role="status">This code has expired. Request a new code to continue.</p>
             @else
-                <form action="{{ route('login.otp.verify') }}" method="POST" class="auth-form">
+                <form action="{{ route('login.otp.verify') }}" method="POST" class="auth-form" data-otp-verification-form>
                     @csrf
                     <div class="form-group">
                         <label for="code">Six-Digit Code</label>
