@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\View as ViewInstance;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,10 +34,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (config('app.env') === 'production' || request()->isSecure()) {
+        if ($this->app->environment('production')) {
             URL::forceScheme('https');
         }
-        
+
         RateLimiter::for('login', function (Request $request): array {
             $email = Str::lower(trim((string) $request->input('email', '')));
             $emailKey = hash('sha256', $email);
