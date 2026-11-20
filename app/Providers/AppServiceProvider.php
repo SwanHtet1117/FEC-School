@@ -33,6 +33,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (config('app.env') === 'production' || request()->isSecure()) {
+            URL::forceScheme('https');
+        }
+        
         RateLimiter::for('login', function (Request $request): array {
             $email = Str::lower(trim((string) $request->input('email', '')));
             $emailKey = hash('sha256', $email);
