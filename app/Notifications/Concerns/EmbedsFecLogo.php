@@ -18,7 +18,7 @@ trait EmbedsFecLogo
     {
         return $mailMessage->withSymfonyMessage(static function ($message): void {
             $message->addPart(
-                DataPart::fromPath(public_path('image/logo_01.png'), 'fec-logo.png', 'image/png')
+                DataPart::fromPath(public_path('image/logo_01.png'), 'logo_01.png', 'image/png')
                     ->asInline()
                     ->setContentId(self::FEC_LOGO_CONTENT_ID)
             );

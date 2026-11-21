@@ -9,8 +9,10 @@ use App\Models\HeroSlide;
 use App\Models\Post;
 use App\Models\SystemActivity;
 use App\Models\User;
+use App\Mail\Transports\ResendTransport;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Mail\MailManager;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\View;
@@ -34,6 +36,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        /** @var MailManager $mailManager */
+        $mailManager = $this->app->make(MailManager::class);
+        $mailManager->extend('resend', function (array $config): ResendTransport {
+            $apiKey = $config['key']
+                ?? $this->app['config']->get('services.resend.key');
+
+            if (! is_string($apiKey) || $apiKey === '') {
+                throw new \RuntimeException('RESEND_API_KEY is not configured.');
+            }
+
+            return new ResendTransport($apiKey);
+        });
+
         if ($this->app->environment('production')) {
             URL::forceScheme('https');
         }
