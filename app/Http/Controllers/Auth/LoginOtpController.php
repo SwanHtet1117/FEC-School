@@ -18,8 +18,9 @@ class LoginOtpController extends Controller
 {
     public function show(Request $request): View|RedirectResponse
     {
-        $challenge = LoginOtp::query()->find($request->session()->get('login_otp_id'));
-        if (! $challenge || $challenge->consumed_at || $challenge->attempts >= $this->maxAttempts()) {
+        $challenge = LoginOtp::query()->with('user')->find($request->session()->get('login_otp_id'));
+        if (! $challenge || $challenge->consumed_at || $challenge->attempts >= $this->maxAttempts()
+            || ! $challenge->user || $challenge->user->is_disabled) {
             $this->clearChallenge($request);
 
             return redirect()->route('login')
@@ -115,6 +116,14 @@ class LoginOtpController extends Controller
                 ->withErrors(['email' => 'Your account could not be found. Please sign in again.']);
         }
 
+        if ($user->is_disabled) {
+            $this->clearChallenge($request);
+            app(ActivityLogger::class)->record($request, 'Login', 'Disabled account sign-in attempt', 'Failed', $user);
+
+            return redirect()->route('login')
+                ->withErrors(['email' => 'This account has been disabled. Contact an administrator.']);
+        }
+
         if (! $user->is_admin && ! $user->hasVerifiedEmail()) {
             $this->clearChallenge($request);
             app(ActivityLogger::class)->record($request, 'Login', 'Email address not verified', 'Failed', $user);
@@ -155,7 +164,7 @@ class LoginOtpController extends Controller
         }
 
         $user = $challenge->user;
-        if (! $user->is_approved || (! $user->is_admin && ! $user->hasVerifiedEmail())) {
+        if ($user->is_disabled || ! $user->is_approved || (! $user->is_admin && ! $user->hasVerifiedEmail())) {
             $this->clearChallenge($request);
 
             return redirect()->route('login')

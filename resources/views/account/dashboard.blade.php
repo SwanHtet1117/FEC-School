@@ -16,12 +16,16 @@
     @include('partials.header')
 
     <main class="dashboard-container">
+        @php
+            $dashboardHour = (int) now()->setTimezone(session('device_timezone', 'UTC'))->format('G');
+            $dashboardGreeting = $dashboardHour < 12 ? 'Good morning' : ($dashboardHour < 18 ? 'Good afternoon' : 'Good evening');
+        @endphp
         <header class="dashboard-heading">
             <div>
                 <p class="eyebrow">FEC INTERNATIONAL SCHOOL</p>
-                <h1>My Dashboard</h1>
+                <h1>{{ $dashboardGreeting }}, <span>{{ $user->name }}</span></h1>
                 <p class="dashboard-description">Your account overview, submissions, and recent activity.</p>
-                <p class="signed-in">Welcome, <strong>{{ $user->name }}</strong></p>
+                <p class="signed-in">Welcome back, <strong>{{ $user->name }}</strong></p>
             </div>
             <div class="dashboard-meta">
                 <span>Member since</span>

@@ -138,6 +138,76 @@ class AdminUserManagementTest extends TestCase
         ]);
     }
 
+    public function test_admin_can_disable_and_reenable_a_user_account(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+        $user = User::factory()->create([
+            'name' => 'Member With Access',
+            'is_approved' => true,
+        ]);
+
+        $this->actingAs($admin)
+            ->post(route('admin.users.disable', $user))
+            ->assertRedirect(route('admin.users.index'))
+            ->assertSessionHas('status', "Member With Access's account was disabled.");
+
+        $this->assertTrue($user->fresh()->is_disabled);
+        $this->assertDatabaseHas('system_activities', [
+            'user_id' => $admin->id,
+            'action' => 'User account disabled',
+            'details' => 'Member With Access',
+            'status' => 'Success',
+        ]);
+
+        $this->get(route('admin.users.index', ['status' => 'disabled']))
+            ->assertOk()
+            ->assertSee('Member With Access')
+            ->assertSee('Enable')
+            ->assertSee('Disabled');
+
+        $this->actingAs($user->fresh())
+            ->get(route('account.dashboard'))
+            ->assertRedirect(route('login'))
+            ->assertSessionHasErrors('email');
+
+        $this->assertGuest();
+
+        $this->actingAs($admin)
+            ->post(route('admin.users.enable', $user))
+            ->assertRedirect(route('admin.users.index'))
+            ->assertSessionHas('status', "Member With Access's account was enabled.");
+
+        $this->assertFalse($user->fresh()->is_disabled);
+        $this->assertDatabaseHas('system_activities', [
+            'user_id' => $admin->id,
+            'action' => 'User account enabled',
+            'details' => 'Member With Access',
+            'status' => 'Success',
+        ]);
+    }
+
+    public function test_admin_cannot_disable_themselves_or_the_last_active_administrator(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+        $otherAdmin = User::factory()->create(['is_admin' => true]);
+
+        $this->actingAs($admin)
+            ->post(route('admin.users.disable', $admin))
+            ->assertRedirect(route('admin.users.index'))
+            ->assertSessionHasErrors('user');
+
+        $this->post(route('admin.users.disable', $otherAdmin))
+            ->assertRedirect(route('admin.users.index'))
+            ->assertSessionHas('status');
+
+        $this->assertTrue($otherAdmin->fresh()->is_disabled);
+
+        $this->post(route('admin.users.disable', $admin))
+            ->assertSessionHasErrors('user');
+
+        $this->assertFalse($admin->fresh()->is_disabled);
+    }
+
     public function test_admin_cannot_promote_a_pending_user_until_approved(): void
     {
         $admin = User::factory()->create(['is_admin' => true]);

@@ -174,7 +174,7 @@ Route::post('/email/verification-notification', [EmailVerificationController::cl
     ->middleware('throttle:6,1')
     ->name('verification.send');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'account.enabled'])->group(function () {
     Route::get('/account/dashboard', [AccountController::class, 'dashboard'])->name('account.dashboard');
     Route::get('/account/activities', [AccountController::class, 'activities'])
         ->name('account.activities.index');
@@ -225,7 +225,7 @@ Route::post('/register', [RegisterController::class, 'store'])
     ->middleware('throttle:5,1')
     ->name('register.store');
 
-Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'account.enabled', 'admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
         $heroImageCount = HeroSlide::count();
         $pendingHeroApprovalCount = HeroSlide::query()
@@ -261,14 +261,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         $faqCount = Faq::count();
         $testimonialCount = Testimonial::count();
         $contentDistribution = [
-            ['label' => 'Hero Images', 'count' => $heroImageCount, 'color' => '#2563eb'],
-            ['label' => 'News, Announcements & Events', 'count' => $postCount, 'color' => '#f59e0b'],
-            ['label' => 'Photo Gallery', 'count' => $galleryPhotoCount, 'color' => '#10b981'],
-            ['label' => 'Video Gallery', 'count' => $galleryVideoCount, 'color' => '#ef4444'],
-            ['label' => 'FAQs', 'count' => $faqCount, 'color' => '#8b5cf6'],
-            ['label' => 'Contact Messages', 'count' => $messageCount, 'color' => '#06b6d4'],
-            ['label' => 'Career Opportunities', 'count' => $totalCareerCount, 'color' => '#f97316'],
-            ['label' => 'Testimonials', 'count' => $testimonialCount, 'color' => '#64748b'],
+            ['label' => 'Hero Images', 'count' => $heroImageCount, 'color' => '#5577e8'],
+            ['label' => 'News, Announcements & Events', 'count' => $postCount, 'color' => '#e9a23b'],
+            ['label' => 'Photo Gallery', 'count' => $galleryPhotoCount, 'color' => '#19a889'],
+            ['label' => 'Video Gallery', 'count' => $galleryVideoCount, 'color' => '#e96883'],
+            ['label' => 'FAQs', 'count' => $faqCount, 'color' => '#8a6be0'],
+            ['label' => 'Contact Messages', 'count' => $messageCount, 'color' => '#2a9fbe'],
+            ['label' => 'Career Opportunities', 'count' => $totalCareerCount, 'color' => '#e47a45'],
+            ['label' => 'Testimonials', 'count' => $testimonialCount, 'color' => '#65758f'],
         ];
         $totalContentCount = array_sum(array_column($contentDistribution, 'count'));
         $chartStops = [];
@@ -442,6 +442,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         ->name('admin.users.approve');
     Route::post('/users/{user}/promote', [UserManagementController::class, 'promote'])
         ->name('admin.users.promote');
+    Route::post('/users/{user}/disable', [UserManagementController::class, 'disable'])
+        ->name('admin.users.disable');
+    Route::post('/users/{user}/enable', [UserManagementController::class, 'enable'])
+        ->name('admin.users.enable');
     Route::delete('/users/{user}', [UserManagementController::class, 'destroy'])
         ->name('admin.users.destroy');
 

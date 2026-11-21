@@ -8,10 +8,11 @@
     <meta name="keywords" content="FEC International School, Register, Sign Up">
     <link rel="icon" type="image/png" href="{{ asset('image/logo_01.png') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/auth-pages.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="{{ asset('js/animations.js') }}" defer></script>
 </head>
-<body>
+<body class="auth-page auth-register-page">
     
     @include('partials.header')
 

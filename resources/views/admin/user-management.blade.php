@@ -23,7 +23,7 @@
                     <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Admin Dashboard
                 </a>
                 <h1>User Management</h1>
-                <p>Review registrations, approve accounts, promote administrators, or remove users.</p>
+                <p>Review registrations, manage access, promote administrators, or remove users.</p>
             </div>
             <span class="user-management-count">{{ $userCount }} {{ $userCount === 1 ? 'Account' : 'Accounts' }}</span>
         </header>
@@ -49,6 +49,7 @@
             <div><span>Total accounts</span><strong>{{ $userCount }}</strong></div>
             <div><span>Approved</span><strong>{{ $approvedCount }}</strong></div>
             <div><span>Awaiting approval</span><strong>{{ $pendingCount }}</strong></div>
+            <div><span>Disabled</span><strong>{{ $disabledCount }}</strong></div>
         </section>
 
         <section class="user-management-panel" aria-labelledby="user-list-title">
@@ -64,11 +65,12 @@
                     <input type="search" name="search" value="{{ $filters['search'] ?? '' }}" maxlength="100" placeholder="Name, email, or phone">
                 </label>
                 <label class="user-filter-field">
-                    <span>Approval status</span>
+                    <span>Account status</span>
                     <select name="status">
                         <option value="">All statuses</option>
                         <option value="pending" @selected(($filters['status'] ?? '') === 'pending')>Pending</option>
                         <option value="approved" @selected(($filters['status'] ?? '') === 'approved')>Approved</option>
+                        <option value="disabled" @selected(($filters['status'] ?? '') === 'disabled')>Disabled</option>
                     </select>
                 </label>
                 <label class="user-filter-field">
@@ -120,8 +122,8 @@
                                 <td>{{ $user->phone ?: '—' }}</td>
                                 <td>{{ $user->is_admin ? 'Administrator' : 'User' }}</td>
                                 <td>
-                                    <span class="user-status-badge {{ $user->is_approved ? 'approved' : 'pending' }}">
-                                        {{ $user->is_approved ? 'Approved' : 'Pending' }}
+                                    <span class="user-status-badge {{ $user->is_disabled ? 'disabled' : ($user->is_approved ? 'approved' : 'pending') }}">
+                                        {{ $user->is_disabled ? 'Disabled' : ($user->is_approved ? 'Approved' : 'Pending') }}
                                     </span>
                                 </td>
                                 <td>{{ $user->created_at->format('M d, Y') }}</td>
@@ -136,7 +138,7 @@
                                             </form>
                                         @endif
 
-                                        @if (! $user->is_admin && $user->is_approved)
+                                        @if (! $user->is_disabled && ! $user->is_admin && $user->is_approved)
                                             <form action="{{ route('admin.users.promote', $user) }}" method="POST">
                                                 @csrf
                                                 <button class="user-action-button promote" type="submit">
@@ -145,9 +147,19 @@
                                             </form>
                                         @endif
 
+                                        @if (auth()->id() !== $user->id && ($user->is_disabled || ! $user->is_admin || $activeAdminCount > 1))
+                                            <form action="{{ route($user->is_disabled ? 'admin.users.enable' : 'admin.users.disable', $user) }}" method="POST">
+                                                @csrf
+                                                <button class="user-action-button {{ $user->is_disabled ? 'enable' : 'disable' }}" type="submit">
+                                                    <i class="fa-solid {{ $user->is_disabled ? 'fa-user-check' : 'fa-user-slash' }}" aria-hidden="true"></i>
+                                                    {{ $user->is_disabled ? 'Enable' : 'Disable' }}
+                                                </button>
+                                            </form>
+                                        @endif
+
                                         @if (auth()->id() === $user->id)
                                             <span class="user-current-account">Current Account</span>
-                                        @elseif ($user->is_admin && $adminCount <= 1)
+                                        @elseif ($user->is_admin && ($adminCount <= 1 || (! $user->is_disabled && $activeAdminCount <= 1)))
                                             <span class="user-current-account">Last administrator</span>
                                         @else
                                             <form data-delete-confirmation data-delete-type="user account" data-delete-name="{{ $user->name }}" action="{{ route('admin.users.destroy', $user) }}" method="POST">

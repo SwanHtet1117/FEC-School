@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\LoginOtp;
 use App\Models\User;
 use App\Services\ActivityLogger;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,7 +19,7 @@ class UserManagementController extends Controller
     {
         $validator = Validator::make($request->query(), [
             'search' => ['nullable', 'string', 'max:100'],
-            'status' => ['nullable', 'in:pending,approved'],
+            'status' => ['nullable', 'in:pending,approved,disabled'],
             'role' => ['nullable', 'in:user,admin'],
         ]);
         $filtersAreValid = $validator->passes();
@@ -40,7 +41,12 @@ class UserManagementController extends Controller
         }
 
         if ($filtersAreValid && filled($filters['status'] ?? null)) {
-            $usersQuery->where('is_approved', $filters['status'] === 'approved');
+            if ($filters['status'] === 'disabled') {
+                $usersQuery->where('is_disabled', true);
+            } else {
+                $usersQuery->where('is_disabled', false)
+                    ->where('is_approved', $filters['status'] === 'approved');
+            }
         }
 
         if ($filtersAreValid && filled($filters['role'] ?? null)) {
@@ -48,12 +54,14 @@ class UserManagementController extends Controller
         }
 
         return view('admin.user-management', [
-            'users' => $usersQuery->orderBy('is_approved')->latest()->paginate(15)
+            'users' => $usersQuery->orderBy('is_disabled')->orderBy('is_approved')->latest()->paginate(15)
                 ->appends(array_filter($filters, fn ($value): bool => filled($value))),
             'userCount' => User::count(),
-            'pendingCount' => User::where('is_approved', false)->count(),
-            'approvedCount' => User::where('is_approved', true)->count(),
+            'pendingCount' => User::where('is_approved', false)->where('is_disabled', false)->count(),
+            'approvedCount' => User::where('is_approved', true)->where('is_disabled', false)->count(),
+            'disabledCount' => User::where('is_disabled', true)->count(),
             'adminCount' => User::where('is_admin', true)->count(),
+            'activeAdminCount' => User::where('is_admin', true)->where('is_disabled', false)->count(),
             'filters' => $filters,
             'filterErrors' => $validator->errors(),
             'hasFilters' => ! $filtersAreValid
@@ -92,6 +100,10 @@ class UserManagementController extends Controller
                 return ['status' => 'pending'];
             }
 
+            if ($target->is_disabled) {
+                return ['status' => 'disabled'];
+            }
+
             $target->is_admin = true;
             $target->save();
 
@@ -99,9 +111,11 @@ class UserManagementController extends Controller
         });
 
         if ($result['status'] !== 'promoted') {
-            $message = $result['status'] === 'pending'
-                ? 'Approve this account before promoting it to administrator.'
-                : 'This account is already an administrator.';
+            $message = match ($result['status']) {
+                'pending' => 'Approve this account before promoting it to administrator.',
+                'disabled' => 'Enable this account before promoting it to administrator.',
+                default => 'This account is already an administrator.',
+            };
 
             return redirect()->route('admin.users.index')
                 ->withErrors(['user' => $message]);
@@ -113,6 +127,79 @@ class UserManagementController extends Controller
             ->with('status', "{$result['name']} was promoted to administrator.");
     }
 
+    public function disable(Request $request, User $user, ActivityLogger $activityLogger): RedirectResponse
+    {
+        if ($request->user()->is($user)) {
+            return redirect()->route('admin.users.index')
+                ->withErrors(['user' => 'You cannot disable your own administrator account.']);
+        }
+
+        $result = DB::transaction(function () use ($user): array {
+            $admins = User::query()
+                ->where('is_admin', true)
+                ->orderBy('id')
+                ->lockForUpdate()
+                ->get(['id', 'is_disabled']);
+            $target = User::query()->lockForUpdate()->findOrFail($user->getKey());
+
+            if ($target->is_disabled) {
+                return ['status' => 'already_disabled'];
+            }
+
+            if ($target->is_admin && $admins->where('is_disabled', false)->count() <= 1) {
+                return ['status' => 'last_active_admin'];
+            }
+
+            $target->is_disabled = true;
+            $target->save();
+            LoginOtp::query()
+                ->where('user_id', $target->getKey())
+                ->whereNull('consumed_at')
+                ->update(['consumed_at' => now()]);
+
+            return ['status' => 'disabled', 'name' => $target->name];
+        });
+
+        if ($result['status'] !== 'disabled') {
+            $message = $result['status'] === 'last_active_admin'
+                ? 'You cannot disable the last active administrator account.'
+                : 'This account is already disabled.';
+
+            return redirect()->route('admin.users.index')->withErrors(['user' => $message]);
+        }
+
+        $activityLogger->record($request, 'User account disabled', $result['name']);
+
+        return redirect()->route('admin.users.index')
+            ->with('status', "{$result['name']}'s account was disabled.");
+    }
+
+    public function enable(Request $request, User $user, ActivityLogger $activityLogger): RedirectResponse
+    {
+        $result = DB::transaction(function () use ($user): array {
+            $target = User::query()->lockForUpdate()->findOrFail($user->getKey());
+
+            if (! $target->is_disabled) {
+                return ['status' => 'already_enabled'];
+            }
+
+            $target->is_disabled = false;
+            $target->save();
+
+            return ['status' => 'enabled', 'name' => $target->name];
+        });
+
+        if ($result['status'] !== 'enabled') {
+            return redirect()->route('admin.users.index')
+                ->withErrors(['user' => 'This account is already enabled.']);
+        }
+
+        $activityLogger->record($request, 'User account enabled', $result['name']);
+
+        return redirect()->route('admin.users.index')
+            ->with('status', "{$result['name']}'s account was enabled.");
+    }
+
     public function destroy(Request $request, User $user, ActivityLogger $activityLogger): RedirectResponse
     {
         if ($request->user()->is($user)) {
@@ -121,12 +208,19 @@ class UserManagementController extends Controller
         }
 
         $deleted = DB::transaction(function () use ($user): bool {
+            $admins = User::query()
+                ->where('is_admin', true)
+                ->orderBy('id')
+                ->lockForUpdate()
+                ->get();
             $target = User::query()->lockForUpdate()->findOrFail($user->getKey());
 
             if ($target->is_admin) {
-                $admins = User::query()->where('is_admin', true)->lockForUpdate()->get();
-
                 if ($admins->count() <= 1) {
+                    return false;
+                }
+
+                if (! $target->is_disabled && $admins->where('is_disabled', false)->count() <= 1) {
                     return false;
                 }
             }

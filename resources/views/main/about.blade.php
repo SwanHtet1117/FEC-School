@@ -28,7 +28,7 @@
         </div>
     </section>
 
-    <section class="content-section light-bg">
+    <section class="content-section light-bg vision-mission-section">
         <div class="section-container">
             <h2 class="section-title fade-in-up">Our Vision & Mission</h2>
             <div class="vision-mission-container">

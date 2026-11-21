@@ -7,9 +7,10 @@
     <meta name="description" content="Reset your FEC International School account password using an email code.">
     <link rel="icon" type="image/png" href="{{ asset('image/logo_01.png') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/auth-pages.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
+<body class="auth-page auth-forgot-password-page">
     @include('partials.header')
 
     <section class="auth-hero">

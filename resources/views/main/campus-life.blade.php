@@ -8,6 +8,7 @@
     <meta name="keywords" content="FEC International School, Campus Life, Facilities, Student Activities">
     <link rel="icon" type="image/png" href="{{ asset('image/logo_01.png') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/auth-pages.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="{{ asset('js/animations.js') }}" defer></script>
 </head>
@@ -15,7 +16,7 @@
     
     @include('partials.header')
 
-    <section class="campus-hero fade-in-up">
+    <section class="campus-hero auth-hero fade-in-up">
         <h1>Campus Life</h1>
         <p>Experience a vibrant community where learning extends beyond the classroom</p>
     </section>

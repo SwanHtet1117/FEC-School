@@ -8,14 +8,15 @@
     <meta name="keywords" content="FEC International School, Contact, Admissions, Inquiries">
     <link rel="icon" type="image/png" href="{{ asset('image/logo_01.png') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/auth-pages.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="{{ asset('js/animations.js') }}" defer></script>
 </head>
-<body>
+<body class="auth-page auth-contact-page">
     
     @include('partials.header')
 
-    <section class="contact-hero fade-in-up">
+    <section class="contact-hero auth-hero fade-in-up">
         <h1>Contact Us</h1>
         <p>Get in Touch with FEC International School</p>
     </section>
@@ -73,8 +74,10 @@
             </div>
         </div>
         <!-- Contact Form -->
-        <div class="contact-form-card fade-in-right">
-            <h2>Send a Message</h2>
+        <div class="contact-form-card auth-card fade-in-right">
+            <div class="auth-header">
+                <h2>Send a Message</h2>
+            </div>
             @if (session('status'))
                 <p class="contact-form-status" role="status">{{ session('status') }}</p>
             @endif
@@ -88,7 +91,7 @@
                     </ul>
                 </div>
             @endif
-            <form action="{{ route('contact.messages.store') }}" method="POST">
+            <form action="{{ route('contact.messages.store') }}" method="POST" class="auth-form">
                 @csrf
                 <div class="form-group">
                     <label for="name">Full Name</label>
@@ -122,7 +125,7 @@
                     <textarea id="message" name="message" maxlength="10000" placeholder="Type your message here..." required>{{ old('message') }}</textarea>
                 </div>
 
-                <button type="submit" class="btn-submit">
+                <button type="submit" class="btn-submit btn-auth-submit">
                     Send Message <i class="fas fa-paper-plane"></i>
                 </button>
             </form>

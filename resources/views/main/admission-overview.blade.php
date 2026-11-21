@@ -61,39 +61,51 @@
         </div>
     </section>
 
-    <section class="content-section admission-overview-intro">
+    <section class="content-section admission-overview-intro admission-process-section">
         <div class="section-container">
             <h2 class="section-title fade-in-up">Admission Process</h2>
             <div class="curriculum-container fade-in-up">
-                <div class="curriculum-item">
+                <div class="curriculum-item admission-process-card">
                     <div class="curriculum-number">01</div>
-                    <h3>Inquiry</h3>
-                    <p>Contact our admissions office or visit our school to learn about our programs and facilities. Schedule a school tour to see our learning environment firsthand.</p>
+                    <div class="admission-process-content">
+                        <h3>Inquiry</h3>
+                        <p>Contact our admissions office or visit our school to learn about our programs and facilities. Schedule a school tour to see our learning environment firsthand.</p>
+                    </div>
                 </div>
-                <div class="curriculum-item">
+                <div class="curriculum-item admission-process-card">
                     <div class="curriculum-number">02</div>
-                    <h3>Application</h3>
-                    <p>Complete the application form and submit required documents including previous school records, birth certificate, and photographs.</p>
+                    <div class="admission-process-content">
+                        <h3>Application</h3>
+                        <p>Complete the application form and submit required documents including previous school records, birth certificate, and photographs.</p>
+                    </div>
                 </div>
-                <div class="curriculum-item">
+                <div class="curriculum-item admission-process-card">
                     <div class="curriculum-number">03</div>
-                    <h3>Assessment</h3>
-                    <p>Students undergo an age-appropriate assessment to determine placement and identify any learning needs or strengths.</p>
+                    <div class="admission-process-content">
+                        <h3>Assessment</h3>
+                        <p>Students undergo an age-appropriate assessment to determine placement and identify any learning needs or strengths.</p>
+                    </div>
                 </div>
-                <div class="curriculum-item">
+                <div class="curriculum-item admission-process-card">
                     <div class="curriculum-number">04</div>
-                    <h3>Interview</h3>
-                    <p>Parents and students meet with the principal or admissions officer to discuss educational goals and expectations.</p>
+                    <div class="admission-process-content">
+                        <h3>Interview</h3>
+                        <p>Parents and students meet with the principal or admissions officer to discuss educational goals and expectations.</p>
+                    </div>
                 </div>
-                <div class="curriculum-item">
+                <div class="curriculum-item admission-process-card">
                     <div class="curriculum-number">05</div>
-                    <h3>Offer</h3>
-                    <p>Successful applicants receive an admission offer with enrollment instructions and deadline for acceptance.</p>
+                    <div class="admission-process-content">
+                        <h3>Offer</h3>
+                        <p>Successful applicants receive an admission offer with enrollment instructions and deadline for acceptance.</p>
+                    </div>
                 </div>
-                <div class="curriculum-item">
+                <div class="curriculum-item admission-process-card">
                     <div class="curriculum-number">06</div>
-                    <h3>Enrollment</h3>
-                    <p>Complete enrollment by paying fees and attending orientation to prepare for the academic year.</p>
+                    <div class="admission-process-content">
+                        <h3>Enrollment</h3>
+                        <p>Complete enrollment by paying fees and attending orientation to prepare for the academic year.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -235,7 +247,7 @@
         </div>
     </section>
 
-    <section class="content-section light-bg">
+    <section class="content-section light-bg faq-section">
         <div class="section-container">
             <h2 class="section-title fade-in-up">Frequently Asked Questions</h2>
             <div class="curriculum-container fade-in-up">

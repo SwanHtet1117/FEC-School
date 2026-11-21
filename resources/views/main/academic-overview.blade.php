@@ -61,39 +61,51 @@
         </div>
     </section>
     <!-- Curriculum Highlights Section -->
-    <section class="content-section">
+    <section class="content-section curriculum-highlights-section">
         <div class="section-container">
             <h2 class="section-title fade-in-up">Curriculum Highlights</h2>
             <div class="curriculum-container fade-in-up">
-                <div class="curriculum-item">
+                <div class="curriculum-item curriculum-highlight-card">
                     <div class="curriculum-number">01</div>
-                    <h3>International Standards</h3>
-                    <p>Our curriculum aligns with international educational standards, ensuring students receive a world-class education recognized globally.</p>
+                    <div class="curriculum-highlight-content">
+                        <h3>International Standards</h3>
+                        <p>Our curriculum aligns with international educational standards, ensuring students receive a world-class education recognized globally.</p>
+                    </div>
                 </div>
-                <div class="curriculum-item">
+                <div class="curriculum-item curriculum-highlight-card">
                     <div class="curriculum-number">02</div>
-                    <h3>STEM Focus</h3>
-                    <p>Emphasis on Science, Technology, Engineering, and Mathematics to prepare students for the modern workforce and innovation-driven careers.</p>
+                    <div class="curriculum-highlight-content">
+                        <h3>STEM Focus</h3>
+                        <p>Emphasis on Science, Technology, Engineering, and Mathematics to prepare students for the modern workforce and innovation-driven careers.</p>
+                    </div>
                 </div>
-                <div class="curriculum-item">
+                <div class="curriculum-item curriculum-highlight-card">
                     <div class="curriculum-number">03</div>
-                    <h3>Language Arts</h3>
-                    <p>Strong foundation in English language and literature, with opportunities to learn additional languages including Myanmar and Chinese.</p>
+                    <div class="curriculum-highlight-content">
+                        <h3>Language Arts</h3>
+                        <p>Strong foundation in English language and literature, with opportunities to learn additional languages including Myanmar and Chinese.</p>
+                    </div>
                 </div>
-                <div class="curriculum-item">
+                <div class="curriculum-item curriculum-highlight-card">
                     <div class="curriculum-number">04</div>
-                    <h3>Character Development</h3>
-                    <p>Integrated character education program focusing on values, ethics, leadership, and social responsibility.</p>
+                    <div class="curriculum-highlight-content">
+                        <h3>Character Development</h3>
+                        <p>Integrated character education program focusing on values, ethics, leadership, and social responsibility.</p>
+                    </div>
                 </div>
-                <div class="curriculum-item">
+                <div class="curriculum-item curriculum-highlight-card">
                     <div class="curriculum-number">05</div>
-                    <h3>Arts & Culture</h3>
-                    <p>Rich arts program including music, visual arts, drama, and cultural studies to foster creativity and cultural appreciation.</p>
+                    <div class="curriculum-highlight-content">
+                        <h3>Arts & Culture</h3>
+                        <p>Rich arts program including music, visual arts, drama, and cultural studies to foster creativity and cultural appreciation.</p>
+                    </div>
                 </div>
-                <div class="curriculum-item">
+                <div class="curriculum-item curriculum-highlight-card">
                     <div class="curriculum-number">06</div>
-                    <h3>Physical Education</h3>
-                    <p>Comprehensive physical education program promoting health, fitness, teamwork, and sportsmanship through various athletic activities.</p>
+                    <div class="curriculum-highlight-content">
+                        <h3>Physical Education</h3>
+                        <p>Comprehensive physical education program promoting health, fitness, teamwork, and sportsmanship through various athletic activities.</p>
+                    </div>
                 </div>
             </div>
         </div>

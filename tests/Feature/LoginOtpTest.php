@@ -85,6 +85,53 @@ class LoginOtpTest extends TestCase
         ]);
     }
 
+    public function test_disabled_accounts_cannot_start_login_or_receive_an_otp(): void
+    {
+        Notification::fake();
+        $user = User::factory()->create([
+            'email_verified_at' => now(),
+            'is_approved' => true,
+            'is_disabled' => true,
+        ]);
+
+        $this->post(route('login.store'), [
+            'email' => $user->email,
+            'password' => 'password',
+        ])->assertSessionHasErrors('email');
+
+        $this->assertGuest();
+        $this->assertDatabaseMissing('login_otps', ['user_id' => $user->id]);
+        Notification::assertNothingSent();
+        $this->assertDatabaseHas('system_activities', [
+            'user_id' => $user->id,
+            'action' => 'Login',
+            'details' => 'Disabled account sign-in attempt',
+            'status' => 'Failed',
+        ]);
+    }
+
+    public function test_a_login_code_cannot_authenticate_after_the_account_is_disabled(): void
+    {
+        Notification::fake();
+        $user = User::factory()->create(['is_approved' => true]);
+
+        $this->post(route('login.store'), [
+            'email' => $user->email,
+            'password' => 'password',
+        ])->assertRedirect(route('login.otp'));
+
+        $notification = Notification::sent($user, LoginOtpNotification::class)->first();
+        $this->assertInstanceOf(LoginOtpNotification::class, $notification);
+        $user->update(['is_disabled' => true]);
+
+        $this->post(route('login.otp.verify'), ['code' => $notification->code])
+            ->assertRedirect(route('login'))
+            ->assertSessionHasErrors('email');
+
+        $this->assertGuest();
+        $this->assertNotNull(LoginOtp::query()->where('user_id', $user->id)->firstOrFail()->consumed_at);
+    }
+
     public function test_incorrect_codes_are_limited_and_the_challenge_is_consumed(): void
     {
         Notification::fake();

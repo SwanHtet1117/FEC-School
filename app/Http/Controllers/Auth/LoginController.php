@@ -54,6 +54,20 @@ class LoginController extends Controller
             ]);
         }
 
+        if ($user->is_disabled) {
+            app(ActivityLogger::class)->record(
+                $request,
+                'Login',
+                'Disabled account sign-in attempt',
+                'Failed',
+                $user
+            );
+
+            throw ValidationException::withMessages([
+                'email' => 'This account has been disabled. Contact an administrator.',
+            ]);
+        }
+
         if (! $user->is_admin && ! $user->hasVerifiedEmail()) {
             app(ActivityLogger::class)->record(
                 $request,

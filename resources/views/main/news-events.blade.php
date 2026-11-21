@@ -12,13 +12,8 @@
     <link rel="stylesheet" href="{{ asset('css/news-events-calendar.css') }}">
     <script src="{{ asset('js/animations.js') }}" defer></script>
 </head>
-<body>
+<body class="news-events-index-page">
     @include('partials.header')
-
-    <section class="news-events-hero fade-in-up">
-        <h1>News &amp; Events</h1>
-        <p>Stay updated with the latest news, announcements, and activities from our school community.</p>
-    </section>
 
     <main class="news-events-container">
         @if ($announcements->isNotEmpty())
